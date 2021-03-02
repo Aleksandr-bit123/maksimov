@@ -1,4 +1,4 @@
-package com.diplom.maksimov.config;
+package com.diploma.maksimov.config;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
@@ -21,7 +21,7 @@ import javax.sql.DataSource;
 @EnableJpaRepositories(
         entityManagerFactoryRef = "myEntityManager",
         transactionManagerRef = "myTransactionManager",
-        basePackages = "com.diplom.maksimov"
+        basePackages = "com.diploma.maksimov"
 )
 public class DataBaseConfig {
     @Primary
@@ -29,7 +29,7 @@ public class DataBaseConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(EntityManagerFactoryBuilder builder) {
         return builder
                 .dataSource(dataSource())
-                .packages("com.diplom.maksimov")
+                .packages("com.diploma.maksimov")
                 .persistenceUnit("myPU")
                 .build();
     }

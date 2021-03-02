@@ -11,12 +11,17 @@ spring:
   flyway:
     baselineOnMigrate: true
     locations: filesystem:db/migration
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
 
 datasource:
-  url: jdbc:postgresql://localhost:5432/postgres
+  url: jdbc:postgresql://localhost:5432/MaksimovDataBase
   username: postgres
   password: 12345678
   driver-class-name: org.postgresql.Driver
 
 server:
   port: 8080
+

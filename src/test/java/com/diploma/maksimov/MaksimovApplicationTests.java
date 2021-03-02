@@ -1,4 +1,4 @@
-package com.diplom.maksimov;
+package com.diploma.maksimov;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
