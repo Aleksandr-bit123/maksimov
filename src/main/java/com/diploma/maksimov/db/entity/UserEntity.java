@@ -5,6 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Set;
 
@@ -16,13 +17,22 @@ public class UserEntity implements UserDetails {
     /*SEQUENCE – использует встроенный в базы данных, такие как PostgreSQL или Oracle, механизм генерации
     последовательных значений (sequence)*/
     private Long id;
-//    @Size(min=2, message = "Не меньше 5 знаков")
+
+    @Size(min=2, message = "Не меньше 5 знаков")
     private String username;
+
+    @Size(min=2, message = "Не меньше 5 знаков")
     private String password;
+
     @Transient
     private String passwordConfirm;
+
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<RoleEntity> roles;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private EmployeeEntity employeeEntity;
 
     public UserEntity() {
     }
@@ -92,5 +102,13 @@ public class UserEntity implements UserDetails {
 
     public void setRoles(Set<RoleEntity> roles) {
         this.roles = roles;
+    }
+
+    public EmployeeEntity getEmployeeEntity() {
+        return employeeEntity;
+    }
+
+    public void setEmployeeEntity(EmployeeEntity employeeEntity) {
+        this.employeeEntity = employeeEntity;
     }
 }

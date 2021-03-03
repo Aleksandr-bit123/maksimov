@@ -10,6 +10,7 @@
 </head>
 
 <body>
+
 <div>
     <table>
         <thead>
@@ -23,6 +24,7 @@
                 <td>${user.id}</td>
                 <td>${user.username}</td>
                 <td>${user.password}</td>
+                <td>${user.employeeEntity.toString()}</td>
                 <td>
                     <c:forEach items="${user.roles}" var="role">${role.name}; </c:forEach>
                 </td>
