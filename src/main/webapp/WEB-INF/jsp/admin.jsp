@@ -17,6 +17,7 @@
         <th>ID</th>
         <th>UserName</th>
         <th>Password</th>
+        <th>Employee</th>
         <th>Roles</th>
         </thead>
         <c:forEach items="${allUsers}" var="user">

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(schema = "public", name = "t_employee")
@@ -25,6 +26,9 @@ public class EmployeeEntity {
 
     private String passport;
     private String phone;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<PositionEntity> positions;
 
     @OneToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
@@ -119,5 +123,13 @@ public class EmployeeEntity {
 
     public void setLogistEntity(LogistEntity logistEntity) {
         this.logistEntity = logistEntity;
+    }
+
+    public Set<PositionEntity> getPositions() {
+        return positions;
+    }
+
+    public void setPositions(Set<PositionEntity> positions) {
+        this.positions = positions;
     }
 }

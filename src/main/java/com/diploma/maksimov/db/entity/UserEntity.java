@@ -21,7 +21,7 @@ public class UserEntity implements UserDetails {
     @Size(min=2, message = "Не меньше 5 знаков")
     private String username;
 
-    @Size(min=2, message = "Не меньше 5 знаков")
+    @Size(min=2, message = "Не меньше 5 знаков")//TODO разобраться как работает
     private String password;
 
     @Transient
