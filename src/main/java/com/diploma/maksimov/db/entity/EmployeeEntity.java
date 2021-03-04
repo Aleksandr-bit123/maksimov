@@ -14,6 +14,7 @@ import java.util.Set;
 @Table(schema = "public", name = "t_employee")
 public class EmployeeEntity {
     @Id
+//    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     private String lastName;
     private String firstName;
@@ -49,7 +50,7 @@ public class EmployeeEntity {
         return id;
     }
 
-    public void setId(Long userId) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -131,5 +132,22 @@ public class EmployeeEntity {
 
     public void setPositions(Set<PositionEntity> positions) {
         this.positions = positions;
+    }
+
+    @Override
+    public String toString() {
+        return "EmployeeEntity{" +
+                "id=" + id +
+                ", lastName='" + lastName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", middleName='" + middleName + '\'' +
+                ", birthdate=" + birthdate +
+                ", passport='" + passport + '\'' +
+                ", phone='" + phone + '\'' +
+                ", positions=" + positions +
+                ", bossEntity=" + bossEntity +
+                ", driverEntity=" + driverEntity +
+                ", logistEntity=" + logistEntity +
+                '}';
     }
 }
