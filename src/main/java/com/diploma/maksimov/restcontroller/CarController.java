@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/boss/employee/{id}/driver/")
+@RequestMapping("/boss/employee/{id}/driver/{id}")
 
 public class CarController {
     private final ICarService carService;
@@ -22,15 +22,14 @@ public class CarController {
     }
 
     @PostMapping(value = "/car")
-    public ResponseEntity<?> create(@RequestBody Car car) {
-            carService.create(car);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<Long> create(@RequestBody Car car) {
+            Long idBD = carService.create(car);
+            return new ResponseEntity<>(idBD, HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/car")
     public ResponseEntity<List<Car>> readAll() {
         final List<Car> cars = carService.readAll();
-
         if (cars != null && !cars.isEmpty()) {
             return new ResponseEntity<>(cars, HttpStatus.OK);
         }
@@ -38,9 +37,8 @@ public class CarController {
     }
 
     @GetMapping(value = "/car/{id}")
-    public ResponseEntity<Car> read(@PathVariable int id) {
+    public ResponseEntity<Car> read(@PathVariable long id) {
         final Car car = carService.read(id);
-
         if (car != null) {
             return new ResponseEntity<>(car, HttpStatus.OK);
         }
@@ -48,9 +46,8 @@ public class CarController {
     }
 
     @PutMapping(value = "/car/{id}")
-    public ResponseEntity<?> update(@PathVariable int id, @RequestBody Car car) {
+    public ResponseEntity<?> update(@PathVariable long id, @RequestBody Car car) {
         final boolean updated = carService.update(car, id);
-
         if (updated) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
@@ -58,9 +55,8 @@ public class CarController {
     }
 
     @DeleteMapping(value = "/car/{id}")
-    public ResponseEntity<?> delete(@PathVariable int id) {
+    public ResponseEntity<?> delete(@PathVariable long id) {
         final boolean deleted = carService.delete(id);
-
         if (deleted) {
             return new ResponseEntity<>(HttpStatus.OK);
         }

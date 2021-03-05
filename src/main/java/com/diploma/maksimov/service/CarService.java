@@ -30,9 +30,10 @@ public class CarService implements ICarService{
     }
 
     @Override
-    public void create(Car car) {
+    public long create(Car car) {
         CarEntity carEntity = objectMapper.convertValue(car, CarEntity.class);
-        carRepository.save(carEntity);
+        carEntity = carRepository.save(carEntity);
+        return carEntity.getId();
     }
 
     @Override
@@ -42,7 +43,7 @@ public class CarService implements ICarService{
     }
 
     @Override
-    public Car read(int id) {
+    public Car read(long id) {
         if (carRepository.findById(id).isPresent()) {
             CarEntity carEntity = carRepository.findById(id).stream().findFirst().get();
             return objectMapper.convertValue(carEntity, Car.class);
@@ -51,7 +52,7 @@ public class CarService implements ICarService{
     }
 
     @Override
-    public boolean update(Car car, int id) {
+    public boolean update(Car car, long id) {
         if (carRepository.findById(id).isPresent()){
             carRepository.save(objectMapper.convertValue(car, CarEntity.class));
             return true;
@@ -60,7 +61,7 @@ public class CarService implements ICarService{
     }
 
     @Override
-    public boolean delete(int id) {
+    public boolean delete(long id) {
         if (carRepository.findById(id).isPresent()){
             CarEntity carEntity = carRepository.findById(id).stream().findFirst().get();
             carRepository.delete(carEntity);
