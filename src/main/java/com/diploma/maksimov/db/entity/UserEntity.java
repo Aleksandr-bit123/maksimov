@@ -13,7 +13,7 @@ import java.util.Set;
 @Table(schema = "public", name = "t_user")
 public class UserEntity implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE) //используем то значение, которое будет присваиваться в БД
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //используем то значение, которое будет присваиваться в БД
     /*SEQUENCE – использует встроенный в базы данных, такие как PostgreSQL или Oracle, механизм генерации
     последовательных значений (sequence)*/
     private Long id;

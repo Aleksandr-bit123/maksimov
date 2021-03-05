@@ -4,7 +4,7 @@ spring:
     show-sql: true
     generate-ddl: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: #create-drop
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -16,11 +16,11 @@ spring:
       prefix: /WEB-INF/jsp/
       suffix: .jsp
 
-datasource:
-  url: jdbc:postgresql://localhost:5432/MaksimovDataBase
-  username: postgres
-  password: 12345678
-  driver-class-name: org.postgresql.Driver
+  datasource:
+    url: jdbc:postgresql://localhost:5432/MaksimovDataBase
+    username: postgres
+    password: 12345678
+    driver-class-name: org.postgresql.Driver
 
 server:
   port: 8080

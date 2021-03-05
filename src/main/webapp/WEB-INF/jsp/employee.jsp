@@ -46,9 +46,9 @@
                     <c:forEach items="${user.employeeEntity.getPositions()}" var="position">${position.name}; </c:forEach>
                 </td>
                 <td >
-                    <form action="${pageContext.request.contextPath}/boss/employee" method="delete">
-                        <input type="hidden" name="userId" value="${user.id}"/>
-                        <input type="hidden" name="action" value="delete"/>
+                    <form method="post" action="${pageContext.request.contextPath}/boss/employee/${user.id}">
+<%--                        <input type="hidden" name="userId" value="${user.id}"/>--%>
+<%--                        <input type="hidden" name="action" value="delete"/>--%>
                         <button type="submit">Удалить</button>
                     </form>
                 </td>
@@ -63,10 +63,10 @@
                         <div><input type="date" name="birthdate" value="${user.employeeEntity.getBirthdate()}" data-date-format="YYYY-MMMM-DD"/></div>
                         <div><input type="text" name="passport" value="${user.employeeEntity.getPassport()}"/></div>
                         <div><input type="text" name="phone" value="${user.employeeEntity.getPhone()}"/></div>
-                        <input type="hidden" name="positions" value="${user.employeeEntity.getPositions()}"/>
-                        <input type="hidden" name="bossEntity" value="${user.employeeEntity.getBossEntity()}"/>
-                        <input type="hidden" name="logistEntity" value="${user.employeeEntity.getLogistEntity()}"/>
-                        <input type="hidden" name="driverEntity" value="${user.employeeEntity.getDriverEntity()}"/>
+<%--                        <input type="hidden" name="positions" value="${user.employeeEntity.getPositions()}"/>--%>
+<%--                        <input type="hidden" name="bossEntity" value="${user.employeeEntity.getBossEntity()}"/>--%>
+<%--                        <input type="hidden" name="logistEntity" value="${user.employeeEntity.getLogistEntity()}"/>--%>
+<%--                        <input type="hidden" name="driverEntity" value="${user.employeeEntity.getDriverEntity()}"/>--%>
 
 
                         <div><input type="submit" /></div>

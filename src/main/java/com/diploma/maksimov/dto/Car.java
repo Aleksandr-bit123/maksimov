@@ -1,12 +1,6 @@
-package com.diploma.maksimov.db.entity;
+package com.diploma.maksimov.dto;
 
-import javax.persistence.*;
-
-@Entity
-@Table(schema = "public", name = "t_car")
-public class CarEntity {
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+public class Car {
     private Long id;
     private Long owner_id;
     private String brand;
@@ -15,7 +9,19 @@ public class CarEntity {
     private Double fuel_consumption;
     private String info;
 
-    public CarEntity() {
+    public Car() {
+    }
+
+    public Car(Long id, Long owner_id, String brand, String state_registration_mark, Double cubic_capacity, Double fuel_consumption, String info) {
+
+        this.id = id;
+        this.owner_id = owner_id;
+        this.brand = brand;
+        this.state_registration_mark = state_registration_mark;
+        this.cubic_capacity = cubic_capacity;
+        this.fuel_consumption = fuel_consumption;
+        this.info = info;
+
     }
 
     public Long getId() {

@@ -1,4 +1,4 @@
-package com.diploma.maksimov.config;
+/*package com.diploma.maksimov.config;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
@@ -53,4 +53,4 @@ public class DataBaseConfig {
     public PlatformTransactionManager adminTransactionManager(@Qualifier("myEntityManager") EntityManagerFactory entityManagerFactory) {
         return new JpaTransactionManager(entityManagerFactory);
     }
-}
+}*/

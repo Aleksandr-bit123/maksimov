@@ -1,4 +1,4 @@
-package com.diploma.maksimov.controller;
+package com.diploma.maksimov.viewcontroller;
 
 import com.diploma.maksimov.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

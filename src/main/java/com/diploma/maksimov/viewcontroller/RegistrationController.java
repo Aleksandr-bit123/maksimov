@@ -1,4 +1,4 @@
-package com.diploma.maksimov.controller;
+package com.diploma.maksimov.viewcontroller;
 
 import com.diploma.maksimov.db.entity.UserEntity;
 import com.diploma.maksimov.service.UserService;
