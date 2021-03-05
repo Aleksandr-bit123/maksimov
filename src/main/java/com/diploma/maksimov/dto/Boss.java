@@ -1,18 +1,21 @@
 package com.diploma.maksimov.dto;
 
-public class Boss extends Employee{
+public class Boss {
     private Long id;
     private String info;
 
     public Boss() {
     }
 
-    @Override
+    public Boss(Long id, String info) {
+        this.id = id;
+        this.info = info;
+    }
+
     public Long getId() {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }

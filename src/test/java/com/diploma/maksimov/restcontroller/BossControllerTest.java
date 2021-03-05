@@ -1,5 +1,6 @@
 package com.diploma.maksimov.restcontroller;
 
+import com.diploma.maksimov.dto.Boss;
 import com.diploma.maksimov.dto.Logist;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
@@ -23,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class LogistControllerTest {
+public class BossControllerTest {
     MockMvc mockMvc;
 
     @Autowired
@@ -44,22 +45,22 @@ public class LogistControllerTest {
     }
 
     //******************************************************************************************************************
-
     Long id = 1000000L;
 
-    Logist logist = new Logist(id,"Логист 1 тест");
-    Logist logist1 = new Logist(id,"Логист 2 тест");
-    String startUri = "/boss/employee/"+id+"/logist/";
+    Boss boss = new Boss(id,"Директор 1 тест");
+    Boss boss1 = new Boss(id,"Директор 2 тест");
 
-    public void createLogist() throws Exception {
-        String content = objectMapper.writeValueAsString(logist);
+    String startUri = "/boss/employee/"+id+"/boss/";
+
+    public void createBoss() throws Exception {
+        String content = objectMapper.writeValueAsString(boss);
         String uri = startUri;
         mockMvc.perform(post(uri)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content));
     }
 
-    public void deleteLogist() throws Exception {
+    public void deleteBoss() throws Exception {
         String uri = startUri + id;
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri));
     }
@@ -67,52 +68,52 @@ public class LogistControllerTest {
 
     @Test
     public void create() throws Exception {
-        String content = objectMapper.writeValueAsString(logist);
+        String content = objectMapper.writeValueAsString(boss);
         String uri = startUri;
         mockMvc.perform(post(uri)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content))
                 .andExpect(status().isCreated())
                 .andDo(document(uri));
-        deleteLogist();
+        deleteBoss();
     }
 
     @Test
     public void readAll() throws Exception {
-        createLogist();
+        createBoss();
         String uri = startUri;
         mockMvc.perform(get(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
-        deleteLogist();
+        deleteBoss();
     }
 
     @Test
     public void read() throws Exception {
-        createLogist();
+        createBoss();
         String uri = startUri + id;
         mockMvc.perform(get(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
-        deleteLogist();
+        deleteBoss();
     }
 
     @Test
     public void update() throws Exception {
-        createLogist();
-        String content = objectMapper.writeValueAsString(logist1);
+        createBoss();
+        String content = objectMapper.writeValueAsString(boss1);
         String uri = startUri + id;
         mockMvc.perform(put(uri)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
-        deleteLogist();
+        deleteBoss();
     }
 
     @Test
     public void delete() throws Exception {
-        createLogist();
+        createBoss();
         String uri = startUri + id;
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri))
                 .andExpect(status().isOk())
