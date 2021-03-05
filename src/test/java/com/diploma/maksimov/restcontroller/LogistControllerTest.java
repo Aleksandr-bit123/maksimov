@@ -1,9 +1,7 @@
 package com.diploma.maksimov.restcontroller;
 
-import com.diploma.maksimov.dto.Car;
-import com.diploma.maksimov.dto.Driver;
+import com.diploma.maksimov.dto.Logist;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -18,8 +16,6 @@ import org.springframework.test.web.servlet.setup.ConfigurableMockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.ArrayList;
-
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -28,8 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @RunWith(SpringRunner.class)
 
-public class DriverControllerTest {
-
+public class LogistControllerTest {
     MockMvc mockMvc;
 
     @Autowired
@@ -48,29 +43,24 @@ public class DriverControllerTest {
                         .apply(documentationConfiguration(this.restDocumentation));
         this.mockMvc = builder.build();
     }
+
     //******************************************************************************************************************
 
     Long id = 1000000L;
-    Car car = new Car(id,id,"","",0.0,0.0,"");
-    ArrayList<Car> cars = new ArrayList<>();
-    public void setCars(ArrayList<Car> cars) {
-        cars.add(car);
-        this.cars = cars;
-    }
-    Driver driver = new Driver(id, cars,"12 34 567890 B B1 M","действительны до 16.06.2028");
 
-    Driver driver1 = new Driver(id, cars , "12 34 567890 B B1 M", "действительны до 16.06.2028");
-    String startUri = "/boss/employee/"+id+"/driver/";
+    Logist logist = new Logist(id,"Логист 1 тест");
+    Logist logist1 = new Logist(id,"Логист 2 тест");
+    String startUri = "/boss/employee/"+id+"/logist/";
 
-    public void createDriver() throws Exception {
-        String content = objectMapper.writeValueAsString(driver);
+    public void createLogist() throws Exception {
+        String content = objectMapper.writeValueAsString(logist);
         String uri = startUri;
         mockMvc.perform(post(uri)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content));
     }
 
-    public void deleteDriver() throws Exception {
+    public void deleteLogist() throws Exception {
         String uri = startUri + id;
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri));
     }
@@ -78,53 +68,52 @@ public class DriverControllerTest {
 
     @Test
     public void create() throws Exception {
-        String content = objectMapper.writeValueAsString(driver);
+        String content = objectMapper.writeValueAsString(logist);
         String uri = startUri;
         mockMvc.perform(post(uri)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content))
                 .andExpect(status().isCreated())
                 .andDo(document(uri));
-        deleteDriver();
+        deleteLogist();
     }
-
 
     @Test
     public void readAll() throws Exception {
-        createDriver();
+        createLogist();
         String uri = startUri;
         mockMvc.perform(get(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
-        deleteDriver();
+        deleteLogist();
     }
 
     @Test
     public void read() throws Exception {
-        createDriver();
+        createLogist();
         String uri = startUri + id;
         mockMvc.perform(get(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
-        deleteDriver();
+        deleteLogist();
     }
 
     @Test
-    public void update() throws Exception{
-        createDriver();
-        String content = objectMapper.writeValueAsString(driver1);
+    public void update() throws Exception {
+        createLogist();
+        String content = objectMapper.writeValueAsString(logist1);
         String uri = startUri + id;
         mockMvc.perform(put(uri)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
-        deleteDriver();
+        deleteLogist();
     }
 
     @Test
     public void delete() throws Exception {
-        createDriver();
+        createLogist();
         String uri = startUri + id;
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri))
                 .andExpect(status().isOk())
