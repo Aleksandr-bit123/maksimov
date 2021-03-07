@@ -1,6 +1,5 @@
 package com.diploma.maksimov.restcontroller;
 
-import com.diploma.maksimov.dto.Boss;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Rule;
@@ -23,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class BossControllerTest {
+public class RoleControllerTest {
     MockMvc mockMvc;
 
     @Autowired
@@ -44,77 +43,15 @@ public class BossControllerTest {
     }
 
     //******************************************************************************************************************
-    Long id = 1000000L;
+    Long id = 1L;
 
-    Boss boss = new Boss(id,"Директор 1 тест");
-    Boss boss1 = new Boss(id,"Директор 2 тест");
-
-    String startUri = "/boss/employee/"+id+"/boss/";
-
-    public void createBoss() throws Exception {
-        String content = objectMapper.writeValueAsString(boss);
-        String uri = startUri;
-        mockMvc.perform(post(uri)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(content));
-    }
-
-    public void deleteBoss() throws Exception {
-        String uri = startUri + id;
-        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri));
-    }
+    String startUri = "/role/";
     //******************************************************************************************************************
 
     @Test
-    public void create() throws Exception {
-        String content = objectMapper.writeValueAsString(boss);
-        String uri = startUri;
-        mockMvc.perform(post(uri)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(content))
-                .andExpect(status().isCreated())
-                .andDo(document(uri));
-        deleteBoss();
-    }
-
-    @Test
-    public void readAll() throws Exception {
-        createBoss();
-        String uri = startUri;
-        mockMvc.perform(get(uri))
-                .andExpect(status().isOk())
-                .andDo(document(uri));
-        deleteBoss();
-    }
-
-    @Test
     public void read() throws Exception {
-        createBoss();
         String uri = startUri + id;
         mockMvc.perform(get(uri))
-                .andExpect(status().isOk())
-                .andDo(document(uri));
-        deleteBoss();
-    }
-
-    @Test
-    public void update() throws Exception {
-        createBoss();
-        String content = objectMapper.writeValueAsString(boss1);
-        String uri = startUri + id;
-        mockMvc.perform(put(uri)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(content))
-                .andExpect(status().isOk())
-                .andDo(document(uri));
-        deleteBoss();
-    }
-
-    @Test
-    public void delete() throws Exception {
-        createBoss();
-        String uri = startUri + id;
-        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
     }

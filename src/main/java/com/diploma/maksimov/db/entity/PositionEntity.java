@@ -14,6 +14,10 @@ public class PositionEntity {
     @ManyToMany(mappedBy = "positions")
     private Set<EmployeeEntity> employees;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private RoleEntity role;
+
     public PositionEntity() {
     }
 
@@ -39,5 +43,13 @@ public class PositionEntity {
 
     public void setEmployees(Set<EmployeeEntity> employees) {
         this.employees = employees;
+    }
+
+    public RoleEntity getRoles() {
+        return role;
+    }
+
+    public void setRoles(Set<RoleEntity> roles) {
+        this.role = role;
     }
 }

@@ -28,6 +28,17 @@ public class Employee {
     public Employee() {
     }
 
+    public Employee(Long id, String lastName, String firstName, String middleName, LocalDate birthdate, String passport, String phone, Set<Position> positions) {
+        this.id = id;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.birthdate = birthdate;
+        this.passport = passport;
+        this.phone = phone;
+        this.positions = positions;
+    }
+
     public Long getId() {
         return id;
     }
