@@ -60,7 +60,7 @@ public class BossControllerTest {
     }
 
     public void deleteBoss() throws Exception {
-        String uri = startUri + id;
+        String uri = startUri;
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri));
     }
     //******************************************************************************************************************
@@ -77,20 +77,20 @@ public class BossControllerTest {
         deleteBoss();
     }
 
-    @Test
-    public void readAll() throws Exception {
-        createBoss();
-        String uri = startUri;
-        mockMvc.perform(get(uri))
-                .andExpect(status().isOk())
-                .andDo(document(uri));
-        deleteBoss();
-    }
+//    @Test
+//    public void readAll() throws Exception {
+//        createBoss();
+//        String uri = startUri;
+//        mockMvc.perform(get(uri))
+//                .andExpect(status().isOk())
+//                .andDo(document(uri));
+//        deleteBoss();
+//    }
 
     @Test
     public void read() throws Exception {
         createBoss();
-        String uri = startUri + id;
+        String uri = startUri;
         mockMvc.perform(get(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
@@ -101,7 +101,7 @@ public class BossControllerTest {
     public void update() throws Exception {
         createBoss();
         String content = objectMapper.writeValueAsString(boss1);
-        String uri = startUri + id;
+        String uri = startUri;
         mockMvc.perform(put(uri)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content))
@@ -113,7 +113,7 @@ public class BossControllerTest {
     @Test
     public void delete() throws Exception {
         createBoss();
-        String uri = startUri + id;
+        String uri = startUri;
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));

@@ -70,7 +70,7 @@ public class DriverControllerTest {
     }
 
     public void deleteDriver() throws Exception {
-        String uri = startUri + id;
+        String uri = startUri;
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri));
     }
     //******************************************************************************************************************
@@ -88,20 +88,20 @@ public class DriverControllerTest {
     }
 
 
-    @Test
-    public void readAll() throws Exception {
-        createDriver();
-        String uri = startUri;
-        mockMvc.perform(get(uri))
-                .andExpect(status().isOk())
-                .andDo(document(uri));
-        deleteDriver();
-    }
+//    @Test
+//    public void readAll() throws Exception {
+//        createDriver();
+//        String uri = startUri;
+//        mockMvc.perform(get(uri))
+//                .andExpect(status().isOk())
+//                .andDo(document(uri));
+//        deleteDriver();
+//    }
 
     @Test
     public void read() throws Exception {
         createDriver();
-        String uri = startUri + id;
+        String uri = startUri;
         mockMvc.perform(get(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
@@ -112,7 +112,7 @@ public class DriverControllerTest {
     public void update() throws Exception{
         createDriver();
         String content = objectMapper.writeValueAsString(driver1);
-        String uri = startUri + id;
+        String uri = startUri;
         mockMvc.perform(put(uri)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content))
@@ -124,7 +124,7 @@ public class DriverControllerTest {
     @Test
     public void delete() throws Exception {
         createDriver();
-        String uri = startUri + id;
+        String uri = startUri;
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));

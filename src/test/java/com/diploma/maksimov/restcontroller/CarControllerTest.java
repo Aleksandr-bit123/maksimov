@@ -51,7 +51,7 @@ public class CarControllerTest {
     Long id = 1000000L;
     Car car = new Car(id,id,"ВАЗ 21083","А611ХМ78",2.3,11.2,"Цвет: красный");
     Car car1 = new Car(id,id,"BMW","А777AA99",4.3,15.2,"Цвет: черный");
-    String startUri = "/rest/boss/employee/"+id+"/driver/"+id+"/car/";
+    String startUri = "/rest/boss/employee/"+id+"/driver/car/";
 
 
     public long createCar() throws Exception {
@@ -82,7 +82,7 @@ public class CarControllerTest {
     }
 
     public void deleteDriver() throws Exception {
-        String uri = startDriverUri + id;
+        String uri = startDriverUri;
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri));
     }
     //******************************************************************************************************************

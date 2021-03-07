@@ -28,7 +28,7 @@ public class EmployeeEntity {
     private String passport;
     private String phone;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER)
     private Set<PositionEntity> positions;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -134,20 +134,4 @@ public class EmployeeEntity {
         this.positions = positions;
     }
 
-    @Override
-    public String toString() {
-        return "EmployeeEntity{" +
-                "id=" + id +
-                ", lastName='" + lastName + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", middleName='" + middleName + '\'' +
-                ", birthdate=" + birthdate +
-                ", passport='" + passport + '\'' +
-                ", phone='" + phone + '\'' +
-                ", positions=" + positions +
-                ", bossEntity=" + bossEntity +
-                ", driverEntity=" + driverEntity +
-                ", logistEntity=" + logistEntity +
-                '}';
-    }
 }

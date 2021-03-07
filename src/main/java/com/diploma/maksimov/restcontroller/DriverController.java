@@ -25,17 +25,17 @@ public class DriverController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+//    @GetMapping(value = "/driver")
+//    public ResponseEntity<List<Driver>> readAll() {
+//        final List<Driver> drivers = driverService.readAll();
+//
+//        if (drivers != null && !drivers.isEmpty()) {
+//            return new ResponseEntity<>(drivers, HttpStatus.OK);
+//        }
+//        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//    }
+
     @GetMapping(value = "/driver")
-    public ResponseEntity<List<Driver>> readAll() {
-        final List<Driver> drivers = driverService.readAll();
-
-        if (drivers != null && !drivers.isEmpty()) {
-            return new ResponseEntity<>(drivers, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    @GetMapping(value = "/driver/{id}")
     public ResponseEntity<Driver> read(@PathVariable long id) {
         final Driver driver = driverService.read(id);
 
@@ -45,7 +45,7 @@ public class DriverController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PutMapping(value = "/driver/{id}")
+    @PutMapping(value = "/driver")
     public ResponseEntity<?> update(@PathVariable long id, @RequestBody Driver driver) {
         final boolean updated = driverService.update(driver, id);
         if (updated) {
@@ -54,7 +54,7 @@ public class DriverController {
         return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
-    @DeleteMapping(value = "/driver/{id}")
+    @DeleteMapping(value = "/driver")
     public ResponseEntity<?> delete(@PathVariable long id) {
         final boolean deleted = driverService.delete(id);
         if (deleted) {

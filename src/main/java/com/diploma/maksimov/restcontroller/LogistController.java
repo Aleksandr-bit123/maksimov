@@ -25,17 +25,17 @@ public class LogistController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+//    @GetMapping(value = "/logist")
+//    public ResponseEntity<List<Logist>> readAll() {
+//        final List<Logist> logists = logistService.readAll();
+//
+//        if (logists != null && !logists.isEmpty()) {
+//            return new ResponseEntity<>(logists, HttpStatus.OK);
+//        }
+//        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//    }
+
     @GetMapping(value = "/logist")
-    public ResponseEntity<List<Logist>> readAll() {
-        final List<Logist> logists = logistService.readAll();
-
-        if (logists != null && !logists.isEmpty()) {
-            return new ResponseEntity<>(logists, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    @GetMapping(value = "/logist/{id}")
     public ResponseEntity<Logist> read(@PathVariable long id) {
         final Logist logist = logistService.read(id);
 
@@ -45,7 +45,7 @@ public class LogistController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PutMapping(value = "/logist/{id}")
+    @PutMapping(value = "/logist")
     public ResponseEntity<?> update(@PathVariable long id, @RequestBody Logist logist) {
         final boolean updated = logistService.update(logist, id);
         if (updated) {
@@ -54,7 +54,7 @@ public class LogistController {
         return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
-    @DeleteMapping(value = "/logist/{id}")
+    @DeleteMapping(value = "/logist")
     public ResponseEntity<?> delete(@PathVariable long id) {
         final boolean deleted = logistService.delete(id);
         if (deleted) {

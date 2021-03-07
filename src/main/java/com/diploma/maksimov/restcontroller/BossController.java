@@ -25,17 +25,17 @@ public class BossController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+//    @GetMapping(value = "/boss")
+//    public ResponseEntity<List<Boss>> readAll() {
+//        final List<Boss> bosses = bossService.readAll();
+//
+//        if (bosses != null && !bosses.isEmpty()) {
+//            return new ResponseEntity<>(bosses, HttpStatus.OK);
+//        }
+//        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//    }
+
     @GetMapping(value = "/boss")
-    public ResponseEntity<List<Boss>> readAll() {
-        final List<Boss> bosses = bossService.readAll();
-
-        if (bosses != null && !bosses.isEmpty()) {
-            return new ResponseEntity<>(bosses, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    @GetMapping(value = "/boss/{id}")
     public ResponseEntity<Boss> read(@PathVariable long id) {
         final Boss boss = bossService.read(id);
 
@@ -45,7 +45,7 @@ public class BossController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PutMapping(value = "/boss/{id}")
+    @PutMapping(value = "/boss")
     public ResponseEntity<?> update(@PathVariable long id, @RequestBody Boss boss) {
         final boolean updated = bossService.update(boss, id);
         if (updated) {
@@ -54,7 +54,7 @@ public class BossController {
         return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
-    @DeleteMapping(value = "/boss/{id}")
+    @DeleteMapping(value = "/boss")
     public ResponseEntity<?> delete(@PathVariable long id) {
         final boolean deleted = bossService.delete(id);
         if (deleted) {

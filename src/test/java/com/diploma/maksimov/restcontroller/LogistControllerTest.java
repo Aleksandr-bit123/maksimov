@@ -60,7 +60,7 @@ public class LogistControllerTest {
     }
 
     public void deleteLogist() throws Exception {
-        String uri = startUri + id;
+        String uri = startUri;
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri));
     }
     //******************************************************************************************************************
@@ -77,20 +77,20 @@ public class LogistControllerTest {
         deleteLogist();
     }
 
-    @Test
-    public void readAll() throws Exception {
-        createLogist();
-        String uri = startUri;
-        mockMvc.perform(get(uri))
-                .andExpect(status().isOk())
-                .andDo(document(uri));
-        deleteLogist();
-    }
+//    @Test
+//    public void readAll() throws Exception {
+//        createLogist();
+//        String uri = startUri;
+//        mockMvc.perform(get(uri))
+//                .andExpect(status().isOk())
+//                .andDo(document(uri));
+//        deleteLogist();
+//    }
 
     @Test
     public void read() throws Exception {
         createLogist();
-        String uri = startUri + id;
+        String uri = startUri;
         mockMvc.perform(get(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
@@ -101,7 +101,7 @@ public class LogistControllerTest {
     public void update() throws Exception {
         createLogist();
         String content = objectMapper.writeValueAsString(logist1);
-        String uri = startUri + id;
+        String uri = startUri;
         mockMvc.perform(put(uri)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content))
@@ -113,7 +113,7 @@ public class LogistControllerTest {
     @Test
     public void delete() throws Exception {
         createLogist();
-        String uri = startUri + id;
+        String uri = startUri;
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));

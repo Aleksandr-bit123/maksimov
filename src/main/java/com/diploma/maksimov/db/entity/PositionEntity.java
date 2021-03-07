@@ -9,14 +9,7 @@ public class PositionEntity {
     @Id
     private Long id;
     private String name;
-
-    @Transient
-    @ManyToMany(mappedBy = "positions")
-    private Set<EmployeeEntity> employees;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private RoleEntity role;
+    private Long roleId;
 
     public PositionEntity() {
     }
@@ -37,19 +30,11 @@ public class PositionEntity {
         this.name = name;
     }
 
-    public Set<EmployeeEntity> getEmployees() {
-        return employees;
+    public Long getRoleId() {
+        return roleId;
     }
 
-    public void setEmployees(Set<EmployeeEntity> employees) {
-        this.employees = employees;
-    }
-
-    public RoleEntity getRoles() {
-        return role;
-    }
-
-    public void setRoles(Set<RoleEntity> roles) {
-        this.role = role;
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 }

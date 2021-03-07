@@ -1,9 +1,5 @@
 package com.diploma.maksimov.dto;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.security.core.GrantedAuthority;
-
-import javax.persistence.Table;
 import java.util.Set;
 
 public class Role {
@@ -45,7 +41,10 @@ public class Role {
         this.users = users;
     }
 
-//    @Override
+    public void setAuthority(String authority) {
+        this.authority = authority;
+    }
+
     public String getAuthority() {
         return getName();
     }

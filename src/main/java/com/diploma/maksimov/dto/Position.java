@@ -1,9 +1,11 @@
 package com.diploma.maksimov.dto;
 
+import java.util.Set;
+
 public class Position {
     private Long id;
     private String name;
-    private Role role;
+    private Long roleId;
 
     public Position() {
     }
@@ -24,11 +26,12 @@ public class Position {
         this.name = name;
     }
 
-    public Role getRole() {
-        return role;
+    public Long getRoleId() {
+        return roleId;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
+
 }
