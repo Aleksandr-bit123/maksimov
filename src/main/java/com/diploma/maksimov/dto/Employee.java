@@ -25,10 +25,14 @@ public class Employee {
 
     private Set<Position> positions;
 
+    private Boss bossEntity;
+    private Logist logistEntity;
+    private Driver driverEntity;
+
     public Employee() {
     }
 
-    public Employee(Long id, String lastName, String firstName, String middleName, LocalDate birthdate, String passport, String phone, Set<Position> positions) {
+    public Employee(Long id, String lastName, String firstName, String middleName, LocalDate birthdate, String passport, String phone, Set<Position> positions, Boss bossEntity, Logist logistEntity, Driver driverEntity) {
         this.id = id;
         this.lastName = lastName;
         this.firstName = firstName;
@@ -37,6 +41,9 @@ public class Employee {
         this.passport = passport;
         this.phone = phone;
         this.positions = positions;
+        this.bossEntity = bossEntity;
+        this.logistEntity = logistEntity;
+        this.driverEntity = driverEntity;
     }
 
     public Long getId() {
@@ -103,4 +110,27 @@ public class Employee {
         this.positions = positions;
     }
 
+    public Boss getBossEntity() {
+        return bossEntity;
+    }
+
+    public void setBossEntity(Boss bossEntity) {
+        this.bossEntity = bossEntity;
+    }
+
+    public Logist getLogistEntity() {
+        return logistEntity;
+    }
+
+    public void setLogistEntity(Logist logistEntity) {
+        this.logistEntity = logistEntity;
+    }
+
+    public Driver getDriverEntity() {
+        return driverEntity;
+    }
+
+    public void setDriverEntity(Driver driverEntity) {
+        this.driverEntity = driverEntity;
+    }
 }

@@ -12,7 +12,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/boss")
-public class EmployeeController {
+public class EmployeeViewController {
 
     @Autowired
     private UserService userService;

@@ -49,7 +49,7 @@ public class BossControllerTest {
     Boss boss = new Boss(id,"Директор 1 тест");
     Boss boss1 = new Boss(id,"Директор 2 тест");
 
-    String startUri = "/boss/employee/"+id+"/boss/";
+    String startUri = "/rest/boss/employee/"+id+"/boss/";
 
     public void createBoss() throws Exception {
         String content = objectMapper.writeValueAsString(boss);

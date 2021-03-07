@@ -27,7 +27,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-
 public class DriverControllerTest {
 
     MockMvc mockMvc;
@@ -60,7 +59,7 @@ public class DriverControllerTest {
     Driver driver = new Driver(id, cars,"12 34 567890 B B1 M","действительны до 16.06.2028");
 
     Driver driver1 = new Driver(id, cars , "12 34 567890 B B1 M", "действительны до 16.06.2028");
-    String startUri = "/boss/employee/"+id+"/driver/";
+    String startUri = "/rest/boss/employee/"+id+"/driver/";
 
     public void createDriver() throws Exception {
         String content = objectMapper.writeValueAsString(driver);

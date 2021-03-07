@@ -1,12 +1,14 @@
 package com.diploma.maksimov.dto;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Set;
 
-public class User implements UserDetails {
+public class User {
+    @Id
     private Long id;
     private String username;
     private String password;
@@ -29,7 +31,7 @@ public class User implements UserDetails {
         this.username = username;
     }
 
-    @Override
+//    @Override
     public String getUsername() {
         return username;
     }
@@ -38,7 +40,7 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    @Override
+//    @Override
     public String getPassword() {
         return password;
     }
@@ -67,27 +69,27 @@ public class User implements UserDetails {
         this.employee = employee;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+//    @Override
+    public Collection<? /*extends GrantedAuthority*/> getAuthorities() {
         return getRoles();
     }
 
-    @Override
+//    @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
-    @Override
+//    @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
-    @Override
+//    @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
-    @Override
+//    @Override
     public boolean isEnabled() {
         return true;
     }

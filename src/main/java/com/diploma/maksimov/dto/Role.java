@@ -1,10 +1,13 @@
 package com.diploma.maksimov.dto;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.security.core.GrantedAuthority;
 
+import javax.persistence.Table;
 import java.util.Set;
 
-public class Role implements GrantedAuthority {
+public class Role {
+
     private Long id;
     private String name;
     private Set<User> users;
@@ -42,7 +45,7 @@ public class Role implements GrantedAuthority {
         this.users = users;
     }
 
-    @Override
+//    @Override
     public String getAuthority() {
         return getName();
     }

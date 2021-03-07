@@ -49,7 +49,7 @@ public class LogistControllerTest {
 
     Logist logist = new Logist(id,"Логист 1 тест");
     Logist logist1 = new Logist(id,"Логист 2 тест");
-    String startUri = "/boss/employee/"+id+"/logist/";
+    String startUri = "/rest/boss/employee/"+id+"/logist/";
 
     public void createLogist() throws Exception {
         String content = objectMapper.writeValueAsString(logist);

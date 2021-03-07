@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/boss/employee/{id}")
+@RequestMapping("/rest/boss/employee/{id}")
 public class LogistController {
     private final ILogistService logistService;
 
