@@ -7,7 +7,6 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 import java.time.LocalDate;
-import java.util.Set;
 
 public class Employee {
     private Long id;
@@ -23,8 +22,6 @@ public class Employee {
     private String passport;
     private String phone;
 
-    private Set<Position> positions;
-
     private Boss bossEntity;
     private Logist logistEntity;
     private Driver driverEntity;
@@ -32,7 +29,7 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(Long id, String lastName, String firstName, String middleName, LocalDate birthdate, String passport, String phone, Set<Position> positions, Boss bossEntity, Logist logistEntity, Driver driverEntity) {
+    public Employee(Long id, String lastName, String firstName, String middleName, LocalDate birthdate, String passport, String phone, Boss bossEntity, Logist logistEntity, Driver driverEntity) {
         this.id = id;
         this.lastName = lastName;
         this.firstName = firstName;
@@ -40,7 +37,6 @@ public class Employee {
         this.birthdate = birthdate;
         this.passport = passport;
         this.phone = phone;
-        this.positions = positions;
         this.bossEntity = bossEntity;
         this.logistEntity = logistEntity;
         this.driverEntity = driverEntity;
@@ -100,14 +96,6 @@ public class Employee {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public Set<Position> getPositions() {
-        return positions;
-    }
-
-    public void setPositions(Set<Position> positions) {
-        this.positions = positions;
     }
 
     public Boss getBossEntity() {

@@ -4,4 +4,10 @@ table {
 
 table, th, td {
     border: 1px solid black;
+    vertical-align: top;
+}
+
+input, select,textarea {
+    width: 100%;
+    box-sizing: border-box;
 }

@@ -48,8 +48,8 @@ public class EmployeeControllerTest {
     //******************************************************************************************************************
 
     Long id = 1000000L;
-    Employee employee = new Employee(id,"Максимов","Александр","Викторович", LocalDate.of(1990,2,8),"1234 567890","123-45-67",null,null,null,null);
-    Employee employee1 = new Employee(id,"Максимов","Александр","Викторович", LocalDate.of(1990,2,8),"1234 567890","123-45-67",null,null,null,null);
+    Employee employee = new Employee(id,"Максимов","Александр","Викторович", LocalDate.of(1990,2,8),"1234 567890","123-45-67",null,null,null);
+    Employee employee1 = new Employee(id,"Максимов","Александр","Викторович", LocalDate.of(1990,2,8),"1234 567890","123-45-67",null,null,null);
     String startUri = "/rest/boss/employee/";
 
     public void createEmployee() throws Exception {

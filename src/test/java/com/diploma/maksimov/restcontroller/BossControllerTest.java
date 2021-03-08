@@ -1,6 +1,8 @@
 package com.diploma.maksimov.restcontroller;
 
 import com.diploma.maksimov.dto.Boss;
+import com.diploma.maksimov.dto.Employee;
+import com.diploma.maksimov.dto.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Rule;
@@ -63,10 +65,32 @@ public class BossControllerTest {
         String uri = startUri;
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri));
     }
+
+//    Employee employee = new Employee(id,"Максимов","Александр","Викторович", LocalDate.of(1990,2,8),"1234 567890","123-45-67",boss,null,null);
+//    String startEmloyeeUri = "/rest/boss/employee/";
+//
+//    public void createEmployee() throws Exception {
+//        String content = objectMapper.writeValueAsString(employee);
+//        String uri = startEmloyeeUri;
+//        mockMvc.perform(post(uri)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(content));
+//    }
+//
+//    public void deleteEmployee() throws Exception {
+//        String uri = startEmloyeeUri + id;
+//        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri));
+//    }
+
+
+
+
+
     //******************************************************************************************************************
 
     @Test
     public void create() throws Exception {
+//        createEmployee();
         String content = objectMapper.writeValueAsString(boss);
         String uri = startUri;
         mockMvc.perform(post(uri)
@@ -75,6 +99,7 @@ public class BossControllerTest {
                 .andExpect(status().isCreated())
                 .andDo(document(uri));
         deleteBoss();
+//        deleteEmployee();
     }
 
 //    @Test
@@ -89,16 +114,19 @@ public class BossControllerTest {
 
     @Test
     public void read() throws Exception {
+//        createEmployee();
         createBoss();
         String uri = startUri;
         mockMvc.perform(get(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
         deleteBoss();
+//        deleteEmployee();
     }
 
     @Test
     public void update() throws Exception {
+//        createEmployee();
         createBoss();
         String content = objectMapper.writeValueAsString(boss1);
         String uri = startUri;
@@ -108,14 +136,17 @@ public class BossControllerTest {
                 .andExpect(status().isOk())
                 .andDo(document(uri));
         deleteBoss();
+//        deleteEmployee();
     }
 
     @Test
     public void delete() throws Exception {
+//        createEmployee();
         createBoss();
         String uri = startUri;
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
+//        deleteEmployee();
     }
 }

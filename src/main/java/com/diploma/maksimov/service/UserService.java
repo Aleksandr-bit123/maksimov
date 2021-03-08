@@ -17,6 +17,7 @@ import javax.persistence.PersistenceContext;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -74,5 +75,36 @@ public class UserService implements UserDetailsService {
     public List<UserEntity> usergtList(Long idMin) {
         return em.createQuery("SELECT u FROM UserEntity u WHERE u.id > :paramId", UserEntity.class)
                 .setParameter("paramId", idMin).getResultList();
+    }
+
+    public boolean addRole(Long userId, Long roleId) {
+        UserEntity userFromDB = userRepository.findById(userId).stream().findFirst().get();
+//        if (userFromDB == null) {
+//            return false;
+//        }
+        RoleEntity roleFromDB = roleRepository.findById(roleId).stream().findFirst().get();
+        if (roleFromDB == null) {
+            return false;
+        }
+        Set<RoleEntity> temp = userFromDB.getRoles();
+        temp.add(roleFromDB);
+        userFromDB.setRoles(temp);
+        userRepository.save(userFromDB);
+        return true;
+    }
+    public boolean deleteRole(Long userId, Long roleId) {
+        UserEntity userFromDB = userRepository.findById(userId).stream().findFirst().get();
+//        if (userFromDB == null) {
+//            return false;
+//        }
+        RoleEntity roleFromDB = roleRepository.findById(roleId).stream().findFirst().get();
+        if (roleFromDB == null) {
+            return false;
+        }
+        Set<RoleEntity> temp = userFromDB.getRoles();
+        temp.remove(roleFromDB);
+        userFromDB.setRoles(temp);
+        userRepository.save(userFromDB);
+        return true;
     }
 }

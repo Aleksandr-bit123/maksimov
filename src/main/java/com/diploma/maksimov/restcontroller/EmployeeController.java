@@ -19,7 +19,7 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @PostMapping(value = "/employee")
+    @PostMapping(value = "/employee",headers = "Accept=application/json")
     public ResponseEntity<?> create(@RequestBody Employee employee) {
         employeeService.create(employee);
         return new ResponseEntity<>(HttpStatus.CREATED);

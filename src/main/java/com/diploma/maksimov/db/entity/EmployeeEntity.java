@@ -28,9 +28,6 @@ public class EmployeeEntity {
     private String passport;
     private String phone;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    private Set<PositionEntity> positions;
-
     @OneToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private BossEntity bossEntity;
@@ -124,14 +121,6 @@ public class EmployeeEntity {
 
     public void setLogistEntity(LogistEntity logistEntity) {
         this.logistEntity = logistEntity;
-    }
-
-    public Set<PositionEntity> getPositions() {
-        return positions;
-    }
-
-    public void setPositions(Set<PositionEntity> positions) {
-        this.positions = positions;
     }
 
 }
