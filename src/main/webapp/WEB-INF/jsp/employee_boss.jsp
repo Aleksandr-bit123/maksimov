@@ -24,7 +24,7 @@
                 <th>Паспорт</th>
                 <th>Телефон</th>
                 <th>info</th>
-                <th>X</th>
+                <th>Act</th>
             </tr>
         </table>
 
@@ -34,15 +34,17 @@
         emploeeBoss = ${Employee};
         boss = ${Boss};
         $('#bossTable').append($('<tr>')
-            .append($('<td>').append($('<input type="number" name="id" readonly value="'+ emploeeBoss.id +'">')))
+            .append($('<input type="hidden" name="id" readonly value="'+ emploeeBoss.id +'">'))
+            .append($('<td>').append(emploeeBoss.id))
             .append($('<td>').append(emploeeBoss.lastName))
             .append($('<td>').append(emploeeBoss.firstName))
             .append($('<td>').append(emploeeBoss.middleName))
             .append($('<td>').append(emploeeBoss.birthdate))
             .append($('<td>').append(emploeeBoss.passport))
             .append($('<td>').append(emploeeBoss.phone))
-            .append($('<td>').append($('<textarea name="info">').append(boss!=null?boss.info:"")).append($('<input type="submit" value="Изменить">')))
-            .append($('<td>').append('<input type="button" value="X" onclick="deleteBoss(this.parentElement.parentElement.firstChild.firstChild.value)">'))
+            .append($('<td>').append($('<textarea name="info">').append(boss!=null?boss.info:"")))
+            .append($('<td>').append('<input type="button" value="X" onclick="deleteBoss(this.parentElement.parentElement.firstChild.firstChild.value)">')
+                             .append($('<input type="submit" value="OK">')))
         );
 
         document.getElementById('employeeBossForm').addEventListener('submit', submitForm);

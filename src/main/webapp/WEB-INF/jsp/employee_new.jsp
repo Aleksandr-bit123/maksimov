@@ -105,6 +105,7 @@
                 document.getElementById("inputBirthdate").value = employee.employeeEntity.birthdate;
                 document.getElementById("inputPassport").value = employee.employeeEntity.passport;
                 document.getElementById("inputPhone").value = employee.employeeEntity.phone;
+                //TODO подлатать отправку объекта, чтобы со всеми полями
                 // document.getElementById("inputBossEntity").value = employee.employeeEntity.bossEntity;
                 // document.getElementById("inputLogistEntity").value = employee.employeeEntity.logistEntity;
                 // document.getElementById("inputDriverEntity").value = employee.employeeEntity.driverEntity;

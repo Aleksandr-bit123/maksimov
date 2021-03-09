@@ -7,14 +7,14 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Сотрудники</title>
+    <title>Водитель</title>
     <link rel="stylesheet" type="text/css" href="${contextPath}/resources/css/style.css">
 </head>
 <body>
-<h2>Информация о логисте</h2>
+<h2>Информация о водителе</h2>
 <a href="/boss/employee">назад</a>
-<form id="employeeLogistForm" action="/rest/boss/employee/" method="post">
-    <table id="logistTable">
+<form id="employeeDriverForm" action="/rest/boss/employee/" method="post">
+    <table id="bossTable">
         <tr>
             <th>ID</th>
             <th>Фамилия</th>
@@ -23,6 +23,8 @@
             <th>Дата рождения</th>
             <th>Паспорт</th>
             <th>Телефон</th>
+            <th>Машины</th>
+            <th>в/у</th>
             <th>info</th>
             <th>Act</th>
         </tr>
@@ -31,22 +33,42 @@
 </form>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
-    emploeeLogist = ${Employee};
-    logist = ${Logist};
-    $('#logistTable').append($('<tr>')
-        .append($('<input type="hidden" name="id" readonly value="'+ emploeeLogist.id +'">'))
-        .append($('<td>').append(emploeeLogist.id))
-        .append($('<td>').append(emploeeLogist.lastName))
-        .append($('<td>').append(emploeeLogist.firstName))
-        .append($('<td>').append(emploeeLogist.middleName))
-        .append($('<td>').append(emploeeLogist.birthdate))
-        .append($('<td>').append(emploeeLogist.passport))
-        .append($('<td>').append(emploeeLogist.phone))
-        .append($('<td>').append($('<textarea name="info">').append(logist!=null?logist.info:"")))
-        .append($('<td>').append('<input type="button" value="X" onclick="deleteLogist(this.parentElement.parentElement.firstChild.firstChild.value)">').append($('<input type="submit" value="OK">')))
+    emploeeDriver = ${Employee};
+    driver = ${Driver}
+        if (driver.carEntities!=null) {
+            cars = driver.carEntities;
+            carsToStringAndTad = '';
+            cars.forEach((car) => carsToStringAndTad += car.brand + ";");
+        } else
+        {
+            cars = null;
+            carsToStringAndTad = '';
+        }
+
+    // alert(carsToStringAndTad);
+
+    // alert(driver.carEntities[0].id);
+    // let car = JSON.stringify(driver.carEntities[0].id);
+    // alert(car);
+    // .join('');
+    $('#bossTable').append($('<tr>')
+        .append($('<td>').append($('<input type="hidden" name="id" readonly value="'+ emploeeDriver.id +'">'))
+                         .append(emploeeDriver.id))
+        .append($('<td>').append(emploeeDriver.lastName))
+        .append($('<td>').append(emploeeDriver.firstName))
+        .append($('<td>').append(emploeeDriver.middleName))
+        .append($('<td>').append(emploeeDriver.birthdate))
+        .append($('<td>').append(emploeeDriver.passport))
+        .append($('<td>').append(emploeeDriver.phone))
+        .append($('<td>').append(carsToStringAndTad).append($('<div><a href="#">редактировать<div>'))
+                         .append($('<input type="hidden" name="carEntities" value="">')))
+        .append($('<td>').append($('<textarea name="driving_license">').append(driver!=null?driver.driving_license:"")))
+        .append($('<td>').append($('<textarea name="info">').append(driver!=null?driver.info:"")))
+        .append($('<td>').append('<input type="button" value="X" onclick="deleteBoss(this.parentElement.parentElement.firstChild.firstChild.value)">')
+                         .append($('<input type="submit" value="OK">')))
     );
 
-    document.getElementById('employeeLogistForm').addEventListener('submit', submitForm);
+    document.getElementById('employeeDriverForm').addEventListener('submit', submitForm);
 
     function submitForm(event) {
         // Отменяем стандартное поведение браузера с отправкой формы
@@ -59,8 +81,9 @@
         let obj = {};
         formData.forEach((value, key) => obj[key] = value);
         // Собираем запрос к серверу
+        obj.carEntities = cars;
 
-        let request = new Request(event.target.action + emploeeLogist.id +'/logist', {
+        let request = new Request(event.target.action + emploeeDriver.id +'/driver', {
             method: 'PUT',
             body: JSON.stringify(obj),
             headers: {
@@ -68,7 +91,7 @@
             },
         });
         console.log( JSON.stringify(obj));
-        // alert(JSON.stringify(obj));
+        alert(JSON.stringify(obj));
         // Отправляем (асинхронно!)
         fetch(request).then(
             function(response) {
@@ -90,12 +113,12 @@
         console.log('Запрос отправляется');
     }
 
-    function deleteLogist(logistId) {
-        result = confirm("Снять с должности директора сотудника с id: " + logistId);
+    function deleteBoss(driverId) {
+        result = confirm("Снять с должности водителя сотудника с id: " + driverId);
         if (result) {
-            console.log(logistId);
+            console.log(driverId);
             var xhr = new XMLHttpRequest();
-            xhr.open('DELETE', '/rest/boss/employee/' + logistId + '/logist', true);
+            xhr.open('DELETE', '/rest/boss/employee/' + driverId + '/driver', true);
             xhr.send();
             xhr.onreadystatechange = function () {
                 if (this.readyState != 4) {

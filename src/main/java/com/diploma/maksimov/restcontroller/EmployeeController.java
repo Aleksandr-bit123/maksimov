@@ -2,6 +2,7 @@ package com.diploma.maksimov.restcontroller;
 
 import com.diploma.maksimov.dto.Employee;
 import com.diploma.maksimov.service.IEmployeeService;
+import com.diploma.maksimov.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,9 @@ public class EmployeeController {
     public EmployeeController(IEmployeeService employeeService) {
         this.employeeService = employeeService;
     }
+
+    @Autowired
+    private UserService userService;
 
     @PostMapping(value = "/employee",headers = "Accept=application/json")
     public ResponseEntity<?> create(@RequestBody Employee employee) {
@@ -57,6 +61,9 @@ public class EmployeeController {
     @DeleteMapping(value = "/employee/{id}")
     public ResponseEntity<?> delete(@PathVariable long id) {
         final boolean deleted = employeeService.delete(id);
+        userService.deleteRole(id, 3L);
+        userService.deleteRole(id, 4L);
+        userService.deleteRole(id, 5L);
         if (deleted) {
             return new ResponseEntity<>(HttpStatus.OK);
         }

@@ -1,8 +1,10 @@
 package com.diploma.maksimov.viewcontroller;
 
 import com.diploma.maksimov.dto.Boss;
+import com.diploma.maksimov.dto.Driver;
 import com.diploma.maksimov.dto.Employee;
 import com.diploma.maksimov.service.BossService;
+import com.diploma.maksimov.service.DriverService;
 import com.diploma.maksimov.service.EmployeeService;
 import com.diploma.maksimov.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -16,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/boss/employee/{id}")
-public class EmployeeBossViewController {
+public class EmployeeDriverViewController {
 
     @Autowired
     private EmployeeService employeeService;
@@ -25,26 +27,26 @@ public class EmployeeBossViewController {
     private UserService userService;
 
     @Autowired
-    private BossService bossService;
+    private DriverService driverService;
 
     @Autowired
     private ObjectMapper objectMapper;
 
-    @GetMapping("/boss")
+    @GetMapping("/driver")
     public String index(Model model, @PathVariable Long id) {
         Employee employee = employeeService.read(id);
         if ( employee != null) {
 
-            Boss boss = bossService.read(id);
-            if (boss==null) {
-                bossService.create(new Boss(id,""));
-                userService.addRole(id,3L);
-                boss = bossService.read(id);
+            Driver driver = driverService.read(id);
+            if (driver==null) {
+                driverService.create(new Driver(id,null,"",""));
+                userService.addRole(id,5L);
+                driver = driverService.read(id);
             }
-            String bossAsString = null;
+            String driverAsString = null;
 
             try {
-                bossAsString = objectMapper.writeValueAsString(boss);
+                driverAsString = objectMapper.writeValueAsString(driver);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
@@ -57,11 +59,10 @@ public class EmployeeBossViewController {
                 e.printStackTrace();
             }
 
-            model.addAttribute("Boss",bossAsString);
+            model.addAttribute("Driver",driverAsString);
             model.addAttribute("Employee",employeeAsString);
-            return "employee_boss";
+            return "employee_driver";
         }
         return "Отсутствует сотрудник с id: " + id;
     }
-
 }

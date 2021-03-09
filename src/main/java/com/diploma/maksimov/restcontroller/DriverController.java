@@ -2,6 +2,7 @@ package com.diploma.maksimov.restcontroller;
 
 import com.diploma.maksimov.dto.Driver;
 import com.diploma.maksimov.service.IDriverService;
+import com.diploma.maksimov.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,13 +16,17 @@ public class DriverController {
     private final IDriverService driverService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     public DriverController(IDriverService driverService) {
         this.driverService = driverService;
     }
 
     @PostMapping(value = "/driver")
-    public ResponseEntity<?> create(@RequestBody Driver driver) {
+    public ResponseEntity<?> create(@RequestBody Driver driver, @PathVariable Long id) {
         driverService.create(driver);
+        userService.addRole(id,5L);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -57,6 +62,7 @@ public class DriverController {
     @DeleteMapping(value = "/driver")
     public ResponseEntity<?> delete(@PathVariable long id) {
         final boolean deleted = driverService.delete(id);
+        userService.deleteRole(id,5L);
         if (deleted) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
