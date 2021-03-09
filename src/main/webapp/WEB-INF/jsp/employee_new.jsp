@@ -12,6 +12,7 @@
     </head>
     <body>
     <a href="/boss">назад</a>
+    <h2>Сотрудники</h2>
         <table>
             <tr>
                 <td id="tdForm" style="vertical-align: top; text-align: center;"> <%--Ячейка для форм--%>

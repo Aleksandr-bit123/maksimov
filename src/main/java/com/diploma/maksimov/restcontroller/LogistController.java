@@ -2,6 +2,7 @@ package com.diploma.maksimov.restcontroller;
 
 import com.diploma.maksimov.dto.Logist;
 import com.diploma.maksimov.service.ILogistService;
+import com.diploma.maksimov.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +20,13 @@ public class LogistController {
         this.logistService = logistService;
     }
 
+    @Autowired
+    private UserService userService;
+
     @PostMapping(value = "/logist")
-    public ResponseEntity<?> create(@RequestBody Logist logist) {
+    public ResponseEntity<?> create(@RequestBody Logist logist, @PathVariable Long id) {
         logistService.create(logist);
+        userService.addRole(id,4L);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -57,6 +62,7 @@ public class LogistController {
     @DeleteMapping(value = "/logist")
     public ResponseEntity<?> delete(@PathVariable long id) {
         final boolean deleted = logistService.delete(id);
+        userService.deleteRole(id,4L);
         if (deleted) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
