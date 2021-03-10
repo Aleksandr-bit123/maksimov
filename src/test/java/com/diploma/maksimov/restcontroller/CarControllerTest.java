@@ -29,7 +29,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-
 public class CarControllerTest {
 
     MockMvc mockMvc;
@@ -126,7 +125,7 @@ public class CarControllerTest {
         createEmployee();
         createDriver();
         Long idBD = createCar();
-        String uri = startUri;
+        String uri = "/rest/boss/employee/driver/car";
         mockMvc.perform(get(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));

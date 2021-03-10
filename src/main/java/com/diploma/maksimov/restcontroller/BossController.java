@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/rest/boss/employee/{id}")
+@RequestMapping("/rest/boss/employee")
 public class BossController {
     private final IBossService bossService;
 
@@ -27,7 +27,7 @@ public class BossController {
     @Autowired
     private EmployeeService employeeService;
 
-    @PostMapping(value = "/boss")
+    @PostMapping(value = "/{id}/boss")
     public ResponseEntity<?> create(@RequestBody Boss boss, @PathVariable Long id) {
         if (employeeService.read(id) != null) {
             bossService.create(boss);
@@ -37,18 +37,17 @@ public class BossController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-//    @RequestMapping("/rest/boss/employee")
-//    @GetMapping(value = "/boss")
-//    public ResponseEntity<List<Boss>> readAll() {
-//        final List<Boss> bosses = bossService.readAll();
-//
-//        if (bosses != null && !bosses.isEmpty()) {
-//            return new ResponseEntity<>(bosses, HttpStatus.OK);
-//        }
-//        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//    }
-
     @GetMapping(value = "/boss")
+    public ResponseEntity<List<Boss>> readAll() {
+        final List<Boss> bosses = bossService.readAll();
+
+        if (bosses != null && !bosses.isEmpty()) {
+            return new ResponseEntity<>(bosses, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping(value = "/{id}/boss")
     public ResponseEntity<Boss> read(@PathVariable long id) {
         if (employeeService.read(id) != null) {
             final Boss boss = bossService.read(id);
@@ -61,7 +60,7 @@ public class BossController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @PutMapping(value = "/boss")
+    @PutMapping(value = "/{id}/boss")
     public ResponseEntity<?> update(@PathVariable long id, @RequestBody Boss boss) {
         if (employeeService.read(id) != null) {
             final boolean updated = bossService.update(boss, id);
@@ -73,7 +72,7 @@ public class BossController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @DeleteMapping(value = "/boss")
+    @DeleteMapping(value = "/{id}/boss")
     public ResponseEntity<?> delete(@PathVariable long id) {
         if (employeeService.read(id) != null) {
             final boolean deleted = bossService.delete(id);

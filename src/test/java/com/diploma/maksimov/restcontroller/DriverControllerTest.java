@@ -108,15 +108,17 @@ public class DriverControllerTest {
     }
 
 
-//    @Test
-//    public void readAll() throws Exception {
-//        createDriver();
-//        String uri = "/rest/boss/employee/driver";
-//        mockMvc.perform(get(uri))
-//                .andExpect(status().isOk())
-//                .andDo(document(uri));
-//        deleteDriver();
-//    }
+    @Test
+    public void readAll() throws Exception {
+        createEmployee();
+        createDriver();
+        String uri = "/rest/boss/employee/driver";
+        mockMvc.perform(get(uri))
+                .andExpect(status().isOk())
+                .andDo(document(uri));
+        deleteDriver();
+        deleteEmployee();
+    }
 
     @Test
     public void read() throws Exception {

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/rest/boss/employee/{id}")
+@RequestMapping("/rest/boss/employee")
 public class DriverController {
     private final IDriverService driverService;
 
@@ -27,7 +27,7 @@ public class DriverController {
         this.driverService = driverService;
     }
 
-    @PostMapping(value = "/driver")
+    @PostMapping(value = "/{id}/driver")
     public ResponseEntity<?> create(@RequestBody Driver driver, @PathVariable Long id) {
         if (employeeService.read(id) != null) {
             driverService.create(driver);
@@ -37,18 +37,17 @@ public class DriverController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-//    @RequestMapping("/rest/boss/employee")
-//    @GetMapping(value = "/driver")
-//    public ResponseEntity<List<Driver>> readAll() {
-//        final List<Driver> drivers = driverService.readAll();
-//
-//        if (drivers != null && !drivers.isEmpty()) {
-//            return new ResponseEntity<>(drivers, HttpStatus.OK);
-//        }
-//        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//    }
-
     @GetMapping(value = "/driver")
+    public ResponseEntity<List<Driver>> readAll() {
+        final List<Driver> drivers = driverService.readAll();
+
+        if (drivers != null && !drivers.isEmpty()) {
+            return new ResponseEntity<>(drivers, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping(value = "/{id}/driver")
     public ResponseEntity<Driver> read(@PathVariable long id) {
         if (employeeService.read(id) != null) {
             final Driver driver = driverService.read(id);
@@ -61,7 +60,7 @@ public class DriverController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @PutMapping(value = "/driver")
+    @PutMapping(value = "/{id}/driver")
     public ResponseEntity<?> update(@PathVariable long id, @RequestBody Driver driver) {
         if (employeeService.read(id) != null) {
             final boolean updated = driverService.update(driver, id);
@@ -73,7 +72,7 @@ public class DriverController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @DeleteMapping(value = "/driver")
+    @DeleteMapping(value = "/{id}/driver")
     public ResponseEntity<?> delete(@PathVariable long id) {
         if (employeeService.read(id) != null) {
             final boolean deleted = driverService.delete(id);
