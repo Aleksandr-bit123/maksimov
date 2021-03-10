@@ -14,7 +14,7 @@
 <h2>Информация о водителе</h2>
 <a href="/boss/employee">назад</a>
 <form id="employeeDriverForm" action="/rest/boss/employee/" method="post">
-    <table id="bossTable">
+    <table id="driverTable">
         <tr>
             <th>ID</th>
             <th>Фамилия</th>
@@ -38,7 +38,7 @@
         if (driver.carEntities!=null) {
             cars = driver.carEntities;
             carsToStringAndTad = '';
-            cars.forEach((car) => carsToStringAndTad += car.brand + ";");
+            cars.forEach((car) => carsToStringAndTad +="<div>" + car.brand + "</div>");
         } else
         {
             cars = null;
@@ -51,7 +51,7 @@
     // let car = JSON.stringify(driver.carEntities[0].id);
     // alert(car);
     // .join('');
-    $('#bossTable').append($('<tr>')
+    $('#driverTable').append($('<tr>')
         .append($('<td>').append($('<input type="hidden" name="id" readonly value="'+ emploeeDriver.id +'">'))
                          .append(emploeeDriver.id))
         .append($('<td>').append(emploeeDriver.lastName))
@@ -60,9 +60,9 @@
         .append($('<td>').append(emploeeDriver.birthdate))
         .append($('<td>').append(emploeeDriver.passport))
         .append($('<td>').append(emploeeDriver.phone))
-        .append($('<td>').append(carsToStringAndTad).append($('<div><a href="#">редактировать<div>'))
+        .append($('<td>').append(carsToStringAndTad).append($('<div><a href="/boss/employee/' + emploeeDriver.id + '/driver/car">редактировать<div>'))
                          .append($('<input type="hidden" name="carEntities" value="">')))
-        .append($('<td>').append($('<textarea name="driving_license">').append(driver!=null?driver.driving_license:"")))
+        .append($('<td>').append($('<input name="driving_license" value="'+ driver.driving_license +'">')))
         .append($('<td>').append($('<textarea name="info">').append(driver!=null?driver.info:"")))
         .append($('<td>').append('<input type="button" value="X" onclick="deleteBoss(this.parentElement.parentElement.firstChild.firstChild.value)">')
                          .append($('<input type="submit" value="OK">')))

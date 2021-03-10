@@ -38,11 +38,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //Доступ только для пользователей с ролью Пользователь
                 .antMatchers("/news").hasRole("USER")
                 //Доступ только для пользователей с ролью Водитель
-                .antMatchers("/driver").hasRole("DRIVER")
+                .antMatchers("/driver","rest/driver/**").hasRole("DRIVER")
                 //Доступ только для пользователей с ролью Логист
-                .antMatchers("/logist").hasRole("LOGIST")
+                .antMatchers("/logist","rest/logist/**").hasRole("LOGIST")
                 //Доступ только для пользователей с ролью Директор
-                .antMatchers("/boss/**").hasRole("BOSS")
+                .antMatchers("/boss/**"/*,"rest/boss/**"*/).hasRole("BOSS")
                 //Доступ разрешен всем пользователей
                 .antMatchers("/", "/resources/**").permitAll()
                 //Все остальные страницы требуют аутентификации

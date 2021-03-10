@@ -2,7 +2,6 @@ package com.diploma.maksimov.restcontroller;
 
 import com.diploma.maksimov.dto.Boss;
 import com.diploma.maksimov.dto.Employee;
-import com.diploma.maksimov.dto.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Rule;
@@ -12,11 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.JUnitRestDocumentation;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.ConfigurableMockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.time.LocalDate;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
@@ -53,6 +55,7 @@ public class BossControllerTest {
 
     String startUri = "/rest/boss/employee/"+id+"/boss/";
 
+    @WithMockUser(username = "UserForTest", password = "", roles = "USER, BOSS")
     public void createBoss() throws Exception {
         String content = objectMapper.writeValueAsString(boss);
         String uri = startUri;
@@ -61,36 +64,36 @@ public class BossControllerTest {
                 .content(content));
     }
 
+    @WithMockUser(username = "UserForTest", password = "", roles = "USER, BOSS")
     public void deleteBoss() throws Exception {
         String uri = startUri;
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri));
     }
 
-//    Employee employee = new Employee(id,"Максимов","Александр","Викторович", LocalDate.of(1990,2,8),"1234 567890","123-45-67",boss,null,null);
-//    String startEmloyeeUri = "/rest/boss/employee/";
-//
-//    public void createEmployee() throws Exception {
-//        String content = objectMapper.writeValueAsString(employee);
-//        String uri = startEmloyeeUri;
-//        mockMvc.perform(post(uri)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(content));
-//    }
-//
-//    public void deleteEmployee() throws Exception {
-//        String uri = startEmloyeeUri + id;
-//        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri));
-//    }
+    Employee employee = new Employee(id,"Максимов","Александр","Викторович", LocalDate.of(1990,2,8),"1234 567890","123-45-67",boss,null,null);
+    String startEmloyeeUri = "/rest/boss/employee/";
 
+    @WithMockUser(username = "UserForTest", password = "", roles = "USER, BOSS")
+    public void createEmployee() throws Exception {
+        String content = objectMapper.writeValueAsString(employee);
+        String uri = startEmloyeeUri;
+        mockMvc.perform(post(uri)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content));
+    }
 
-
-
+    @WithMockUser(username = "UserForTest", password = "", roles = "USER, BOSS")
+    public void deleteEmployee() throws Exception {
+        String uri = startEmloyeeUri + id;
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri));
+    }
 
     //******************************************************************************************************************
 
     @Test
+    @WithMockUser(username = "UserForTest", password = "", roles = "USER, BOSS")
     public void create() throws Exception {
-//        createEmployee();
+        createEmployee();
         String content = objectMapper.writeValueAsString(boss);
         String uri = startUri;
         mockMvc.perform(post(uri)
@@ -99,13 +102,14 @@ public class BossControllerTest {
                 .andExpect(status().isCreated())
                 .andDo(document(uri));
         deleteBoss();
-//        deleteEmployee();
+        deleteEmployee();
     }
 
 //    @Test
+//    @WithMockUser(username = "UserForTest", password = "", roles = "USER, BOSS")
 //    public void readAll() throws Exception {
 //        createBoss();
-//        String uri = startUri;
+//        String uri = "/rest/boss/employee/boss";
 //        mockMvc.perform(get(uri))
 //                .andExpect(status().isOk())
 //                .andDo(document(uri));
@@ -113,20 +117,22 @@ public class BossControllerTest {
 //    }
 
     @Test
+    @WithMockUser(username = "UserForTest", password = "", roles = "USER, BOSS")
     public void read() throws Exception {
-//        createEmployee();
+        createEmployee();
         createBoss();
         String uri = startUri;
         mockMvc.perform(get(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
         deleteBoss();
-//        deleteEmployee();
+        deleteEmployee();
     }
 
     @Test
+    @WithMockUser(username = "UserForTest", password = "", roles = "USER, BOSS")
     public void update() throws Exception {
-//        createEmployee();
+        createEmployee();
         createBoss();
         String content = objectMapper.writeValueAsString(boss1);
         String uri = startUri;
@@ -136,17 +142,18 @@ public class BossControllerTest {
                 .andExpect(status().isOk())
                 .andDo(document(uri));
         deleteBoss();
-//        deleteEmployee();
+        deleteEmployee();
     }
 
     @Test
+    @WithMockUser(username = "UserForTest", password = "", roles = "USER, BOSS")
     public void delete() throws Exception {
-//        createEmployee();
+        createEmployee();
         createBoss();
         String uri = startUri;
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
-//        deleteEmployee();
+        deleteEmployee();
     }
 }

@@ -1,6 +1,7 @@
 package com.diploma.maksimov.restcontroller;
 
 import com.diploma.maksimov.dto.Driver;
+import com.diploma.maksimov.service.EmployeeService;
 import com.diploma.maksimov.service.IDriverService;
 import com.diploma.maksimov.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,17 +20,24 @@ public class DriverController {
     private UserService userService;
 
     @Autowired
+    private EmployeeService employeeService;
+
+    @Autowired
     public DriverController(IDriverService driverService) {
         this.driverService = driverService;
     }
 
     @PostMapping(value = "/driver")
     public ResponseEntity<?> create(@RequestBody Driver driver, @PathVariable Long id) {
-        driverService.create(driver);
-        userService.addRole(id,5L);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        if (employeeService.read(id) != null) {
+            driverService.create(driver);
+            userService.addRole(id,5L);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+//    @RequestMapping("/rest/boss/employee")
 //    @GetMapping(value = "/driver")
 //    public ResponseEntity<List<Driver>> readAll() {
 //        final List<Driver> drivers = driverService.readAll();
@@ -42,30 +50,39 @@ public class DriverController {
 
     @GetMapping(value = "/driver")
     public ResponseEntity<Driver> read(@PathVariable long id) {
-        final Driver driver = driverService.read(id);
+        if (employeeService.read(id) != null) {
+            final Driver driver = driverService.read(id);
 
-        if (driver != null) {
-            return new ResponseEntity<>(driver, HttpStatus.OK);
+            if (driver != null) {
+                return new ResponseEntity<>(driver, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping(value = "/driver")
     public ResponseEntity<?> update(@PathVariable long id, @RequestBody Driver driver) {
-        final boolean updated = driverService.update(driver, id);
-        if (updated) {
-            return new ResponseEntity<>(HttpStatus.OK);
+        if (employeeService.read(id) != null) {
+            final boolean updated = driverService.update(driver, id);
+            if (updated) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping(value = "/driver")
     public ResponseEntity<?> delete(@PathVariable long id) {
-        final boolean deleted = driverService.delete(id);
-        userService.deleteRole(id,5L);
-        if (deleted) {
-            return new ResponseEntity<>(HttpStatus.OK);
+        if (employeeService.read(id) != null) {
+            final boolean deleted = driverService.delete(id);
+            userService.deleteRole(id,5L);
+            if (deleted) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }

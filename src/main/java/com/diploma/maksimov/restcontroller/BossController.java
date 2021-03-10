@@ -1,6 +1,7 @@
 package com.diploma.maksimov.restcontroller;
 
 import com.diploma.maksimov.dto.Boss;
+import com.diploma.maksimov.service.EmployeeService;
 import com.diploma.maksimov.service.IBossService;
 import com.diploma.maksimov.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +24,20 @@ public class BossController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private EmployeeService employeeService;
+
     @PostMapping(value = "/boss")
     public ResponseEntity<?> create(@RequestBody Boss boss, @PathVariable Long id) {
-        bossService.create(boss);
-        userService.addRole(id,3L);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        if (employeeService.read(id) != null) {
+            bossService.create(boss);
+            userService.addRole(id,3L);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+//    @RequestMapping("/rest/boss/employee")
 //    @GetMapping(value = "/boss")
 //    public ResponseEntity<List<Boss>> readAll() {
 //        final List<Boss> bosses = bossService.readAll();
@@ -42,30 +50,39 @@ public class BossController {
 
     @GetMapping(value = "/boss")
     public ResponseEntity<Boss> read(@PathVariable long id) {
-        final Boss boss = bossService.read(id);
+        if (employeeService.read(id) != null) {
+            final Boss boss = bossService.read(id);
 
-        if (boss != null) {
-            return new ResponseEntity<>(boss, HttpStatus.OK);
+            if (boss != null) {
+                return new ResponseEntity<>(boss, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping(value = "/boss")
     public ResponseEntity<?> update(@PathVariable long id, @RequestBody Boss boss) {
-        final boolean updated = bossService.update(boss, id);
-        if (updated) {
-            return new ResponseEntity<>(HttpStatus.OK);
+        if (employeeService.read(id) != null) {
+            final boolean updated = bossService.update(boss, id);
+            if (updated) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping(value = "/boss")
     public ResponseEntity<?> delete(@PathVariable long id) {
-        final boolean deleted = bossService.delete(id);
-        userService.deleteRole(id,3L);
-        if (deleted) {
-            return new ResponseEntity<>(HttpStatus.OK);
+        if (employeeService.read(id) != null) {
+            final boolean deleted = bossService.delete(id);
+            userService.deleteRole(id,3L);
+            if (deleted) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }

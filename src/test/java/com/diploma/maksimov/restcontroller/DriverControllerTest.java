@@ -2,6 +2,7 @@ package com.diploma.maksimov.restcontroller;
 
 import com.diploma.maksimov.dto.Car;
 import com.diploma.maksimov.dto.Driver;
+import com.diploma.maksimov.dto.Employee;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.junit.Before;
@@ -18,6 +19,7 @@ import org.springframework.test.web.servlet.setup.ConfigurableMockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -73,10 +75,27 @@ public class DriverControllerTest {
         String uri = startUri;
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri));
     }
+
+    Employee employee = new Employee(id,"Максимов","Александр","Викторович", LocalDate.of(1990,2,8),"1234 567890","123-45-67",null,null,null);
+    String startEmloyeeUri = "/rest/boss/employee/";
+
+    public void createEmployee() throws Exception {
+        String content = objectMapper.writeValueAsString(employee);
+        String uri = startEmloyeeUri;
+        mockMvc.perform(post(uri)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content));
+    }
+
+    public void deleteEmployee() throws Exception {
+        String uri = startEmloyeeUri + id;
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri));
+    }
     //******************************************************************************************************************
 
     @Test
     public void create() throws Exception {
+        createEmployee();
         String content = objectMapper.writeValueAsString(driver);
         String uri = startUri;
         mockMvc.perform(post(uri)
@@ -85,13 +104,14 @@ public class DriverControllerTest {
                 .andExpect(status().isCreated())
                 .andDo(document(uri));
         deleteDriver();
+        deleteEmployee();
     }
 
 
 //    @Test
 //    public void readAll() throws Exception {
 //        createDriver();
-//        String uri = startUri;
+//        String uri = "/rest/boss/employee/driver";
 //        mockMvc.perform(get(uri))
 //                .andExpect(status().isOk())
 //                .andDo(document(uri));
@@ -100,16 +120,19 @@ public class DriverControllerTest {
 
     @Test
     public void read() throws Exception {
+        createEmployee();
         createDriver();
         String uri = startUri;
         mockMvc.perform(get(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
         deleteDriver();
+        deleteEmployee();
     }
 
     @Test
     public void update() throws Exception{
+        createEmployee();
         createDriver();
         String content = objectMapper.writeValueAsString(driver1);
         String uri = startUri;
@@ -119,14 +142,17 @@ public class DriverControllerTest {
                 .andExpect(status().isOk())
                 .andDo(document(uri));
         deleteDriver();
+        deleteEmployee();
     }
 
     @Test
     public void delete() throws Exception {
+        createEmployee();
         createDriver();
         String uri = startUri;
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
+        deleteEmployee();
     }
 }
