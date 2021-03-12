@@ -26,19 +26,6 @@ public class EmployeeService implements IEmployeeService{
         log.info("Our bean up");
     }
 
-    public boolean deleteEmployee(Long userId) {
-        if (employeeRepository.findById(userId).isPresent()) {
-            employeeRepository.deleteById(userId);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean saveEmployee(EmployeeEntity employeeEntity) {
-        employeeRepository.save(employeeEntity);
-        return true;
-    }
-
     @Override
     public void create(Employee employee) {
         EmployeeEntity employeeEntity = objectMapper.convertValue(employee, EmployeeEntity.class);

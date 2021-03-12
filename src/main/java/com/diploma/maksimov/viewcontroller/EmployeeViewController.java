@@ -21,9 +21,6 @@ public class EmployeeViewController {
     private UserService userService;
 
     @Autowired
-    private EmployeeService employeeService;
-
-    @Autowired
     ObjectMapper objectMapper;
 
 @GetMapping("/employee")
@@ -41,15 +38,4 @@ public class EmployeeViewController {
         return "employee_new";
     }
 
-    @PostMapping(value = "/employee/{id}")
-    public String deleteEmployee(@PathVariable long id) {
-        employeeService.deleteEmployee(id);
-        return "redirect:/boss/employee";
-    }
-
-    @PostMapping(value = "/employee",headers = "Accept=application/json")
-    public String addEmployee(@RequestBody @Valid EmployeeEntity employeeForm) {
-        employeeService.saveEmployee(employeeForm);
-        return "redirect:/boss/employee";
-    }
 }

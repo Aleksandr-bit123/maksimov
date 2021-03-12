@@ -28,7 +28,7 @@
         <tr>
             <td>
                 <form id="carForm" action="" method="post">
-                    <div><input id="inputId" type="text" name="id" placeholder="Id" value="0"></div>
+                    <div><input id="inputId" type="text" name="id" placeholder="Id" value="0" readonly></div>
                     <div><input id="inputBrand" type="text" name="brand" placeholder="Марка"></div>
                     <div><input id="inputStateRegistrationMark" type="text" name="state_registration_mark" placeholder="Гос. номер"></div>
                     <div><input id="inputCubicCapacity" type="number" name="cubic_capacity" placeholder="Вместимость" min="0" max="100" step="0.1"></div>
