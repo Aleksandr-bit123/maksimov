@@ -60,7 +60,7 @@ public class GoodControllerTest {
     }
 
     public void deleteGood() throws Exception {
-        String uri = startUri;
+        String uri = startUri+id;
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri));
     }
     //******************************************************************************************************************

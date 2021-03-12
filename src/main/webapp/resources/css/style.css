@@ -5,6 +5,7 @@ table {
 table, th, td {
     border: 1px solid black;
     vertical-align: top;
+    padding: 5px;
 }
 
 input, select,textarea {

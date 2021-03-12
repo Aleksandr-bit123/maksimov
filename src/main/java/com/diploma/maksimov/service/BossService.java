@@ -3,16 +3,17 @@ package com.diploma.maksimov.service;
 import com.diploma.maksimov.db.entity.BossEntity;
 import com.diploma.maksimov.db.repository.BossRepository;
 import com.diploma.maksimov.dto.Boss;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class BossService implements IBossService{
+public class BossService implements IBossService {
     private final BossRepository bossRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -22,7 +23,7 @@ public class BossService implements IBossService{
 
     @Transactional
     @PostConstruct
-    public void init(){
+    public void init() {
 
     }
 
@@ -35,13 +36,16 @@ public class BossService implements IBossService{
     @Override
     public List<Boss> readAll() {
         Iterable<BossEntity> all = bossRepository.findAll();
-        return objectMapper.convertValue(all, ArrayList.class);
+
+        return objectMapper.convertValue(all, new TypeReference<List<Boss>>() {
+        });
     }
 
     @Override
     public Boss read(long id) {
-        if (bossRepository.findById(id).isPresent()) {
-            BossEntity bossEntity = bossRepository.findById(id).stream().findFirst().get();
+        Optional<BossEntity> bossEntityOptional = bossRepository.findById(id);
+        if (bossEntityOptional.isPresent()) {
+            BossEntity bossEntity = bossEntityOptional.get();
             return objectMapper.convertValue(bossEntity, Boss.class);
         }
         return null;
@@ -49,7 +53,7 @@ public class BossService implements IBossService{
 
     @Override
     public boolean update(Boss boss, long id) {
-        if (bossRepository.findById(id).isPresent()){
+        if (bossRepository.findById(id).isPresent()) {
             bossRepository.save(objectMapper.convertValue(boss, BossEntity.class));
             return true;
         }
@@ -58,9 +62,9 @@ public class BossService implements IBossService{
 
     @Override
     public boolean delete(long id) {
-        if (bossRepository.findById(id).isPresent()){
-            BossEntity bossEntity = bossRepository.findById(id).stream().findFirst().get();
-            bossRepository.delete(bossEntity);
+        Optional<BossEntity> bossEntityOptional = bossRepository.findById(id);
+        if (bossEntityOptional.isPresent()) {
+            bossRepository.deleteById(id);
             return true;
         }
         return false;

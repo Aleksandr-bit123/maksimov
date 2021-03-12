@@ -4,7 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
     <meta charset="utf-8">
     <title>Новости</title>
@@ -16,7 +16,7 @@
     <h4><a href="/">Главная</a></h4>
     <h4><a href="/registration">Добавить пользователя</a></h4>
     <h4><a href="/boss/employee">Сотрудники</a></h4>
-    <h4><a href="#">Цели</a></h4>
+    <h4><a href="/boss/good">Товары</a></h4>
 
 
 </div>

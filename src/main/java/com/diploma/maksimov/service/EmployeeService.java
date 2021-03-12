@@ -4,6 +4,7 @@ import com.diploma.maksimov.db.entity.EmployeeEntity;
 import com.diploma.maksimov.db.repository.EmployeeRepository;
 import com.diploma.maksimov.dto.Employee;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 public class EmployeeService implements IEmployeeService{
     @Autowired
@@ -21,7 +23,7 @@ public class EmployeeService implements IEmployeeService{
     @Transactional
     @PostConstruct
     public void init(){
-
+        log.info("Our bean up");
     }
 
     public boolean deleteEmployee(Long userId) {

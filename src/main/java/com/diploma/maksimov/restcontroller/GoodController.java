@@ -1,7 +1,6 @@
 package com.diploma.maksimov.restcontroller;
 
 import com.diploma.maksimov.dto.Good;
-import com.diploma.maksimov.dto.Logist;
 import com.diploma.maksimov.service.GoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +16,7 @@ public class GoodController {
     @Autowired
     private GoodService goodService;
 
-    @PostMapping(value = "/good")
+    @PostMapping(value = "/good",headers = "Accept=application/json")
     public ResponseEntity<?> create(@RequestBody Good good) {
             goodService.create(good);
             return new ResponseEntity<>(HttpStatus.CREATED);
@@ -42,7 +41,7 @@ public class GoodController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PutMapping(value = "/good/{id}")
+    @PutMapping(value = "/good/{id}",headers = "Accept=application/json")
     public ResponseEntity<?> update(@PathVariable long id, @RequestBody Good good) {
         final boolean updated = goodService.update(good, id);
         if (updated) {
