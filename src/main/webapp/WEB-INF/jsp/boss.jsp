@@ -17,8 +17,7 @@
     <h4><a href="/registration">Добавить пользователя</a></h4>
     <h4><a href="/boss/employee">Сотрудники</a></h4>
     <h4><a href="/boss/good">Товары</a></h4>
-
-
+    <h4><a href="/boss/contragent">Контрагенты</a></h4>
 </div>
 
 </body>
