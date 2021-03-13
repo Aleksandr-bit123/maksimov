@@ -1,7 +1,7 @@
 package com.diploma.maksimov.viewcontroller;
 
-import com.diploma.maksimov.dto.Contragent;
-import com.diploma.maksimov.service.ContragentService;
+import com.diploma.maksimov.dto.Client;
+import com.diploma.maksimov.service.ClientService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,30 +13,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/boss")
-public class ContragentViewController {
-
+@RequestMapping("/logist")
+public class ClientViewController {
     @Autowired
     private ObjectMapper objectMapper;
 
     @Autowired
-    private ContragentService contragentService;
+    private ClientService clientService;
 
-    @GetMapping("/contragent")
+    @GetMapping("/client")
     public String index(Model model) {
-        List <Contragent> contragentList = contragentService.readAll();
+        List<Client> clientList = clientService.readAll();
 
-        String contragentListAsString = null;
+        String clientListAsString = null;
 
         try {
-            contragentListAsString = objectMapper.writeValueAsString(contragentList);
+            clientListAsString = objectMapper.writeValueAsString(clientList);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
 
-        model.addAttribute("Contragents",contragentListAsString);
+        model.addAttribute("Clients",clientListAsString);
 
-        return "contragent";
+        return "client";
     }
-
 }
