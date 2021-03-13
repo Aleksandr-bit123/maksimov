@@ -118,7 +118,7 @@ function submitForm(event) {
 }
 
 function deleteGood(goodId){
-    result = confirm("Удалить машину с id: " + goodId);
+    result = confirm("Удалить товар с id: " + goodId);
     if (result) {
         console.log(goodId);
         var xhr = new XMLHttpRequest();

@@ -47,8 +47,8 @@ public class GoodControllerTest {
     //******************************************************************************************************************
     Long id = 1000000L;
 
-    Good good = new Good(id,"CASIO U230",15.999,2.3,"пианино электронное, 2 коробки");
-    Good good1 = new Good(id,"IBONEZ T444",105.999,0.5,"гитара электрическая, шнур в комплекте");
+    Good good = new Good(id,"CASIO U230",15.999,2.3,"пианино электронное, 2 коробки",null);
+    Good good1 = new Good(id,"IBONEZ T444",105.999,0.5,"гитара электрическая, шнур в комплекте",null);
     String startUri = "/rest/boss/good/";
 
     public void createGood() throws Exception {

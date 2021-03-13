@@ -1,8 +1,7 @@
 package com.diploma.maksimov.db.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(schema = "public", name = "t_good")
@@ -13,6 +12,9 @@ public class GoodEntity {
     private Double cost;
     private Double volume;
     private String info;
+    @Transient
+    @OneToMany(mappedBy="goodId", fetch=FetchType.LAZY)
+    private List<OrderEntity> orders;
 
     public GoodEntity() {
     }
@@ -55,5 +57,13 @@ public class GoodEntity {
 
     public void setInfo(String info) {
         this.info = info;
+    }
+
+    public List<OrderEntity> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<OrderEntity> orders) {
+        this.orders = orders;
     }
 }

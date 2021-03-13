@@ -14,7 +14,6 @@ import java.util.Set;
 @Table(schema = "public", name = "t_employee")
 public class EmployeeEntity {
     @Id
-//    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     private String lastName;
     private String firstName;

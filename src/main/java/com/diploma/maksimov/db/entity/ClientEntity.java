@@ -1,6 +1,7 @@
 package com.diploma.maksimov.db.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(schema = "public", name = "t_client")
@@ -15,6 +16,10 @@ public class ClientEntity {
     @OneToOne(optional = false, cascade = CascadeType.ALL)
     @MapsId
     private PointEntity point;
+
+    @Transient
+    @OneToMany (mappedBy="clientId", fetch=FetchType.LAZY)
+    private List<OrderEntity> orders;
 
     public ClientEntity() {
     }
@@ -73,5 +78,13 @@ public class ClientEntity {
 
     public void setPoint(PointEntity point) {
         this.point = point;
+    }
+
+    public List<OrderEntity> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<OrderEntity> orders) {
+        this.orders = orders;
     }
 }

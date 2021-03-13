@@ -16,20 +16,25 @@
 <table> <!-- Main table -->
     <tr>
         <td id="tdForm" style="vertical-align: top; "> <%--Ячейка для форм--%>
-            <form id="contragentForm" action="" method="post" >
-                <div>ID</div><div><input id="inputId" type="text" name="id" placeholder="id" readonly value="null"></div>
-                <div>Наименование</div><div><input id="inputName" type="search" name="name" placeholder="Наименование"/></div>
+            <form id="contragentForm" action="" method="post">
+                <div>ID</div>
+                <div><input id="inputId" type="text" name="id" placeholder="id" readonly value="null"></div>
+                <div>Наименование</div>
+                <div><input id="inputName" type="search" name="name" placeholder="Наименование"/></div>
                 <input id="inputPoint" type="hidden" name="point"/>
-                <div>Адрес</div><div><input id="inputAddress" type="text" placeholder="Адрес" /></div>
-                <div>Телефон</div><div><input id="inputPhone" type="text" placeholder="Телефон" /></div>
-                <div>info</div><div><textarea id="inputInfo" name="info" placeholder="info"></textarea></div>
+                <div>Адрес</div>
+                <div><input id="inputAddress" type="text" placeholder="Адрес"/></div>
+                <div>Телефон</div>
+                <div><input id="inputPhone" type="text" placeholder="Телефон"/></div>
+                <div>info</div>
+                <div><textarea id="inputInfo" name="info" placeholder="info"></textarea></div>
                 <div><input id="inputSubmit" type="submit" value="Добавить"/></div>
                 <div><input type="reset" value="Очистить" onclick="clearContragentForm()"/></div>
             </form>
         </td>
 
         <td style="vertical-align: top"> <%--Ячейка для списка сотрудников--%>
-            <table id ="goodTable"> <!-- Таблица товаров -->
+            <table id="goodTable"> <!-- Таблица товаров -->
                 <caption>Таблица контрагентов</caption>
                 <tr>
                     <th>ID</th>
@@ -48,7 +53,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script> <%--Заполняем список сотрудников--%>
 contragents = ${Contragents};
-contragents.forEach(function(contragent, i, arrUser) {
+contragents.forEach(function (contragent, i, arrUser) {
     $('#goodTable').append($('<tr onclick="fillForm(this.firstChild.innerHTML)">')
         .append($('<td>').append(contragent.id))
         .append($('<td>').append(contragent.name))
@@ -63,7 +68,7 @@ contragents.forEach(function(contragent, i, arrUser) {
 <script>
 
     document.getElementById('contragentForm').addEventListener('submit', submitForm);
-    $('#contragentForm').attr("action","/rest/boss/contragent/");
+    $('#contragentForm').attr("action", "/rest/boss/contragent/");
 
     function fillForm(id) {
 
@@ -107,18 +112,18 @@ contragents.forEach(function(contragent, i, arrUser) {
                 'Content-Type': 'application/json',
             },
         });
-        console.log( JSON.stringify(obj));
+        console.log(JSON.stringify(obj));
         alert(JSON.stringify(obj));
         // Отправляем (асинхронно!)
         fetch(request).then(
-            function(response) {
+            function (response) {
                 // Запрос успешно выполнен
                 console.log(response);
-                alert("статус выполнения запроса: "+ response.status + ", " + response.ok);
+                alert("статус выполнения запроса: " + response.status + ", " + response.ok);
                 // return response.json() и так далее см. документацию
                 location.reload(true); /*true - загрузка с сервера , false - с кеша*/
             },
-            function(error) {
+            function (error) {
                 // Запрос не получилось отправить
                 console.error(error);
             }
@@ -130,14 +135,14 @@ contragents.forEach(function(contragent, i, arrUser) {
         console.log('Запрос отправляется');
     }
 
-    function deleteContragent(contragentId){
+    function deleteContragent(contragentId) {
         result = confirm("Удалить контрагента с id: " + contragentId);
         if (result) {
             console.log(contragentId);
             var xhr = new XMLHttpRequest();
             xhr.open('DELETE', '/rest/boss/contragent/' + contragentId, true);
             xhr.send();
-            xhr.onreadystatechange = function() {
+            xhr.onreadystatechange = function () {
                 if (this.readyState != 4) {
                     location.reload(true); /*true - загрузка с сервера , false - с кеша*/
                     return;
@@ -147,7 +152,7 @@ contragents.forEach(function(contragent, i, arrUser) {
                 // responseText, responseXML (при content-type: text/xml)
                 if (this.status != 200) {
                     // обработать ошибку
-                    alert( 'ошибка: ' + (this.status ? this.statusText : 'запрос не удался') );
+                    alert('ошибка: ' + (this.status ? this.statusText : 'запрос не удался'));
                     return;
                 }
                 // получить результат из this.responseText или this.responseXML
@@ -155,7 +160,7 @@ contragents.forEach(function(contragent, i, arrUser) {
         }
     }
 
-    function clearContragentForm(){
+    function clearContragentForm() {
         $('#inputSubmit').val("Добавить");
     }
 </script>
