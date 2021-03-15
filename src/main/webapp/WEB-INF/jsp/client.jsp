@@ -83,7 +83,7 @@ clients.forEach(function (client, i, arrUser) {
     $('#clientForm').attr("action", "/rest/logist/client/");
 
     function fillForm(id) {
-        client = clients.find(client => client.id == id);
+        let client = clients.find(client => client.id == id);
 
         $('#inputId').val(client.id);
         $('#inputLastName').val(client.lastName);
@@ -152,7 +152,7 @@ clients.forEach(function (client, i, arrUser) {
         if (result) {
             console.log(clientId);
             var xhr = new XMLHttpRequest();
-            xhr.open('DELETE', '/rest/boss/contragent/' + clientId, true);
+            xhr.open('DELETE', '/rest/logist/client/' + clientId, true);
             xhr.send();
             xhr.onreadystatechange = function () {
                 if (this.readyState != 4) {

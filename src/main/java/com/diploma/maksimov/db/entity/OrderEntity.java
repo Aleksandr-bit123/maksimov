@@ -10,19 +10,21 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@Table(schema = "public", name = "t_order")
 public class OrderEntity {
     @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
-    private Long clientId;
-    private Long goodTd;
+//    private Long clientId;
+//    private Long goodId;
 
-    @Transient
-    @ManyToOne (fetch = FetchType.LAZY)
+    @ManyToOne (fetch = FetchType.EAGER, optional = true/*,cascade = CascadeType.ALL*/)
+    @JoinColumn(name = "client_id")
     private ClientEntity client;
 
-    @Transient
-    @ManyToOne (fetch = FetchType.LAZY)
+    @ManyToOne (fetch = FetchType.EAGER, optional = true/*,cascade = CascadeType.ALL*/)
+    @JoinColumn(name = "good_id")
     private GoodEntity good;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -44,21 +46,21 @@ public class OrderEntity {
         this.id = id;
     }
 
-    public Long getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(Long clientId) {
-        this.clientId = clientId;
-    }
-
-    public Long getGoodTd() {
-        return goodTd;
-    }
-
-    public void setGoodTd(Long goodTd) {
-        this.goodTd = goodTd;
-    }
+//    public Long getClientId() {
+//        return clientId;
+//    }
+//
+//    public void setClientId(Long clientId) {
+//        this.clientId = clientId;
+//    }
+//
+//    public Long getGoodId() {
+//        return goodId;
+//    }
+//
+//    public void setGoodId(Long goodId) {
+//        this.goodId = goodId;
+//    }
 
     public ClientEntity getClient() {
         return client;

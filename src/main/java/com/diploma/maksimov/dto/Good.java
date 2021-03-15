@@ -1,5 +1,7 @@
 package com.diploma.maksimov.dto;
 
+import com.diploma.maksimov.db.entity.OrderEntity;
+
 import java.util.List;
 
 public class Good {

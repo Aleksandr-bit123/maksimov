@@ -10,8 +10,8 @@ import java.time.LocalDate;
 
 public class Order {
     private Long id;
-    private Long clientId;
-    private Long goodId;
+//    private Long clientId;
+//    private Long goodId;
     private Client client;
     private Good good;
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -24,10 +24,8 @@ public class Order {
     public Order() {
     }
 
-    public Order(Long id, Long clientId, Long goodId, Client client, Good good, LocalDate deliveryDate, Byte quantity, String info) {
+    public Order(Long id, Client client, Good good, LocalDate deliveryDate, Byte quantity, String info) {
         this.id = id;
-        this.clientId = clientId;
-        this.goodId = goodId;
         this.client = client;
         this.good = good;
         this.deliveryDate = deliveryDate;
@@ -43,21 +41,13 @@ public class Order {
         this.id = id;
     }
 
-    public Long getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(Long clientId) {
-        this.clientId = clientId;
-    }
-
-    public Long getGoodId() {
-        return goodId;
-    }
-
-    public void setGoodId(Long goodId) {
-        this.goodId = goodId;
-    }
+//    public Long getGoodId() {
+//        return goodId;
+//    }
+//
+//    public void setGoodId(Long goodId) {
+//        this.goodId = goodId;
+//    }
 
     public LocalDate getDeliveryDate() {
         return deliveryDate;
@@ -98,4 +88,12 @@ public class Order {
     public void setGood(Good good) {
         this.good = good;
     }
+
+//    public Long getClientId() {
+//        return clientId;
+//    }
+//
+//    public void setClientId(Long clientId) {
+//        this.clientId = clientId;
+//    }
 }

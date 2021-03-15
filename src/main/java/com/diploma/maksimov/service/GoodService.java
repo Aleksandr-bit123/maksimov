@@ -3,13 +3,14 @@ package com.diploma.maksimov.service;
 import com.diploma.maksimov.db.entity.GoodEntity;
 import com.diploma.maksimov.db.repository.GoodRepository;
 import com.diploma.maksimov.dto.Good;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GoodService implements IGoodService{
@@ -37,13 +38,17 @@ public class GoodService implements IGoodService{
     @Override
     public List<Good> readAll() {
         Iterable<GoodEntity> all = goodRepository.findAll();
-        return objectMapper.convertValue(all, ArrayList.class);
+        all.forEach(goodEntity -> goodEntity.getOrders().forEach(orderEntity -> {orderEntity.setGood(null);orderEntity.setClient(null);}));//Дабы избавиться от зацикливания
+        return objectMapper.convertValue(all, new TypeReference<List<Good>>() {
+        });
     }
 
     @Override
     public Good read(long id) {
-        if (goodRepository.findById(id).isPresent()) {
-            GoodEntity goodEntity = goodRepository.findById(id).stream().findFirst().get();
+            Optional<GoodEntity> goodEntityOptional = goodRepository.findById(id);
+        if (goodEntityOptional.isPresent()) {
+            GoodEntity goodEntity = goodEntityOptional.get();
+            goodEntity.getOrders().forEach(orderEntity -> {orderEntity.setGood(null);orderEntity.setClient(null);});//Дабы избавиться от зацикливания
             return objectMapper.convertValue(goodEntity, Good.class);
         }
         return null;
@@ -60,8 +65,9 @@ public class GoodService implements IGoodService{
 
     @Override
     public boolean delete(long id) {
-        if (goodRepository.findById(id).isPresent()){
-            GoodEntity goodEntity = goodRepository.findById(id).stream().findFirst().get();
+        Optional<GoodEntity> goodEntityOptional = goodRepository.findById(id);
+        if (goodEntityOptional.isPresent()){
+            GoodEntity goodEntity = goodEntityOptional.get();
             goodRepository.delete(goodEntity);
             return true;
         }

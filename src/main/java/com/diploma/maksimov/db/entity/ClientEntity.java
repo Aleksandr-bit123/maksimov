@@ -17,8 +17,7 @@ public class ClientEntity {
     @MapsId
     private PointEntity point;
 
-    @Transient
-    @OneToMany (mappedBy="clientId", fetch=FetchType.LAZY)
+    @OneToMany (fetch=FetchType.EAGER, mappedBy = "client", cascade = CascadeType.MERGE)
     private List<OrderEntity> orders;
 
     public ClientEntity() {

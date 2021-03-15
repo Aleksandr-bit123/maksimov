@@ -12,8 +12,8 @@ public class GoodEntity {
     private Double cost;
     private Double volume;
     private String info;
-    @Transient
-    @OneToMany(mappedBy="goodId", fetch=FetchType.LAZY)
+
+    @OneToMany (fetch=FetchType.EAGER, mappedBy = "good", cascade = CascadeType.MERGE)
     private List<OrderEntity> orders;
 
     public GoodEntity() {
