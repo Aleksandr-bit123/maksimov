@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ClientService implements IClientService{
+public class ClientService implements IClientService {
     private final ClientRepository clientRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -29,7 +29,14 @@ public class ClientService implements IClientService{
     @Override
     public List<Client> readAll() {
         Iterable<ClientEntity> all = clientRepository.findAll();
-        all.forEach(clientEntity -> {if (clientEntity.getOrders() !=null){clientEntity.getOrders().forEach(orderEntity -> {orderEntity.setClient(null);orderEntity.setGood(null);});}});//Дабы избавиться от зацикливания
+        all.forEach(clientEntity -> {
+            if (clientEntity.getOrders() != null) {
+                clientEntity.getOrders().forEach(orderEntity -> {
+                    orderEntity.setClient(null);
+                    orderEntity.setGood(null);
+                });
+            }
+        });//Дабы избавиться от зацикливания
         return objectMapper.convertValue(all, new TypeReference<List<Client>>() {
         });
     }
@@ -39,8 +46,11 @@ public class ClientService implements IClientService{
         Optional<ClientEntity> clientEntityOptional = clientRepository.findById(id);
         if (clientEntityOptional.isPresent()) {
             ClientEntity clientEntity = clientEntityOptional.get();
-            if (clientEntity.getOrders()!=null){
-                clientEntity.getOrders().forEach(orderEntity -> {orderEntity.setClient(null);orderEntity.setGood(null);});//Дабы избавиться от зацикливания
+            if (clientEntity.getOrders() != null) {
+                clientEntity.getOrders().forEach(orderEntity -> {
+                    orderEntity.setClient(null);
+                    orderEntity.setGood(null);
+                });//Дабы избавиться от зацикливания
             }
             return objectMapper.convertValue(clientEntity, Client.class);
         }

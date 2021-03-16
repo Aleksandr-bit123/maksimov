@@ -27,16 +27,19 @@ public class EmployeeEntity {
     private String passport;
     private String phone;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, optional = true)
     @PrimaryKeyJoinColumn
+//    @MapsId
     private BossEntity bossEntity;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, optional = true)
     @PrimaryKeyJoinColumn
+//    @MapsId
     private DriverEntity driverEntity;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, optional = true)
     @PrimaryKeyJoinColumn
+//    @MapsId
     private LogistEntity logistEntity;
 
     public EmployeeEntity() {

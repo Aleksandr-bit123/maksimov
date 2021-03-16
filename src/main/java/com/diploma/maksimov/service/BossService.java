@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class BossService implements IBossService {
+public class BossService implements CrudService<Boss, Long> {
     private final BossRepository bossRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -42,7 +42,7 @@ public class BossService implements IBossService {
     }
 
     @Override
-    public Boss read(long id) {
+    public Boss read(Long id) {
         Optional<BossEntity> bossEntityOptional = bossRepository.findById(id);
         if (bossEntityOptional.isPresent()) {
             BossEntity bossEntity = bossEntityOptional.get();
@@ -52,7 +52,7 @@ public class BossService implements IBossService {
     }
 
     @Override
-    public boolean update(Boss boss, long id) {
+    public boolean update(Boss boss, Long id) {
         if (bossRepository.findById(id).isPresent()) {
             bossRepository.save(objectMapper.convertValue(boss, BossEntity.class));
             return true;
@@ -61,7 +61,7 @@ public class BossService implements IBossService {
     }
 
     @Override
-    public boolean delete(long id) {
+    public boolean delete(Long id) {
         Optional<BossEntity> bossEntityOptional = bossRepository.findById(id);
         if (bossEntityOptional.isPresent()) {
             bossRepository.deleteById(id);

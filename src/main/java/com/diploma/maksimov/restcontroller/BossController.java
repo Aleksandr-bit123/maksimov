@@ -1,6 +1,7 @@
 package com.diploma.maksimov.restcontroller;
 
 import com.diploma.maksimov.dto.Boss;
+import com.diploma.maksimov.service.CrudService;
 import com.diploma.maksimov.service.EmployeeService;
 import com.diploma.maksimov.service.IBossService;
 import com.diploma.maksimov.service.UserService;
@@ -14,10 +15,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/rest/boss/employee")
 public class BossController {
-    private final IBossService bossService;
+    private final CrudService<Boss,Long> bossService;
 
     @Autowired
-    public BossController(IBossService bossService) {
+    public BossController(CrudService<Boss,Long> bossService) {
         this.bossService = bossService;
     }
 

@@ -1,0 +1,77 @@
+openapi: "3.0.3"
+info:
+  title: test
+  version: 0.1.2
+
+paths:
+  /licenses/{licenseId}:
+    get:
+      summary: Get a specific license by its UUID.
+      operationId: showLicenseById
+      tags:
+        - licenses
+      parameters:
+        - name: licenseId
+          in: path
+          required: true
+          description: The UUID of the license to retrieve.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: The requested license.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LicensePlatform"
+        '401':
+          description: Client is unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        '403':
+          description: Action is forbidden for the client.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        '404':
+          description: The license with this UUID does not exist on the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        default:
+          description: Unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+
+components:
+  schemas:
+    ApiError:
+      description: Generic template for an API error.
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          description: HTTP error code, duplicate of the response code.
+          type: integer
+          format: int32
+        message:
+          description: Developer-friendly error description.
+          type: string
+    LicensePlatform:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
