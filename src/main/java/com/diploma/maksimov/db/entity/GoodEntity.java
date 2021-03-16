@@ -1,5 +1,7 @@
 package com.diploma.maksimov.db.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -14,6 +16,7 @@ public class GoodEntity {
     private String info;
 
     @OneToMany (fetch=FetchType.EAGER, mappedBy = "good", cascade = CascadeType.MERGE)
+//    @JsonManagedReference
     private List<OrderEntity> orders;
 
     public GoodEntity() {

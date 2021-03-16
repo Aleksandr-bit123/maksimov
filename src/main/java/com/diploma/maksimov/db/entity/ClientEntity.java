@@ -1,5 +1,8 @@
 package com.diploma.maksimov.db.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -18,6 +21,8 @@ public class ClientEntity {
     private PointEntity point;
 
     @OneToMany (fetch=FetchType.EAGER, mappedBy = "client", cascade = CascadeType.MERGE)
+//    @JsonManagedReference
+//    @JsonIgnore
     private List<OrderEntity> orders;
 
     public ClientEntity() {

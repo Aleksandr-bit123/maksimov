@@ -1,5 +1,6 @@
 package com.diploma.maksimov.db.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -21,10 +22,12 @@ public class OrderEntity {
 
     @ManyToOne (fetch = FetchType.EAGER, optional = true/*,cascade = CascadeType.ALL*/)
     @JoinColumn(name = "client_id")
+//    @JsonBackReference
     private ClientEntity client;
 
     @ManyToOne (fetch = FetchType.EAGER, optional = true/*,cascade = CascadeType.ALL*/)
     @JoinColumn(name = "good_id")
+//    @JsonBackReference
     private GoodEntity good;
 
     @JsonFormat(pattern = "yyyy-MM-dd")

@@ -38,7 +38,7 @@ public class GoodService implements IGoodService{
     @Override
     public List<Good> readAll() {
         Iterable<GoodEntity> all = goodRepository.findAll();
-        all.forEach(goodEntity -> goodEntity.getOrders().forEach(orderEntity -> {orderEntity.setGood(null);orderEntity.setClient(null);}));//Дабы избавиться от зацикливания
+        all.forEach(goodEntity -> {if (goodEntity.getOrders() !=null){goodEntity.getOrders().forEach(orderEntity -> {orderEntity.setGood(null);orderEntity.setClient(null);});}});//Дабы избавиться от зацикливания
         return objectMapper.convertValue(all, new TypeReference<List<Good>>() {
         });
     }
@@ -48,7 +48,9 @@ public class GoodService implements IGoodService{
             Optional<GoodEntity> goodEntityOptional = goodRepository.findById(id);
         if (goodEntityOptional.isPresent()) {
             GoodEntity goodEntity = goodEntityOptional.get();
-            goodEntity.getOrders().forEach(orderEntity -> {orderEntity.setGood(null);orderEntity.setClient(null);});//Дабы избавиться от зацикливания
+            if (goodEntity.getOrders()!=null) {
+                goodEntity.getOrders().forEach(orderEntity -> {orderEntity.setGood(null);orderEntity.setClient(null);});//Дабы избавиться от зацикливания
+            }
             return objectMapper.convertValue(goodEntity, Good.class);
         }
         return null;

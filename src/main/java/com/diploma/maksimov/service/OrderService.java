@@ -67,9 +67,6 @@ public class OrderService implements IOrderService{
     public boolean delete(long id) {
         Optional<OrderEntity> orderEntityOptional = orderRepository.findById(id);
         if (orderEntityOptional.isPresent()) {
-//            OrderEntity orderEntity = orderEntityOptional.get();
-//            orderEntity.setGood(null);
-//            orderEntity.setClient(null);
             orderRepository.deleteById(id);
 
             return true;

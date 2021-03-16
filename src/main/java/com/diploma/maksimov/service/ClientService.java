@@ -29,7 +29,7 @@ public class ClientService implements IClientService{
     @Override
     public List<Client> readAll() {
         Iterable<ClientEntity> all = clientRepository.findAll();
-        all.forEach(clientEntity -> clientEntity.getOrders().forEach(orderEntity -> {orderEntity.setClient(null);orderEntity.setGood(null);}));//Дабы избавиться от зацикливания
+        all.forEach(clientEntity -> {if (clientEntity.getOrders() !=null){clientEntity.getOrders().forEach(orderEntity -> {orderEntity.setClient(null);orderEntity.setGood(null);});}});//Дабы избавиться от зацикливания
         return objectMapper.convertValue(all, new TypeReference<List<Client>>() {
         });
     }
@@ -39,7 +39,9 @@ public class ClientService implements IClientService{
         Optional<ClientEntity> clientEntityOptional = clientRepository.findById(id);
         if (clientEntityOptional.isPresent()) {
             ClientEntity clientEntity = clientEntityOptional.get();
-            clientEntity.getOrders().forEach(orderEntity -> {orderEntity.setClient(null);orderEntity.setGood(null);});//Дабы избавиться от зацикливания
+            if (clientEntity.getOrders()!=null){
+                clientEntity.getOrders().forEach(orderEntity -> {orderEntity.setClient(null);orderEntity.setGood(null);});//Дабы избавиться от зацикливания
+            }
             return objectMapper.convertValue(clientEntity, Client.class);
         }
         return null;
