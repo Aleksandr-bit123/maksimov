@@ -30,8 +30,9 @@ public class UserEntity implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<RoleEntity> roles;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, optional = true)
     @PrimaryKeyJoinColumn
+//    @MapsId
     private EmployeeEntity employeeEntity;
 
     public UserEntity() {

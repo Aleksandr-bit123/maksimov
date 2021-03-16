@@ -20,9 +20,9 @@
                 <div><label for="inputId">ID</label></div>
                 <div><input id="inputId" type="text" name="id" placeholder="id" readonly value="null"></div>
                 <div><label for="inputClient">Клиент</label></div>
-                <div><select id="inputClient" name="client"></select></div>
+                <div><select id="inputClient" name="client" onchange="selectClient()"><option disabled selected>Выберите клиента</option></select></div>
                 <div><label for="inputGood">Товар</label></div>
-                <div><select id="inputGood" name="good"></select></div>
+                <div><select id="inputGood" name="good" onchange="selectGood()"><option disabled selected>Выберите товар</option></select></div>
                 <div><label for="inputQuantity">Количество</label></div>
                 <div><input id="inputQuantity" type="number" name="quantity" placeholder="0" value="0" min="0"></div>
                 <div><label for="inputDeliveryDate">Дата доставки</label></div>
@@ -30,7 +30,7 @@
                 <div><label for="inputInfo">info</label></div>
                 <div><textarea id="inputInfo" name="info" placeholder="info"></textarea></div>
                 <div><input id="inputSubmit" type="submit" value="Добавить"/></div>
-                <div><input type="reset" value="Очистить" onclick="clearClientForm()"/></div>
+                <div><input type="reset" value="Очистить" onclick="clearOrderForm()"/></div>
             </form>
         </td>
 
@@ -43,6 +43,7 @@
                     <th scope="col">Товар</th>
                     <th scope="col">Количество</th>
                     <th scope="col">Дата доставки</th>
+                    <th scope="col">info</th>
                     <th scope="col">X</th>
                 </tr>
 
@@ -60,31 +61,56 @@
     orders.forEach(function (order, i, arrOrder) {
     $('#orderTable').append($('<tr onclick="fillForm('+ order.id + ')">')
         .append($('<td>').append(order.id))
-        .append($('<td>').append(order.client.id))
-        .append($('<td>').append(order.good.id))
+        .append($('<td>').append(order.client!=null?order.client.id:""))
+        .append($('<td>').append(order.good!=null?order.good.id:""))
         .append($('<td>').append(order.quantity))
         .append($('<td>').append(order.deliveryDate))
+        .append($('<td>').append(order.info))
         .append($('<td>').append('<input type="button" value="X" onclick="deleteOrder(' + order.id + ')">'))
     );
     });
 
     clients = ${clients};
     clients.forEach(function (client, i, arrClient) {
-        $('#inputClient').append($('<option>').val(client.id).append(client.lastName));
+        $('#inputClient').append($('<option>').attr("id","clientOption" + client.id).val(client.id).append(client.id + " "+ client.lastName));
     });
+
+    goods = ${goods};
+    goods.forEach(function (good, i, arrClient) {
+        $('#inputGood').append($('<option>').val(good.id).append(good.id + " " + good.name));
+    });
+
+    let currentClient = null;
+    let currentGood = null;
 
     function fillForm(id) {
         let order = orders.find(order => order.id == id);
 
-        $('#inputId').val(order.id);
-        $('#inputLastName').val(client.lastName);
-        $('#inputFirstName').val(client.firstName);
-        $('#inputMiddleName').val(client.middleName);
-        $('#inputPassport').val(client.passport);
-        $('#inputAddress').val(client.point.address);
-        $('#inputPhone').val(client.point.phone);
-        $('#inputInfo').val(client.info);
-        $('#inputSubmit').val("Изменить");
+        currentClient = order.client;
+        currentGood = order.good;
+
+            $('#inputId').val(order.id);
+        if (order.client!=null) {
+            $('#inputClient option[value=' + order.client.id + ']').prop('selected', true);
+        }
+            $('#inputDeliveryDate').val(order.deliveryDate);
+            $('#inputQuantity').val(order.quantity);
+            $('#inputInfo').val(order.info);
+            $('#inputSubmit').val("Изменить");
+        if (order.good!=null){
+            $('#inputGood option[value=' + order.good.id + ']').prop('selected', true);
+        }
+
+    }
+
+    function selectClient(){
+        let clientId = $('#inputClient option:selected').val();
+        currentClient = clients.find(client => client.id == clientId);
+    }
+
+    function selectGood() {
+        let goodId = $('#inputGood option:selected').val();
+        currentGood = goods.find(good => good.id == goodId);
     }
 
     function submitForm(event) {
@@ -95,19 +121,12 @@
         let formData = new FormData(event.target);
 
         // Собираем данные формы в объект
-        let point = {     // объект
-            id: $('#inputId').val(),  // под ключом "name" хранится значение "John"
-            address: $('#inputAddress').val(),
-            phone: $('#inputPhone').val()// под ключом "age" хранится значение 30
-        };
-        // point.id = $('#inputId').val();
-        // point.address = $('#inputAddress').val();
-        // point.phone = $('#inputPhone').val();
 
         let obj = {};
         formData.forEach((value, key) => obj[key] = value);
         // Собираем запрос к серверу
-        obj.point = point;
+        obj.client = currentClient;
+        obj.good = currentGood;
         let request = new Request(event.target.action, {
             method: 'POST',
             body: JSON.stringify(obj),
@@ -136,6 +155,37 @@
         // на запрос, потому что запрос выполняется асинхронно,
         // отдельно от основного кода
         console.log('Запрос отправляется');
+    }
+
+    function clearOrderForm() {
+        $('#inputSubmit').val("Добавить");
+        currentGood = null;
+        currentClient = null;
+    }
+
+    function deleteOrder(orderId){
+        result = confirm("Удалить заказ с id: " + orderId);
+        if (result) {
+            console.log(orderId);
+            var xhr = new XMLHttpRequest();
+            xhr.open('DELETE', '/rest/logist/order/'+orderId, true);
+            xhr.send();
+            xhr.onreadystatechange = function() {
+                if (this.readyState != 4) {
+                    location.reload(true); /*true - загрузка с сервера , false - с кеша*/
+                    return;
+                }
+                // по окончании запроса доступны:
+                // status, statusText
+                // responseText, responseXML (при content-type: text/xml)
+                if (this.status != 200) {
+                    // обработать ошибку
+                    alert( 'ошибка: ' + (this.status ? this.statusText : 'запрос не удался') );
+                    return;
+                }
+                // получить результат из this.responseText или this.responseXML
+            }
+        }
     }
 </script>
 </body>
