@@ -9,17 +9,19 @@ public class GoodTurnover {
     private Byte quantity;
     private PaymentMethod paymentMethod;
     private String info;
+    private Byte priority;
 
     public GoodTurnover() {
     }
 
-    public GoodTurnover(Long id, Long goalId, Long goodId, Byte quantity, PaymentMethod paymentMethod, String info) {
+    public GoodTurnover(Long id, Long goalId, Long goodId, Byte quantity, PaymentMethod paymentMethod, String info, Byte priority) {
         this.id = id;
         this.goalId = goalId;
         this.goodId = goodId;
         this.quantity = quantity;
         this.paymentMethod = paymentMethod;
         this.info = info;
+        this.priority = priority;
     }
 
     public Long getId() {
@@ -68,5 +70,13 @@ public class GoodTurnover {
 
     public void setInfo(String info) {
         this.info = info;
+    }
+
+    public Byte getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Byte priority) {
+        this.priority = priority;
     }
 }

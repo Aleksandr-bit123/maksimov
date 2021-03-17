@@ -18,6 +18,7 @@ public class GoodTurnoverEntity {
     private Byte quantity;
     private GoodTurnover.PaymentMethod paymentMethod;
     private String info;
+    private Byte priority;
 
     public GoodTurnoverEntity() {
     }
@@ -68,5 +69,13 @@ public class GoodTurnoverEntity {
 
     public void setInfo(String info) {
         this.info = info;
+    }
+
+    public Byte getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Byte priority) {
+        this.priority = priority;
     }
 }
