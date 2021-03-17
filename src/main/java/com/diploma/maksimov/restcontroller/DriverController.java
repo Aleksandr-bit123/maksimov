@@ -1,8 +1,8 @@
 package com.diploma.maksimov.restcontroller;
 
 import com.diploma.maksimov.dto.Driver;
+import com.diploma.maksimov.service.CrudService;
 import com.diploma.maksimov.service.EmployeeService;
-import com.diploma.maksimov.service.IDriverService;
 import com.diploma.maksimov.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/rest/boss/employee")
 public class DriverController {
-    private final IDriverService driverService;
+    private final CrudService<Driver,Long> driverService;
 
     @Autowired
     private UserService userService;
@@ -23,7 +23,7 @@ public class DriverController {
     private EmployeeService employeeService;
 
     @Autowired
-    public DriverController(IDriverService driverService) {
+    public DriverController(CrudService<Driver,Long> driverService) {
         this.driverService = driverService;
     }
 

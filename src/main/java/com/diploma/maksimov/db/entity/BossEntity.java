@@ -1,7 +1,5 @@
 package com.diploma.maksimov.db.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 
 @Entity
@@ -10,11 +8,6 @@ public class BossEntity {
     @Id
     private Long id;
     private String info;
-    @OneToOne
-//    @MapsId
-    @PrimaryKeyJoinColumn
-    @JsonIgnore
-    private EmployeeEntity employee;
 
     public BossEntity() {
     }
@@ -35,11 +28,4 @@ public class BossEntity {
         this.info = info;
     }
 
-    public EmployeeEntity getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(EmployeeEntity employee) {
-        this.employee = employee;
-    }
 }

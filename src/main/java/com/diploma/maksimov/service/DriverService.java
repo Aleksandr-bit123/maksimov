@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class DriverService implements IDriverService{
+public class DriverService implements CrudService<Driver, Long>{
 
     private final DriverRepository driverRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -40,7 +40,7 @@ public class DriverService implements IDriverService{
     }
 
     @Override
-    public Driver read(long id) {
+    public Driver read(Long id) {
         if (driverRepository.findById(id).isPresent()) {
             DriverEntity driverEntity = driverRepository.findById(id).stream().findFirst().get();
             return objectMapper.convertValue(driverEntity, Driver.class);
@@ -49,7 +49,7 @@ public class DriverService implements IDriverService{
     }
 
     @Override
-    public boolean update(Driver driver, long id) {
+    public boolean update(Driver driver, Long id) {
         if (driverRepository.findById(id).isPresent()){
             driverRepository.save(objectMapper.convertValue(driver, DriverEntity.class));
             return true;
@@ -58,7 +58,7 @@ public class DriverService implements IDriverService{
     }
 
     @Override
-    public boolean delete(long id) {
+    public boolean delete(Long id) {
         if (driverRepository.findById(id).isPresent()){
             DriverEntity driverEntity = driverRepository.findById(id).stream().findFirst().get();
             driverRepository.delete(driverEntity);

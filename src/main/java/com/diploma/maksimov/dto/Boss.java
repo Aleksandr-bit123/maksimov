@@ -5,7 +5,6 @@ import com.diploma.maksimov.db.entity.EmployeeEntity;
 public class Boss {
     private Long id;
     private String info;
-    private EmployeeEntity employee;
 
     public Boss() {
     }
@@ -31,11 +30,4 @@ public class Boss {
         this.info = info;
     }
 
-    public EmployeeEntity getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(EmployeeEntity employee) {
-        this.employee = employee;
-    }
 }

@@ -15,7 +15,7 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class EmployeeService implements IEmployeeService{
+public class EmployeeService implements CrudService<Employee, Long>{
     @Autowired
     EmployeeRepository employeeRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -39,7 +39,7 @@ public class EmployeeService implements IEmployeeService{
     }
 
     @Override
-    public Employee read(long id) {
+    public Employee read(Long id) {
         if (employeeRepository.findById(id).isPresent()) {
             EmployeeEntity employeeEntity = employeeRepository.findById(id).stream().findFirst().get();
             return objectMapper.convertValue(employeeEntity, Employee.class);
@@ -48,7 +48,7 @@ public class EmployeeService implements IEmployeeService{
     }
 
     @Override
-    public boolean update(Employee employee, long id) {
+    public boolean update(Employee employee, Long id) {
         if (employeeRepository.findById(id).isPresent()){
             employeeRepository.save(objectMapper.convertValue(employee, EmployeeEntity.class));
             return true;
@@ -57,7 +57,7 @@ public class EmployeeService implements IEmployeeService{
     }
 
     @Override
-    public boolean delete(long id) {
+    public boolean delete(Long id) {
         if (employeeRepository.findById(id).isPresent()){
             EmployeeEntity employeeEntity = employeeRepository.findById(id).stream().findFirst().get();
             employeeRepository.delete(employeeEntity);

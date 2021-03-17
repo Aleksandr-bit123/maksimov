@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class GoodService implements IGoodService{
+public class GoodService implements CrudService<Good, Long>{
 
     private final GoodRepository goodRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -44,7 +44,7 @@ public class GoodService implements IGoodService{
     }
 
     @Override
-    public Good read(long id) {
+    public Good read(Long id) {
             Optional<GoodEntity> goodEntityOptional = goodRepository.findById(id);
         if (goodEntityOptional.isPresent()) {
             GoodEntity goodEntity = goodEntityOptional.get();
@@ -57,7 +57,7 @@ public class GoodService implements IGoodService{
     }
 
     @Override
-    public boolean update(Good good, long id) {
+    public boolean update(Good good, Long id) {
         if (goodRepository.findById(id).isPresent()){
             goodRepository.save(objectMapper.convertValue(good, GoodEntity.class));
             return true;
@@ -66,7 +66,7 @@ public class GoodService implements IGoodService{
     }
 
     @Override
-    public boolean delete(long id) {
+    public boolean delete(Long id) {
         Optional<GoodEntity> goodEntityOptional = goodRepository.findById(id);
         if (goodEntityOptional.isPresent()){
             GoodEntity goodEntity = goodEntityOptional.get();

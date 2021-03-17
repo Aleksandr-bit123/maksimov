@@ -1,7 +1,7 @@
 package com.diploma.maksimov.restcontroller;
 
 import com.diploma.maksimov.dto.Employee;
-import com.diploma.maksimov.service.IEmployeeService;
+import com.diploma.maksimov.service.CrudService;
 import com.diploma.maksimov.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,10 +13,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/rest/boss")
 public class EmployeeController {
-    private final IEmployeeService employeeService;
+    private final CrudService<Employee,Long> employeeService;
 
     @Autowired
-    public EmployeeController(IEmployeeService employeeService) {
+    public EmployeeController(CrudService<Employee,Long> employeeService) {
         this.employeeService = employeeService;
     }
 

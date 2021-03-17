@@ -1,8 +1,8 @@
 package com.diploma.maksimov.restcontroller;
 
 import com.diploma.maksimov.dto.Logist;
+import com.diploma.maksimov.service.CrudService;
 import com.diploma.maksimov.service.EmployeeService;
-import com.diploma.maksimov.service.ILogistService;
 import com.diploma.maksimov.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,10 +14,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/rest/boss/employee")
 public class LogistController {
-    private final ILogistService logistService;
+    private final CrudService<Logist,Long> logistService;
 
     @Autowired
-    public LogistController(ILogistService logistService) {
+    public LogistController(CrudService<Logist,Long> logistService) {
         this.logistService = logistService;
     }
 

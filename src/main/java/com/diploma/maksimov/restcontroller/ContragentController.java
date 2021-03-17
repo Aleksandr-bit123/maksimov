@@ -1,7 +1,7 @@
 package com.diploma.maksimov.restcontroller;
 
 import com.diploma.maksimov.dto.Contragent;
-import com.diploma.maksimov.service.IContragentService;
+import com.diploma.maksimov.service.CrudService;
 import com.diploma.maksimov.service.IPointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,10 +14,10 @@ import java.util.List;
 @RequestMapping("/rest/boss")
 public class ContragentController {
     private final IPointService pointService;
-    private final IContragentService contragentService;
+    private final CrudService<Contragent,Long> contragentService;
 
     @Autowired
-    public ContragentController(IPointService pointService, IContragentService contragentService) {
+    public ContragentController(IPointService pointService, CrudService<Contragent,Long> contragentService) {
         this.pointService = pointService;
         this.contragentService = contragentService;
     }

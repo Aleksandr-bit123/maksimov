@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ClientService implements IClientService {
+public class ClientService implements CrudService<Client, Long> {
     private final ClientRepository clientRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -42,7 +42,7 @@ public class ClientService implements IClientService {
     }
 
     @Override
-    public Client read(long id) {
+    public Client read(Long id) {
         Optional<ClientEntity> clientEntityOptional = clientRepository.findById(id);
         if (clientEntityOptional.isPresent()) {
             ClientEntity clientEntity = clientEntityOptional.get();
@@ -58,7 +58,7 @@ public class ClientService implements IClientService {
     }
 
     @Override
-    public boolean update(Client client, long id) {
+    public boolean update(Client client, Long id) {
         if (clientRepository.findById(id).isPresent()) {
             clientRepository.save(objectMapper.convertValue(client, ClientEntity.class));
             return true;
@@ -67,7 +67,7 @@ public class ClientService implements IClientService {
     }
 
     @Override
-    public boolean delete(long id) {
+    public boolean delete(Long id) {
         Optional<ClientEntity> clientEntityOptional = clientRepository.findById(id);
         if (clientEntityOptional.isPresent()) {
             clientRepository.deleteById(id);

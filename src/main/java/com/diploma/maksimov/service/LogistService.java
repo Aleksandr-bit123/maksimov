@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class LogistService implements ILogistService{
+public class LogistService implements CrudService<Logist, Long>{
 
     private final LogistRepository logistRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -40,7 +40,7 @@ public class LogistService implements ILogistService{
     }
 
     @Override
-    public Logist read(long id) {
+    public Logist read(Long id) {
         if (logistRepository.findById(id).isPresent()) {
             LogistEntity logistEntity = logistRepository.findById(id).stream().findFirst().get();
             return objectMapper.convertValue(logistEntity, Logist.class);
@@ -49,7 +49,7 @@ public class LogistService implements ILogistService{
     }
 
     @Override
-    public boolean update(Logist logist, long id) {
+    public boolean update(Logist logist, Long id) {
         if (logistRepository.findById(id).isPresent()){
             logistRepository.save(objectMapper.convertValue(logist, LogistEntity.class));
             return true;
@@ -58,7 +58,7 @@ public class LogistService implements ILogistService{
     }
 
     @Override
-    public boolean delete(long id) {
+    public boolean delete(Long id) {
         if (logistRepository.findById(id).isPresent()){
             LogistEntity logistEntity = logistRepository.findById(id).stream().findFirst().get();
             logistRepository.delete(logistEntity);

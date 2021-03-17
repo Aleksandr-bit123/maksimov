@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ContragentService implements IContragentService{
+public class ContragentService implements CrudService<Contragent, Long>{
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final ContragentRepository contragentRepository;
 
@@ -35,7 +35,7 @@ public class ContragentService implements IContragentService{
     }
 
     @Override
-    public Contragent read(long id) {
+    public Contragent read(Long id) {
         Optional<ContragentEntity> contragentEntityOptional = contragentRepository.findById(id);
         if (contragentEntityOptional.isPresent()) {
             ContragentEntity contragentEntity = contragentEntityOptional.get();
@@ -45,7 +45,7 @@ public class ContragentService implements IContragentService{
     }
 
     @Override
-    public boolean update(Contragent contragent, long id) {
+    public boolean update(Contragent contragent, Long id) {
         if (contragentRepository.findById(id).isPresent()) {
             contragentRepository.save(objectMapper.convertValue(contragent, ContragentEntity.class));
             return true;
@@ -54,7 +54,7 @@ public class ContragentService implements IContragentService{
     }
 
     @Override
-    public boolean delete(long id) {
+    public boolean delete(Long id) {
         Optional<ContragentEntity> contragentEntityOptional = contragentRepository.findById(id);
         if (contragentEntityOptional.isPresent()) {
             contragentRepository.deleteById(id);

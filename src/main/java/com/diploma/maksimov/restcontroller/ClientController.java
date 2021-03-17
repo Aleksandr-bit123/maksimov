@@ -1,7 +1,7 @@
 package com.diploma.maksimov.restcontroller;
 
 import com.diploma.maksimov.dto.Client;
-import com.diploma.maksimov.service.IClientService;
+import com.diploma.maksimov.service.CrudService;
 import com.diploma.maksimov.service.IPointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,10 +15,10 @@ import java.util.List;
 public class ClientController {
 
     private final IPointService pointService;
-    private final IClientService clientService;
+    private final CrudService<Client,Long> clientService;
 
     @Autowired
-    public ClientController(IPointService pointService, IClientService clientService) {
+    public ClientController(IPointService pointService, CrudService<Client,Long> clientService) {
         this.pointService = pointService;
         this.clientService = clientService;
     }
