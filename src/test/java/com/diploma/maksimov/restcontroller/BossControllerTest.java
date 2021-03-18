@@ -49,9 +49,10 @@ public class BossControllerTest {
 
     //******************************************************************************************************************
     Long id = 1000000L;
+    Employee employee = new Employee(id,"Максимов","Александр","Викторович", LocalDate.of(1990,2,8),"1234 567890","123-45-67",null,null,null);
 
-    Boss boss = new Boss(id,"Директор 1 тест");
-    Boss boss1 = new Boss(id,"Директор 2 тест");
+    Boss boss = new Boss(id,"Директор 1 тест",employee);
+    Boss boss1 = new Boss(id,"Директор 2 тест",employee);
 
     String startUri = "/rest/boss/employee/"+id+"/boss/";
 
@@ -68,7 +69,6 @@ public class BossControllerTest {
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri));
     }
 
-    Employee employee = new Employee(id,"Максимов","Александр","Викторович", LocalDate.of(1990,2,8),"1234 567890","123-45-67",boss,null,null);
     String startEmloyeeUri = "/rest/boss/employee/";
 
     public void createEmployee() throws Exception {
@@ -103,12 +103,14 @@ public class BossControllerTest {
 
     @Test
     public void readAll() throws Exception {
+        createEmployee();
         createBoss();
         String uri = "/rest/boss/employee/boss";
         mockMvc.perform(get(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
         deleteBoss();
+        deleteEmployee();
     }
 
     @Test

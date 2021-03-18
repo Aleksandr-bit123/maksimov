@@ -34,10 +34,10 @@ public class EmployeeBossViewController {
     public String index(Model model, @PathVariable Long id) {
         Employee employee = employeeService.read(id);
         if ( employee != null) {
-
             Boss boss = bossService.read(id);
             if (boss==null) {
-                bossService.create(new Boss(id,""));
+                employee.setBoss(true);
+                bossService.create(new Boss(id,"",employee));
                 userService.addRole(id,3L);
                 boss = bossService.read(id);
             }

@@ -1,6 +1,6 @@
 package com.diploma.maksimov.db.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
@@ -18,6 +18,11 @@ public class GoodEntity {
     @OneToMany (fetch=FetchType.EAGER, mappedBy = "good", cascade = CascadeType.MERGE)
 //    @JsonManagedReference
     private List<OrderEntity> orders;
+
+    @JsonIgnore
+    @OneToOne (fetch = FetchType.LAZY)
+    @JoinColumn(name = "goodId")
+    private GoodTurnoverEntity goodTurnover;
 
     public GoodEntity() {
     }
@@ -68,5 +73,13 @@ public class GoodEntity {
 
     public void setOrders(List<OrderEntity> orders) {
         this.orders = orders;
+    }
+
+    public GoodTurnoverEntity getGoodTurnover() {
+        return goodTurnover;
+    }
+
+    public void setGoodTurnover(GoodTurnoverEntity goodTurnover) {
+        this.goodTurnover = goodTurnover;
     }
 }

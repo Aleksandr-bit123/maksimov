@@ -52,15 +52,16 @@ public class DriverControllerTest {
     //******************************************************************************************************************
 
     Long id = 1000000L;
+    Employee employee = new Employee(id,"Максимов","Александр","Викторович", LocalDate.of(1990,2,8),"1234 567890","123-45-67",null,null,null);
     Car car = new Car(id,id,"","",0.0,0.0,"");
     ArrayList<Car> cars = new ArrayList<>();
     public void setCars(ArrayList<Car> cars) {
         cars.add(car);
         this.cars = cars;
     }
-    Driver driver = new Driver(id, cars,"12 34 567890 B B1 M","действительны до 16.06.2028");
+    Driver driver = new Driver(id, cars,"12 34 567890 B B1 M","действительны до 16.06.2028",employee);
 
-    Driver driver1 = new Driver(id, cars , "12 34 567890 B B1 M", "действительны до 16.06.2028");
+    Driver driver1 = new Driver(id, cars , "12 34 567890 B B1 M", "действительны до 16.06.2028",employee);
     String startUri = "/rest/boss/employee/"+id+"/driver/";
 
     public void createDriver() throws Exception {
@@ -76,7 +77,6 @@ public class DriverControllerTest {
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri));
     }
 
-    Employee employee = new Employee(id,"Максимов","Александр","Викторович", LocalDate.of(1990,2,8),"1234 567890","123-45-67",null,null,null);
     String startEmloyeeUri = "/rest/boss/employee/";
 
     public void createEmployee() throws Exception {

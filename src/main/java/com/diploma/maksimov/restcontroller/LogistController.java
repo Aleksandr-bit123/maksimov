@@ -1,5 +1,6 @@
 package com.diploma.maksimov.restcontroller;
 
+import com.diploma.maksimov.dto.Employee;
 import com.diploma.maksimov.dto.Logist;
 import com.diploma.maksimov.service.CrudService;
 import com.diploma.maksimov.service.EmployeeService;
@@ -29,7 +30,11 @@ public class LogistController {
 
     @PostMapping(value = "/{id}/logist")
     public ResponseEntity<?> create(@RequestBody Logist logist, @PathVariable Long id) {
-        if (employeeService.read(id) != null) {
+        Employee employee = employeeService.read(id);
+        if (employee != null) {
+            employee.setLogist(true);
+            logist.setEmployee(employee);
+            employeeService.update(employee,id);
             logistService.create(logist);
             userService.addRole(id,4L);
             return new ResponseEntity<>(HttpStatus.CREATED);
@@ -63,7 +68,9 @@ public class LogistController {
     @PutMapping(value = "/{id}/logist")
     public ResponseEntity<?> update(@PathVariable long id, @RequestBody Logist logist) {
         if (employeeService.read(id) != null) {
-            final boolean updated = logistService.update(logist, id);
+            Logist logist1 = logistService.read(id);
+            logist1.setInfo(logist.getInfo());
+            final boolean updated = logistService.update(logist1, id);
             if (updated) {
                 return new ResponseEntity<>(HttpStatus.OK);
             }
@@ -74,8 +81,11 @@ public class LogistController {
 
     @DeleteMapping(value = "/{id}/logist")
     public ResponseEntity<?> delete(@PathVariable long id) {
-        if (employeeService.read(id) != null) {
+        Employee employee = employeeService.read(id);
+        if (employee != null) {
             final boolean deleted = logistService.delete(id);
+            employee.setLogist(false);
+            employeeService.update(employee,id);
             userService.deleteRole(id,4L);
             if (deleted) {
                 return new ResponseEntity<>(HttpStatus.OK);

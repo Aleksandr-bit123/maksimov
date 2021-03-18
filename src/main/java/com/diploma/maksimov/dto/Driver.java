@@ -3,27 +3,29 @@ package com.diploma.maksimov.dto;
 import java.util.List;
 
 public class Driver {
-    private Long id;
+    private Long DriverId;
     private List<Car> carEntities;
     private String driving_license;
     private String info;
+    private Employee employee;
 
     public Driver() {
     }
 
-    public Driver(Long id, List<Car> carEntities, String driving_license, String info) {
-        this.id = id;
+    public Driver(Long driverId, List<Car> carEntities, String driving_license, String info, Employee employee) {
+        DriverId = driverId;
         this.carEntities = carEntities;
         this.driving_license = driving_license;
         this.info = info;
+        this.employee = employee;
     }
 
-    public Long getId() {
-        return id;
+    public Long getDriverId() {
+        return DriverId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setDriverId(Long driverId) {
+        DriverId = driverId;
     }
 
     public List<Car> getCarEntities() {
@@ -48,5 +50,13 @@ public class Driver {
 
     public void setInfo(String info) {
         this.info = info;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 }

@@ -1,25 +1,25 @@
 package com.diploma.maksimov.dto;
 
-import com.diploma.maksimov.db.entity.EmployeeEntity;
-
 public class Boss {
-    private Long id;
+    private Long BossId;
     private String info;
+    private Employee employee;
 
     public Boss() {
     }
 
-    public Boss(Long id, String info) {
-        this.id = id;
+    public Boss(Long bossId, String info, Employee employee) {
+        BossId = bossId;
         this.info = info;
+        this.employee = employee;
     }
 
-    public Long getId() {
-        return id;
+    public Long getBossId() {
+        return BossId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setBossId(Long bossId) {
+        BossId = bossId;
     }
 
     public String getInfo() {
@@ -30,4 +30,11 @@ public class Boss {
         this.info = info;
     }
 
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
 }

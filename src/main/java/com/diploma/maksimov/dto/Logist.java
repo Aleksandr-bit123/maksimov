@@ -1,23 +1,25 @@
 package com.diploma.maksimov.dto;
 
 public class Logist {
-    private Long id;
+    private Long logistId;
     private String info;
+    private Employee employee;
 
     public Logist() {
     }
 
-    public Logist(Long id, String info) {
-        this.id = id;
+    public Logist(Long logistId, String info, Employee employee) {
+        this.logistId = logistId;
         this.info = info;
+        this.employee = employee;
     }
 
-    public Long getId() {
-        return id;
+    public Long getLogistId() {
+        return logistId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setLogistId(Long logistId) {
+        this.logistId = logistId;
     }
 
     public String getInfo() {
@@ -26,5 +28,13 @@ public class Logist {
 
     public void setInfo(String info) {
         this.info = info;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 }

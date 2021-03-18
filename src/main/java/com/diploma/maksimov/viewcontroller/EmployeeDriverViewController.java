@@ -1,9 +1,7 @@
 package com.diploma.maksimov.viewcontroller;
 
-import com.diploma.maksimov.dto.Boss;
 import com.diploma.maksimov.dto.Driver;
 import com.diploma.maksimov.dto.Employee;
-import com.diploma.maksimov.service.BossService;
 import com.diploma.maksimov.service.DriverService;
 import com.diploma.maksimov.service.EmployeeService;
 import com.diploma.maksimov.service.UserService;
@@ -39,7 +37,8 @@ public class EmployeeDriverViewController {
 
             Driver driver = driverService.read(id);
             if (driver==null) {
-                driverService.create(new Driver(id,null,"",""));
+                employee.setDriver(true);
+                driverService.create(new Driver(id,null,"","",employee));
                 userService.addRole(id,5L);
                 driver = driverService.read(id);
             }

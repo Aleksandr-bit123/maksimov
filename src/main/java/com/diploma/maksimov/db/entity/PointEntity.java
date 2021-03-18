@@ -1,6 +1,9 @@
 package com.diploma.maksimov.db.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(schema = "public", name = "t_point")
@@ -10,6 +13,11 @@ public class PointEntity {
     private Long id;
     private String address;
     private String phone;
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "pointId")
+    private List<GoalEntity> goal;
 
     public PointEntity() {
     }
@@ -38,4 +46,11 @@ public class PointEntity {
         this.phone = phone;
     }
 
+    public List<GoalEntity> getGoal() {
+        return goal;
+    }
+
+    public void setGoal(List<GoalEntity> goal) {
+        this.goal = goal;
+    }
 }

@@ -49,9 +49,10 @@ public class LogistControllerTest {
     //******************************************************************************************************************
 
     Long id = 1000000L;
+    Employee employee = new Employee(id,"Максимов","Александр","Викторович", LocalDate.of(1990,2,8),"1234 567890","123-45-67",null,null,null);
 
-    Logist logist = new Logist(id,"Логист 1 тест");
-    Logist logist1 = new Logist(id,"Логист 2 тест");
+    Logist logist = new Logist(id,"Логист 1 тест",employee);
+    Logist logist1 = new Logist(id,"Логист 2 тест",employee);
     String startUri = "/rest/boss/employee/"+id+"/logist/";
 
     public void createLogist() throws Exception {
@@ -67,7 +68,6 @@ public class LogistControllerTest {
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri));
     }
 
-    Employee employee = new Employee(id,"Максимов","Александр","Викторович", LocalDate.of(1990,2,8),"1234 567890","123-45-67",null,null,null);
     String startEmloyeeUri = "/rest/boss/employee/";
 
     public void createEmployee() throws Exception {

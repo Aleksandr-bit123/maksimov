@@ -43,8 +43,9 @@
             .append($('<td>').append(emploeeBoss.passport))
             .append($('<td>').append(emploeeBoss.phone))
             .append($('<td>').append($('<textarea name="info">').append(boss!=null?boss.info:"")))
-            .append($('<td>').append('<input type="button" value="X" onclick="deleteBoss(this.parentElement.parentElement.firstChild.firstChild.value)">')
+            .append($('<td>').append('<input type="button" value="X" onclick="deleteBoss(' + emploeeBoss.id + ')">')
                              .append($('<input type="submit" value="OK">')))
+            .append('<input type="hidden" name="employee">')
         );
 
         document.getElementById('employeeBossForm').addEventListener('submit', submitForm);
@@ -60,7 +61,7 @@
             let obj = {};
             formData.forEach((value, key) => obj[key] = value);
             // Собираем запрос к серверу
-
+            obj.employee=boss.employee;
             let request = new Request(event.target.action + emploeeBoss.id +'/boss', {
                 method: 'PUT',
                 body: JSON.stringify(obj),
@@ -69,7 +70,7 @@
                 },
             });
             console.log( JSON.stringify(obj));
-            // alert(JSON.stringify(obj));
+            alert(JSON.stringify(obj));
             // Отправляем (асинхронно!)
             fetch(request).then(
                 function(response) {

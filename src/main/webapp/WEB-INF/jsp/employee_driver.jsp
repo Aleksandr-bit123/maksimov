@@ -64,7 +64,7 @@
                          .append($('<input type="hidden" name="carEntities" value="">')))
         .append($('<td>').append($('<input name="driving_license" value="'+ driver.driving_license +'">')))
         .append($('<td>').append($('<textarea name="info">').append(driver!=null?driver.info:"")))
-        .append($('<td>').append('<input type="button" value="X" onclick="deleteBoss(this.parentElement.parentElement.firstChild.firstChild.value)">')
+        .append($('<td>').append('<input type="button" value="X" onclick="deleteBoss('+ emploeeDriver.id +')">')
                          .append($('<input type="submit" value="OK">')))
     );
 

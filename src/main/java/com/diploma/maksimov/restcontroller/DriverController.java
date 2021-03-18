@@ -1,6 +1,7 @@
 package com.diploma.maksimov.restcontroller;
 
 import com.diploma.maksimov.dto.Driver;
+import com.diploma.maksimov.dto.Employee;
 import com.diploma.maksimov.service.CrudService;
 import com.diploma.maksimov.service.EmployeeService;
 import com.diploma.maksimov.service.UserService;
@@ -29,7 +30,11 @@ public class DriverController {
 
     @PostMapping(value = "/{id}/driver")
     public ResponseEntity<?> create(@RequestBody Driver driver, @PathVariable Long id) {
-        if (employeeService.read(id) != null) {
+        Employee employee = employeeService.read(id);
+        if (employee != null) {
+            employee.setDriver(true);
+            driver.setEmployee(employee);
+            employeeService.update(employee,id);
             driverService.create(driver);
             userService.addRole(id,5L);
             return new ResponseEntity<>(HttpStatus.CREATED);
@@ -63,7 +68,10 @@ public class DriverController {
     @PutMapping(value = "/{id}/driver")
     public ResponseEntity<?> update(@PathVariable long id, @RequestBody Driver driver) {
         if (employeeService.read(id) != null) {
-            final boolean updated = driverService.update(driver, id);
+            Driver driver1 = driverService.read(id);
+            driver1.setDriving_license(driver.getDriving_license());
+            driver1.setInfo(driver.getInfo());
+            final boolean updated = driverService.update(driver1, id);
             if (updated) {
                 return new ResponseEntity<>(HttpStatus.OK);
             }
@@ -74,7 +82,10 @@ public class DriverController {
 
     @DeleteMapping(value = "/{id}/driver")
     public ResponseEntity<?> delete(@PathVariable long id) {
-        if (employeeService.read(id) != null) {
+        Employee employee = employeeService.read(id);
+        if (employee != null) {
+            employee.setDriver(false);
+            employeeService.update(employee,id);
             final boolean deleted = driverService.delete(id);
             userService.deleteRole(id,5L);
             if (deleted) {

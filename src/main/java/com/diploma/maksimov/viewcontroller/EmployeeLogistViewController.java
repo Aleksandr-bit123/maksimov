@@ -36,7 +36,8 @@ public class EmployeeLogistViewController {
 
             Logist logist = logistService.read(id);
             if (logist==null) {
-                logistService.create(new Logist(id,""));
+                employee.setLogist(true);
+                logistService.create(new Logist(id,"",employee));
                 userService.addRole(id,4L);
             }
             String logistAsString = null;

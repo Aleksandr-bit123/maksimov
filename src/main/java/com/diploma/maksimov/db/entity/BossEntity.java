@@ -6,18 +6,23 @@ import javax.persistence.*;
 @Table(schema = "public", name = "t_boss")
 public class BossEntity {
     @Id
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long bossId;
     private String info;
 
     public BossEntity() {
     }
 
-    public Long getId() {
-        return id;
+    @OneToOne(optional = true, cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @MapsId
+    private EmployeeEntity employee;
+
+    public Long getBossId() {
+        return bossId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setBossId(Long bossId) {
+        this.bossId = bossId;
     }
 
     public String getInfo() {
@@ -28,4 +33,11 @@ public class BossEntity {
         this.info = info;
     }
 
+    public EmployeeEntity getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(EmployeeEntity employee) {
+        this.employee = employee;
+    }
 }

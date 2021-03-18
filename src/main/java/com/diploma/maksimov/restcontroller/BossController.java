@@ -1,6 +1,7 @@
 package com.diploma.maksimov.restcontroller;
 
 import com.diploma.maksimov.dto.Boss;
+import com.diploma.maksimov.dto.Employee;
 import com.diploma.maksimov.service.CrudService;
 import com.diploma.maksimov.service.EmployeeService;
 import com.diploma.maksimov.service.UserService;
@@ -29,7 +30,11 @@ public class BossController {
 
     @PostMapping(value = "/{id}/boss")
     public ResponseEntity<?> create(@RequestBody Boss boss, @PathVariable Long id) {
-        if (employeeService.read(id) != null) {
+        Employee employee = employeeService.read(id);
+        if (employee != null) {
+            employee.setBoss(true);
+            boss.setEmployee(employee);
+            employeeService.update(employee,id);
             bossService.create(boss);
             userService.addRole(id,3L);
             return new ResponseEntity<>(HttpStatus.CREATED);
@@ -62,8 +67,12 @@ public class BossController {
 
     @PutMapping(value = "/{id}/boss")
     public ResponseEntity<?> update(@PathVariable long id, @RequestBody Boss boss) {
-        if (employeeService.read(id) != null) {
-            final boolean updated = bossService.update(boss, id);
+        Employee employee = employeeService.read(id);
+        if (employee != null) {
+            //что бы обновить
+            Boss boss1 = bossService.read(id);
+            boss1.setInfo(boss.getInfo());
+            final boolean updated = bossService.update(boss1, id);
             if (updated) {
                 return new ResponseEntity<>(HttpStatus.OK);
             }
@@ -74,8 +83,11 @@ public class BossController {
 
     @DeleteMapping(value = "/{id}/boss")
     public ResponseEntity<?> delete(@PathVariable long id) {
-        if (employeeService.read(id) != null) {
+        Employee employee = employeeService.read(id);
+        if (employee != null) {
             final boolean deleted = bossService.delete(id);
+            employee.setBoss(false);
+            employeeService.update(employee,id);
             userService.deleteRole(id,3L);
             if (deleted) {
                 return new ResponseEntity<>(HttpStatus.OK);

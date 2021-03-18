@@ -28,9 +28,9 @@
                         <div><input id="inputBirthdate" type="date" name="birthdate" data-date-format="YYYY-MMMM-DD"/></div>
                         <div><input id="inputPassport" type="text" name="passport" placeholder="паспорт"/></div>
                         <div><input id="inputPhone" type="text" name="phone"  placeholder="телефон"/></div>
-<%--                        <input id="inputBossEntity" type="hidden" name="bossEntity"/>--%>
-<%--                        <input id="inputLogistEntity" type="hidden" name="logistEntity"/>--%>
-<%--                        <input id="inputDriverEntity" type="hidden" name="driverEntity"/>--%>
+                        <input id="inputBoss" type="hidden" name="boss"/>
+                        <input id="inputLogist" type="hidden" name="logist"/>
+                        <input id="inputDriver" type="hidden" name="driver"/>
                         <div><input id="inputSubmit" type="submit" value="Добавить сотрудника"/></div>
                     </form>
                     <div id="divBoss"></div>
@@ -77,9 +77,9 @@
                 .append($('<td>').append(itemUser.employeeEntity.birthdate))
                 .append($('<td>').append(itemUser.employeeEntity.passport))
                 .append($('<td>').append(itemUser.employeeEntity.phone))
-                .append($('<td>').append(itemUser.employeeEntity.bossEntity!=null?"да":"нет"))
-                .append($('<td>').append(itemUser.employeeEntity.logistEntity!=null?"да":"нет"))
-                .append($('<td>').append(itemUser.employeeEntity.driverEntity!=null?"да":"нет"))
+                .append($('<td>').append(itemUser.employeeEntity.boss==true?"да":"нет"))
+                .append($('<td>').append(itemUser.employeeEntity.logist==true?"да":"нет"))
+                .append($('<td>').append(itemUser.employeeEntity.driver==true?"да":"нет"))
                 .append($('<td>').append('<input type="button" value="X" onclick="deleteEmployee(this.parentElement.parentElement.firstChild.innerHTML)">'))
             );
         } else {
@@ -106,22 +106,22 @@
                 document.getElementById("inputPassport").value = employee.employeeEntity.passport;
                 document.getElementById("inputPhone").value = employee.employeeEntity.phone;
                 //TODO подлатать отправку объекта, чтобы со всеми полями
-                // document.getElementById("inputBossEntity").value = employee.employeeEntity.bossEntity;
-                // document.getElementById("inputLogistEntity").value = employee.employeeEntity.logistEntity;
-                // document.getElementById("inputDriverEntity").value = employee.employeeEntity.driverEntity;
-                if (employee.employeeEntity.bossEntity!=null){
+                document.getElementById("inputBoss").value = employee.employeeEntity.boss;
+                document.getElementById("inputLogist").value = employee.employeeEntity.logist;
+                document.getElementById("inputDriver").value = employee.employeeEntity.driver;
+                if (employee.employeeEntity.boss==true){
                     document.getElementById("divBoss").innerHTML = '<h4 align="center">Директор</h4><a href="${contextPath}/boss/employee/'+ id +'/boss">редактировать</a>';
                 } else
                 {
                     document.getElementById("divBoss").innerHTML = '<a href="${contextPath}/boss/employee/'+ id +'/boss">назначить директором</a>';
                 }
-                if (employee.employeeEntity.logistEntity!=null){
+                if (employee.employeeEntity.logist==true){
                     document.getElementById("divLogist").innerHTML = '<h4 align="center">Логист</h4><a href="${contextPath}/boss/employee/'+ id +'/logist">редактировать</a>';
                 } else
                 {
                     document.getElementById("divLogist").innerHTML = '<a href="${contextPath}/boss/employee/'+ id +'/logist">назначить логистом</a>';
                 }
-                if (employee.employeeEntity.driverEntity!=null){
+                if (employee.employeeEntity.driver==true){
                     document.getElementById("divDriver").innerHTML = '<h4 align="center">Водитель</h4><a href="${contextPath}/boss/employee/'+ id +'/driver">редактировать</a>';
                 } else
                 {

@@ -1,20 +1,17 @@
 package com.diploma.maksimov.db.entity;
 
 import com.diploma.maksimov.dto.GoodTurnover;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
 @Entity
+@Table(schema = "public", name = "t_good_turnover")
 public class GoodTurnoverEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     private Long goalId;
-    @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "goodId")
-    private GoodEntity good;
+    private Long goodId;
     private Byte quantity;
     private GoodTurnover.PaymentMethod paymentMethod;
     private String info;
@@ -39,12 +36,12 @@ public class GoodTurnoverEntity {
         this.goalId = goalId;
     }
 
-    public GoodEntity getGood() {
-        return good;
+    public Long getGoodId() {
+        return goodId;
     }
 
-    public void setGood(GoodEntity good) {
-        this.good = good;
+    public void setGoodId(Long goodId) {
+        this.goodId = goodId;
     }
 
     public Byte getQuantity() {
@@ -78,4 +75,5 @@ public class GoodTurnoverEntity {
     public void setPriority(Byte priority) {
         this.priority = priority;
     }
+
 }

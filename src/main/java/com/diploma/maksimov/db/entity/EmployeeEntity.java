@@ -1,6 +1,7 @@
 package com.diploma.maksimov.db.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
@@ -8,12 +9,12 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Set;
 
 @Entity
 @Table(schema = "public", name = "t_employee")
 public class EmployeeEntity {
     @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String lastName;
     private String firstName;
@@ -27,20 +28,14 @@ public class EmployeeEntity {
     private String passport;
     private String phone;
 
-    @OneToOne(cascade = CascadeType.ALL, optional = true)
-    @PrimaryKeyJoinColumn
-//    @MapsId
-    private BossEntity bossEntity;
+    private Boolean isBoss;
+    private Boolean isLogist;
+    private Boolean isDriver;
 
-    @OneToOne(cascade = CascadeType.ALL, optional = true)
-    @PrimaryKeyJoinColumn
-//    @MapsId
-    private DriverEntity driverEntity;
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY)
+    private UserEntity user;
 
-    @OneToOne(cascade = CascadeType.ALL, optional = true)
-    @PrimaryKeyJoinColumn
-//    @MapsId
-    private LogistEntity logistEntity;
 
     public EmployeeEntity() {
     }
@@ -101,28 +96,28 @@ public class EmployeeEntity {
         this.phone = phone;
     }
 
-    public BossEntity getBossEntity() {
-        return bossEntity;
+    public Boolean getBoss() {
+        return isBoss;
     }
 
-    public void setBossEntity(BossEntity bossEntity) {
-        this.bossEntity = bossEntity;
+    public void setBoss(Boolean boss) {
+        isBoss = boss;
     }
 
-    public DriverEntity getDriverEntity() {
-        return driverEntity;
+    public Boolean getLogist() {
+        return isLogist;
     }
 
-    public void setDriverEntity(DriverEntity driverEntity) {
-        this.driverEntity = driverEntity;
+    public void setLogist(Boolean logist) {
+        isLogist = logist;
     }
 
-    public LogistEntity getLogistEntity() {
-        return logistEntity;
+    public Boolean getDriver() {
+        return isDriver;
     }
 
-    public void setLogistEntity(LogistEntity logistEntity) {
-        this.logistEntity = logistEntity;
+    public void setDriver(Boolean driver) {
+        isDriver = driver;
     }
 
 }

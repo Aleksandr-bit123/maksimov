@@ -43,7 +43,7 @@
         .append($('<td>').append(emploeeLogist.passport))
         .append($('<td>').append(emploeeLogist.phone))
         .append($('<td>').append($('<textarea name="info">').append(logist!=null?logist.info:"")))
-        .append($('<td>').append('<input type="button" value="X" onclick="deleteLogist(this.parentElement.parentElement.firstChild.firstChild.value)">').append($('<input type="submit" value="OK">')))
+        .append($('<td>').append('<input type="button" value="X" onclick="deleteLogist('+ emploeeLogist.id +')">').append($('<input type="submit" value="OK">')))
     );
 
     document.getElementById('employeeLogistForm').addEventListener('submit', submitForm);

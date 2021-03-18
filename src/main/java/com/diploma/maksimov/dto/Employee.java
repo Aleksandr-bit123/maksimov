@@ -22,14 +22,14 @@ public class Employee {
     private String passport;
     private String phone;
 
-    private Boss bossEntity;
-    private Logist logistEntity;
-    private Driver driverEntity;
+    private Boolean isBoss;
+    private Boolean isLogist;
+    private Boolean isDriver;
 
     public Employee() {
     }
 
-    public Employee(Long id, String lastName, String firstName, String middleName, LocalDate birthdate, String passport, String phone, Boss bossEntity, Logist logistEntity, Driver driverEntity) {
+    public Employee(Long id, String lastName, String firstName, String middleName, LocalDate birthdate, String passport, String phone, Boolean isBoss, Boolean isLogist, Boolean isDriver) {
         this.id = id;
         this.lastName = lastName;
         this.firstName = firstName;
@@ -37,9 +37,9 @@ public class Employee {
         this.birthdate = birthdate;
         this.passport = passport;
         this.phone = phone;
-        this.bossEntity = bossEntity;
-        this.logistEntity = logistEntity;
-        this.driverEntity = driverEntity;
+        this.isBoss = isBoss;
+        this.isLogist = isLogist;
+        this.isDriver = isDriver;
     }
 
     public Long getId() {
@@ -98,27 +98,27 @@ public class Employee {
         this.phone = phone;
     }
 
-    public Boss getBossEntity() {
-        return bossEntity;
+    public Boolean getBoss() {
+        return isBoss;
     }
 
-    public void setBossEntity(Boss bossEntity) {
-        this.bossEntity = bossEntity;
+    public void setBoss(Boolean boss) {
+        isBoss = boss;
     }
 
-    public Logist getLogistEntity() {
-        return logistEntity;
+    public Boolean getLogist() {
+        return isLogist;
     }
 
-    public void setLogistEntity(Logist logistEntity) {
-        this.logistEntity = logistEntity;
+    public void setLogist(Boolean logist) {
+        isLogist = logist;
     }
 
-    public Driver getDriverEntity() {
-        return driverEntity;
+    public Boolean getDriver() {
+        return isDriver;
     }
 
-    public void setDriverEntity(Driver driverEntity) {
-        this.driverEntity = driverEntity;
+    public void setDriver(Boolean driver) {
+        isDriver = driver;
     }
 }

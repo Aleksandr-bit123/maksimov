@@ -56,6 +56,7 @@ public class CarControllerTest {
     Car car1 = new Car(null, id, "BMW", "А777AA99", 4.3, 15.2, "Цвет: черный");
     String startUri = "/rest/boss/employee/" + id + "/driver/car/";
 
+    Employee employee = new Employee(id, "Максимов", "Александр", "Викторович", LocalDate.of(1990, 2, 8), "1234 567890", "123-45-67", null, null, null);
 
     public long createCar() throws Exception {
         Long idBD;
@@ -73,7 +74,7 @@ public class CarControllerTest {
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri));
     }
 
-    Driver driver = new Driver(id, null, "12 34 567890 B B1 M", "действительны до 16.06.2028");
+    Driver driver = new Driver(id, null, "12 34 567890 B B1 M", "действительны до 16.06.2028",employee);
     String startDriverUri = "/rest/boss/employee/" + id + "/driver/";
 
     public void createDriver() throws Exception {
@@ -89,7 +90,6 @@ public class CarControllerTest {
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri));
     }
 
-    Employee employee = new Employee(id, "Максимов", "Александр", "Викторович", LocalDate.of(1990, 2, 8), "1234 567890", "123-45-67", null, null, null);
     String startEmloyeeUri = "/rest/boss/employee/";
 
     public void createEmployee() throws Exception {
