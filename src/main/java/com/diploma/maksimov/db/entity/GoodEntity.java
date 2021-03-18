@@ -15,14 +15,15 @@ public class GoodEntity {
     private Double volume;
     private String info;
 
-    @OneToMany (fetch=FetchType.EAGER, mappedBy = "good", cascade = CascadeType.MERGE)
-//    @JsonManagedReference
+    @JsonIgnore
+    @OneToMany (fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn (name = "goodId")
     private List<OrderEntity> orders;
 
     @JsonIgnore
-    @OneToOne (fetch = FetchType.LAZY)
+    @OneToMany (fetch = FetchType.LAZY)
     @JoinColumn(name = "goodId")
-    private GoodTurnoverEntity goodTurnover;
+    private List<GoodTurnoverEntity> goodTurnoverList;
 
     public GoodEntity() {
     }
@@ -67,19 +68,4 @@ public class GoodEntity {
         this.info = info;
     }
 
-    public List<OrderEntity> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<OrderEntity> orders) {
-        this.orders = orders;
-    }
-
-    public GoodTurnoverEntity getGoodTurnover() {
-        return goodTurnover;
-    }
-
-    public void setGoodTurnover(GoodTurnoverEntity goodTurnover) {
-        this.goodTurnover = goodTurnover;
-    }
 }

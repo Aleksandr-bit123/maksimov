@@ -1,27 +1,21 @@
 package com.diploma.maksimov.dto;
 
-import com.diploma.maksimov.db.entity.OrderEntity;
-
-import java.util.List;
-
 public class Good {
     private Long id;
     private String name;
     private Double cost;
     private Double volume;
     private String info;
-    private List<Order> orders;
 
     public Good() {
     }
 
-    public Good(Long id, String name, Double cost, Double volume, String info, List<Order> orders) {
+    public Good(Long id, String name, Double cost, Double volume, String info) {
         this.id = id;
         this.name = name;
         this.cost = cost;
         this.volume = volume;
         this.info = info;
-        this.orders = orders;
     }
 
     public Long getId() {
@@ -64,13 +58,6 @@ public class Good {
         this.info = info;
     }
 
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
 }
 
 

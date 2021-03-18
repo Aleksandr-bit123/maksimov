@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class GoodService implements CrudService<Good, Long>{
+public class GoodService implements CrudService<Good, Long> {
 
     private final GoodRepository goodRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -25,7 +25,7 @@ public class GoodService implements CrudService<Good, Long>{
 
     @Transactional
     @PostConstruct
-    public void init(){
+    public void init() {
 
     }
 
@@ -38,19 +38,15 @@ public class GoodService implements CrudService<Good, Long>{
     @Override
     public List<Good> readAll() {
         Iterable<GoodEntity> all = goodRepository.findAll();
-        all.forEach(goodEntity -> {if (goodEntity.getOrders() !=null){goodEntity.getOrders().forEach(orderEntity -> {orderEntity.setGood(null);orderEntity.setClient(null);});}});//Дабы избавиться от зацикливания
         return objectMapper.convertValue(all, new TypeReference<List<Good>>() {
         });
     }
 
     @Override
     public Good read(Long id) {
-            Optional<GoodEntity> goodEntityOptional = goodRepository.findById(id);
+        Optional<GoodEntity> goodEntityOptional = goodRepository.findById(id);
         if (goodEntityOptional.isPresent()) {
             GoodEntity goodEntity = goodEntityOptional.get();
-            if (goodEntity.getOrders()!=null) {
-                goodEntity.getOrders().forEach(orderEntity -> {orderEntity.setGood(null);orderEntity.setClient(null);});//Дабы избавиться от зацикливания
-            }
             return objectMapper.convertValue(goodEntity, Good.class);
         }
         return null;
@@ -58,7 +54,7 @@ public class GoodService implements CrudService<Good, Long>{
 
     @Override
     public boolean update(Good good, Long id) {
-        if (goodRepository.findById(id).isPresent()){
+        if (goodRepository.findById(id).isPresent()) {
             goodRepository.save(objectMapper.convertValue(good, GoodEntity.class));
             return true;
         }
@@ -68,7 +64,7 @@ public class GoodService implements CrudService<Good, Long>{
     @Override
     public boolean delete(Long id) {
         Optional<GoodEntity> goodEntityOptional = goodRepository.findById(id);
-        if (goodEntityOptional.isPresent()){
+        if (goodEntityOptional.isPresent()) {
             GoodEntity goodEntity = goodEntityOptional.get();
             goodRepository.delete(goodEntity);
             return true;

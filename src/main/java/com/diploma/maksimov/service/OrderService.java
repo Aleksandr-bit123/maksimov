@@ -37,15 +37,6 @@ public class OrderService implements IOrderService{
     @Override
     public List<Order> readAll() {
         Iterable<OrderEntity> all = orderRepository.findAll();
-        //Дабы избавиться от зацикливания
-            all.forEach(orderEntity -> {
-                if (orderEntity.getClient()!=null){
-                    orderEntity.getClient().setOrders(null);
-                }
-                if (orderEntity.getGood()!=null) {
-                    orderEntity.getGood().setOrders(null);
-                }
-            });
         return objectMapper.convertValue(all, new TypeReference<List<Order>>() {
         });
     }
@@ -55,13 +46,6 @@ public class OrderService implements IOrderService{
         Optional<OrderEntity> orderEntityOptional = orderRepository.findById(id);
         if (orderEntityOptional.isPresent()) {
             OrderEntity orderEntity = orderEntityOptional.get();
-            //Дабы избавиться от зацикливания
-            if (orderEntity.getGood()!=null){
-                orderEntity.getGood().setOrders(null);
-            }
-            if (orderEntity.getClient()!=null){
-                orderEntity.getClient().setOrders(null);
-            }
             return objectMapper.convertValue(orderEntity, Order.class);
         }
         return null;

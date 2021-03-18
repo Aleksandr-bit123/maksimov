@@ -69,10 +69,11 @@ public class BossController {
     public ResponseEntity<?> update(@PathVariable long id, @RequestBody Boss boss) {
         Employee employee = employeeService.read(id);
         if (employee != null) {
-            //что бы обновить
+            //изменяю существующий объект, т.к. конфликт сессии гибернейт
             Boss boss1 = bossService.read(id);
             boss1.setInfo(boss.getInfo());
             final boolean updated = bossService.update(boss1, id);
+            //изменяю существующий объект, т.к. конфликт сессии гибернейт
             if (updated) {
                 return new ResponseEntity<>(HttpStatus.OK);
             }

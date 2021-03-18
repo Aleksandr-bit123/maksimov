@@ -68,9 +68,11 @@ public class LogistController {
     @PutMapping(value = "/{id}/logist")
     public ResponseEntity<?> update(@PathVariable long id, @RequestBody Logist logist) {
         if (employeeService.read(id) != null) {
+            //изменяю существующий объект, т.к. конфликт сессии гибернейт
             Logist logist1 = logistService.read(id);
             logist1.setInfo(logist.getInfo());
             final boolean updated = logistService.update(logist1, id);
+            //изменяю существующий объект, т.к. конфликт сессии гибернейт
             if (updated) {
                 return new ResponseEntity<>(HttpStatus.OK);
             }

@@ -29,14 +29,6 @@ public class ClientService implements CrudService<Client, Long> {
     @Override
     public List<Client> readAll() {
         Iterable<ClientEntity> all = clientRepository.findAll();
-        all.forEach(clientEntity -> {
-            if (clientEntity.getOrders() != null) {
-                clientEntity.getOrders().forEach(orderEntity -> {
-                    orderEntity.setClient(null);
-                    orderEntity.setGood(null);
-                });
-            }
-        });//Дабы избавиться от зацикливания
         return objectMapper.convertValue(all, new TypeReference<List<Client>>() {
         });
     }
@@ -46,12 +38,6 @@ public class ClientService implements CrudService<Client, Long> {
         Optional<ClientEntity> clientEntityOptional = clientRepository.findById(id);
         if (clientEntityOptional.isPresent()) {
             ClientEntity clientEntity = clientEntityOptional.get();
-            if (clientEntity.getOrders() != null) {
-                clientEntity.getOrders().forEach(orderEntity -> {
-                    orderEntity.setClient(null);
-                    orderEntity.setGood(null);
-                });//Дабы избавиться от зацикливания
-            }
             return objectMapper.convertValue(clientEntity, Client.class);
         }
         return null;

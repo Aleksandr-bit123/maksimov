@@ -50,7 +50,7 @@ public class OrderControllerTest {
 
     //******************************************************************************************************************
     Point point = new Point(null, "address", "phone");
-    Client client = new Client(null, "Фамилия","Имя","Отчество", "паспорт серия и номер", "информация о клиенте",point,null);
+    Client client = new Client(null, "Фамилия","Имя","Отчество", "паспорт серия и номер", "информация о клиенте",point);
 
     String startClientUri = "/rest/logist/client/";
 
@@ -71,7 +71,7 @@ public class OrderControllerTest {
 
     Long id = 1000000L;
 
-    Good good = new Good(1000000L,"Товар",2000.99,3.3,"информация о товаре",null);
+    Good good = new Good(1000000L,"Товар",2000.99,3.3,"информация о товаре");
 
     String startGoodUri = "/rest/boss/good/";
 
@@ -89,8 +89,8 @@ public class OrderControllerTest {
     }
 
 
-    Order order = new Order(null,client,good, LocalDate.of(2000,02,10),(byte) 3,"информация");
-    Order order1 = new Order(null,client,good, LocalDate.of(1999,05,2),(byte) 5,"информация 1");
+    Order order = new Order(null,null,id, LocalDate.of(2000,02,10),(byte) 3,"информация");
+    Order order1 = new Order(null,null,id, LocalDate.of(1999,05,2),(byte) 5,"информация 1");
 
     String startUri = "/rest/logist/order/";
 
@@ -113,8 +113,7 @@ public class OrderControllerTest {
     public void create() throws Exception {
         createGood();
         Long clientId = createClient();
-        order.getClient().setId(clientId);
-        order.getClient().getPoint().setId(clientId);
+        order.setClientId(clientId);
         String content = objectMapper.writeValueAsString(order);
         String uri = startUri;
         MvcResult result = mockMvc.perform(post(uri)
@@ -131,8 +130,7 @@ public class OrderControllerTest {
     public void readAll() throws Exception {
         createGood();
         Long clientId = createClient();
-        order.getClient().setId(clientId);
-        order.getClient().getPoint().setId(clientId);
+        order.setClientId(clientId);
         Long OrderId = createOrder();
         String uri = startUri;
         mockMvc.perform(get(uri))
@@ -147,8 +145,7 @@ public class OrderControllerTest {
     public void read() throws Exception {
         createGood();
         Long clientId = createClient();
-        order.getClient().setId(clientId);
-        order.getClient().getPoint().setId(clientId);
+        order.setClientId(clientId);
         Long OrderId = createOrder();
         String uri = startUri + OrderId;
         mockMvc.perform(get(uri))
@@ -163,10 +160,8 @@ public class OrderControllerTest {
     public void update() throws Exception {
         createGood();
         Long clientId = createClient();
-        order.getClient().setId(clientId);
-        order1.getClient().setId(clientId);
-        order.getClient().getPoint().setId(clientId);
-        order1.getClient().getPoint().setId(clientId);
+        order.setClientId(clientId);
+        order1.setClientId(clientId);
         Long OrderId = createOrder();
         String uri = startUri + OrderId;
         order1.setId(OrderId);
@@ -185,8 +180,7 @@ public class OrderControllerTest {
     public void delete() throws Exception {
         createGood();
         Long clientId = createClient();
-        order.getClient().setId(clientId);
-        order.getClient().getPoint().setId(clientId);
+       order.setClientId(clientId);
         Long OrderId = createOrder();
         String uri = startUri + OrderId;
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri))

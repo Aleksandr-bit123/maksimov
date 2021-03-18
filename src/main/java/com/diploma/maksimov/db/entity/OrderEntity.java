@@ -16,19 +16,8 @@ public class OrderEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-
-//    private Long clientId;
-//    private Long goodId;
-
-    @ManyToOne (fetch = FetchType.EAGER, optional = true/*,cascade = CascadeType.ALL*/)
-    @JoinColumn(name = "client_id")
-//    @JsonBackReference
-    private ClientEntity client;
-
-    @ManyToOne (fetch = FetchType.EAGER, optional = true/*,cascade = CascadeType.ALL*/)
-    @JoinColumn(name = "good_id")
-//    @JsonBackReference
-    private GoodEntity good;
+    private Long clientId;
+    private Long goodId;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     @JsonDeserialize(using = LocalDateDeserializer.class)
@@ -49,36 +38,20 @@ public class OrderEntity {
         this.id = id;
     }
 
-//    public Long getClientId() {
-//        return clientId;
-//    }
-//
-//    public void setClientId(Long clientId) {
-//        this.clientId = clientId;
-//    }
-//
-//    public Long getGoodId() {
-//        return goodId;
-//    }
-//
-//    public void setGoodId(Long goodId) {
-//        this.goodId = goodId;
-//    }
-
-    public ClientEntity getClient() {
-        return client;
+    public Long getClientId() {
+        return clientId;
     }
 
-    public void setClient(ClientEntity client) {
-        this.client = client;
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
     }
 
-    public GoodEntity getGood() {
-        return good;
+    public Long getGoodId() {
+        return goodId;
     }
 
-    public void setGood(GoodEntity good) {
-        this.good = good;
+    public void setGoodId(Long goodId) {
+        this.goodId = goodId;
     }
 
     public LocalDate getDeliveryDate() {

@@ -68,9 +68,11 @@ public class DriverController {
     @PutMapping(value = "/{id}/driver")
     public ResponseEntity<?> update(@PathVariable long id, @RequestBody Driver driver) {
         if (employeeService.read(id) != null) {
+            //изменяю существующий объект, т.к. конфликт сессии гибернейт
             Driver driver1 = driverService.read(id);
             driver1.setDriving_license(driver.getDriving_license());
             driver1.setInfo(driver.getInfo());
+            //изменяю существующий объект, т.к. конфликт ссесии гибернейт
             final boolean updated = driverService.update(driver1, id);
             if (updated) {
                 return new ResponseEntity<>(HttpStatus.OK);

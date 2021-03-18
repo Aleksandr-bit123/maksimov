@@ -1,7 +1,5 @@
 package com.diploma.maksimov.dto;
 
-import java.util.List;
-
 public class Client {
     private Long id;
     private String lastName;
@@ -10,12 +8,11 @@ public class Client {
     private String passport;
     private String info;
     private Point point;
-    private List<Order> orders;
 
     public Client() {
     }
 
-    public Client(Long id, String lastName, String firstName, String middleName, String passport, String info, Point point, List<Order> orders) {
+    public Client(Long id, String lastName, String firstName, String middleName, String passport, String info, Point point) {
         this.id = id;
         this.lastName = lastName;
         this.firstName = firstName;
@@ -23,7 +20,6 @@ public class Client {
         this.passport = passport;
         this.info = info;
         this.point = point;
-        this.orders = orders;
     }
 
     public Long getId() {
@@ -80,13 +76,5 @@ public class Client {
 
     public void setPoint(Point point) {
         this.point = point;
-    }
-
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
     }
 }
