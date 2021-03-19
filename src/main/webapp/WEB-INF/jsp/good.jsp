@@ -17,7 +17,7 @@
     <tr>
         <td id="tdForm" style="vertical-align: top; "> <%--Ячейка для форм--%>
             <form id="goodForm" action="" method="post" >
-                <div>ID</div><div><input id="inputId" type="number" name="id" placeholder="id" min="0" step="1"></div>
+                <div>ID</div><div><input id="inputId" type="number" name="id" placeholder="id" min="0" step="1" required></div>
                 <div>Наименование</div><div><input id="inputName" type="search" name="name" placeholder="Наименование"/></div>
                 <div>Цена</div><div><input id="inputCost" type="number" name="cost" placeholder="Цена" min="0" step="any"/></div>
                 <div>Объем</div><div><input id="inputVolume" type="number" name="volume" placeholder="Объем" min="0" step="0.1"/></div>
@@ -46,6 +46,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script> <%--Заполняем список сотрудников--%>
 goods = ${goods};
+method = 'POST';
 goods.forEach(function(good, i, arrUser) {
     $('#goodTable').append($('<tr onclick="fillForm(this.firstChild.innerHTML)">')
         .append($('<td>').append(good.id))
@@ -74,6 +75,8 @@ function fillForm(id) {
     $('#inputInfo').val(good.info);
     $('#inputSubmit').val("Изменить");
 
+    method = 'PUT';
+    $('#goodForm').attr("action", "/rest/boss/good/"+good.id);
 }
 
 function submitForm(event) {
@@ -88,7 +91,7 @@ function submitForm(event) {
     formData.forEach((value, key) => obj[key] = value);
     // Собираем запрос к серверу
     let request = new Request(event.target.action, {
-        method: 'POST',
+        method: method,
         body: JSON.stringify(obj),
         headers: {
             'Content-Type': 'application/json',
@@ -144,6 +147,8 @@ function deleteGood(goodId){
 
 function clearGoodForm(){
     $('#inputSubmit').val("Добавить");
+    method = 'POST';
+    $('#goodForm').attr("action", "/rest/boss/good/");
 }
 </script>
 </body>

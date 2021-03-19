@@ -20,9 +20,9 @@ public class DriverEntity {
     private String info;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "driverId")
-    private List<GoalEntity> goal;
+    private List<GoalEntity> goals;
 
 
     @OneToOne(optional = true, cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
@@ -64,12 +64,12 @@ public class DriverEntity {
         this.driving_license = driving_license;
     }
 
-    public List<GoalEntity> getGoal() {
-        return goal;
+    public List<GoalEntity> getGoals() {
+        return goals;
     }
 
-    public void setGoal(List<GoalEntity> goal) {
-        this.goal = goal;
+    public void setGoals(List<GoalEntity> goals) {
+        this.goals = goals;
     }
 
     public EmployeeEntity getEmployee() {

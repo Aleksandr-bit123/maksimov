@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,5 +62,12 @@ public class GoalServise implements IGoalService{
             return true;
         }
         return false;
+    }
+
+    public List<Goal> readAllByDate(LocalDate date) {
+        Iterable<GoalEntity> all = goalRepository.findAllByDate(date);
+
+        return objectMapper.convertValue(all, new TypeReference<List<Goal>>() {
+        });
     }
 }

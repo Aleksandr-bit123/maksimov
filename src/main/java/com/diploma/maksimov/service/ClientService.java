@@ -22,8 +22,10 @@ public class ClientService implements CrudService<Client, Long> {
 
     @Override
     public void create(Client client) {
-        ClientEntity clientEntity = objectMapper.convertValue(client, ClientEntity.class);
-        clientRepository.save(clientEntity);
+        if (!clientRepository.existsById(client.getId())){
+            ClientEntity clientEntity = objectMapper.convertValue(client, ClientEntity.class);
+            clientRepository.save(clientEntity);
+        }
     }
 
     @Override
@@ -45,8 +47,12 @@ public class ClientService implements CrudService<Client, Long> {
 
     @Override
     public boolean update(Client client, Long id) {
-        if (clientRepository.findById(id).isPresent()) {
-            clientRepository.save(objectMapper.convertValue(client, ClientEntity.class));
+        Optional<ClientEntity> clientEntityOptional = clientRepository.findById(id);
+        if (clientEntityOptional.isPresent()) {
+            ClientEntity clientEntity = objectMapper.convertValue(client, ClientEntity.class);
+            clientEntity.setOrders(clientEntityOptional.get().getOrders());
+            clientEntity.getPoint().setGoals(clientEntityOptional.get().getPoint().getGoals());
+            clientRepository.save(clientEntity);
             return true;
         }
         return false;

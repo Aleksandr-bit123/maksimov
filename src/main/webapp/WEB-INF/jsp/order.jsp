@@ -18,13 +18,13 @@
         <td id="tdForm" style="vertical-align: top; "> <%--Ячейка для форм--%>
             <form id="orderForm" action="" method="post">
                 <div><label for="inputId">ID</label></div>
-                <div><input id="inputId" type="text" name="id" placeholder="id" readonly value="null"></div>
+                <div><input id="inputId" type="text" name="id" placeholder="auto" readonly ></div>
                 <div><label for="inputClient">Клиент</label></div>
-                <div><select id="inputClient" name="client" onchange="selectClient()"><option disabled selected>Выберите клиента</option></select></div>
+                <div><select id="inputClient" name="clientId" onchange="selectClient()"><option disabled selected>Выберите клиента</option></select></div>
                 <div><label for="inputGood">Товар</label></div>
-                <div><select id="inputGood" name="good" onchange="selectGood()"><option disabled selected>Выберите товар</option></select></div>
+                <div><select id="inputGood" name="goodId" onchange="selectGood()"><option disabled selected>Выберите товар</option></select></div>
                 <div><label for="inputQuantity">Количество</label></div>
-                <div><input id="inputQuantity" type="number" name="quantity" placeholder="0" value="0" min="0"></div>
+                <div><input id="inputQuantity" type="number" name="quantity" placeholder="количество" value="1" min="1" max="20"></div>
                 <div><label for="inputDeliveryDate">Дата доставки</label></div>
                 <div><input id="inputDeliveryDate" type="date" name="deliveryDate" data-date-format="YYYY-MMMM-DD"></div>
                 <div><label for="inputInfo">info</label></div>
@@ -61,8 +61,8 @@
     orders.forEach(function (order, i, arrOrder) {
     $('#orderTable').append($('<tr onclick="fillForm('+ order.id + ')">')
         .append($('<td>').append(order.id))
-        .append($('<td>').append(order.client!=null?order.client.id:""))
-        .append($('<td>').append(order.good!=null?order.good.id:""))
+        .append($('<td>').append(order.clientId))
+        .append($('<td>').append(order.goodId))
         .append($('<td>').append(order.quantity))
         .append($('<td>').append(order.deliveryDate))
         .append($('<td>').append(order.info))
@@ -86,31 +86,33 @@
     function fillForm(id) {
         let order = orders.find(order => order.id == id);
 
-        currentClient = order.client;
-        currentGood = order.good;
+        currentClient = order.clientId;
+        currentGood = order.goodId;
 
             $('#inputId').val(order.id);
-        if (order.client!=null) {
-            $('#inputClient option[value=' + order.client.id + ']').prop('selected', true);
+        if (order.clientId!=null) {
+            $('#inputClient option[value=' + order.clientId + ']').prop('selected', true);
         }
             $('#inputDeliveryDate').val(order.deliveryDate);
             $('#inputQuantity').val(order.quantity);
             $('#inputInfo').val(order.info);
             $('#inputSubmit').val("Изменить");
-        if (order.good!=null){
-            $('#inputGood option[value=' + order.good.id + ']').prop('selected', true);
+        if (order.goodId!=null){
+            $('#inputGood option[value=' + order.goodId + ']').prop('selected', true);
         }
 
     }
 
     function selectClient(){
         let clientId = $('#inputClient option:selected').val();
-        currentClient = clients.find(client => client.id == clientId);
+        currentClient = clientId;
+        // currentClient = clients.find(client => client.id == clientId);
     }
 
     function selectGood() {
         let goodId = $('#inputGood option:selected').val();
-        currentGood = goods.find(good => good.id == goodId);
+        currentGood = goodId;
+        // currentGood = goods.find(good => good.id == goodId);
     }
 
     function submitForm(event) {
@@ -125,8 +127,8 @@
         let obj = {};
         formData.forEach((value, key) => obj[key] = value);
         // Собираем запрос к серверу
-        obj.client = currentClient;
-        obj.good = currentGood;
+        obj.clientId = currentClient;
+        obj.goodId = currentGood;
         let request = new Request(event.target.action, {
             method: 'POST',
             body: JSON.stringify(obj),

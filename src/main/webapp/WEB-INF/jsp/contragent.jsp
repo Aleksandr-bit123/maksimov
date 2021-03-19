@@ -17,16 +17,16 @@
     <tr>
         <td id="tdForm" style="vertical-align: top; "> <%--Ячейка для форм--%>
             <form id="contragentForm" action="" method="post">
-                <div>ID</div>
-                <div><input id="inputId" type="text" name="id" placeholder="id" readonly value="null"></div>
-                <div>Наименование</div>
+                <div><label for="inputId">ID</label></div>
+                <div><input id="inputId" type="text" name="id" placeholder="auto" readonly></div>
+                <div><label for="inputName">Наименование</label></div>
                 <div><input id="inputName" type="search" name="name" placeholder="Наименование"/></div>
                 <input id="inputPoint" type="hidden" name="point"/>
-                <div>Адрес</div>
+                <div><label for="inputAddress">Адрес</label></div>
                 <div><input id="inputAddress" type="text" placeholder="Адрес"/></div>
-                <div>Телефон</div>
+                <div><label for="inputPhone">Телефон</label></div>
                 <div><input id="inputPhone" type="text" placeholder="Телефон"/></div>
-                <div>info</div>
+                <div><label for="inputInfo">info</label></div>
                 <div><textarea id="inputInfo" name="info" placeholder="info"></textarea></div>
                 <div><input id="inputSubmit" type="submit" value="Добавить"/></div>
                 <div><input type="reset" value="Очистить" onclick="clearContragentForm()"/></div>
@@ -53,8 +53,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script> <%--Заполняем список сотрудников--%>
 contragents = ${Contragents};
+method = 'POST';
 contragents.forEach(function (contragent, i, arrUser) {
-    $('#goodTable').append($('<tr onclick="fillForm(this.firstChild.innerHTML)">')
+    $('#goodTable').append($('<tr onclick="fillForm('+contragent.id+')">')
         .append($('<td>').append(contragent.id))
         .append($('<td>').append(contragent.name))
         .append($('<td>').append(contragent.point.address))
@@ -81,7 +82,8 @@ contragents.forEach(function (contragent, i, arrUser) {
         $('#inputInfo').val(contragent.info);
         $('#inputSubmit').val("Изменить");
 
-
+        method = 'PUT';
+        $('#contragentForm').attr("action", "/rest/logist/contragent/"+client.id);
     }
 
     function submitForm(event) {
@@ -95,6 +97,7 @@ contragents.forEach(function (contragent, i, arrUser) {
         let point = {     // объект
             id: $('#inputId').val(),  // под ключом "name" хранится значение "John"
             address: $('#inputAddress').val(),
+            pointType: 1,
             phone: $('#inputPhone').val()// под ключом "age" хранится значение 30
         };
         // point.id = $('#inputId').val();
@@ -106,7 +109,7 @@ contragents.forEach(function (contragent, i, arrUser) {
         // Собираем запрос к серверу
         obj.point = point;
         let request = new Request(event.target.action, {
-            method: 'POST',
+            method: method,
             body: JSON.stringify(obj),
             headers: {
                 'Content-Type': 'application/json',
@@ -162,6 +165,8 @@ contragents.forEach(function (contragent, i, arrUser) {
 
     function clearContragentForm() {
         $('#inputSubmit').val("Добавить");
+        method = 'POST';
+        $('#contragentForm').attr("action", "/rest/boss/contragent/");
     }
 </script>
 </body>

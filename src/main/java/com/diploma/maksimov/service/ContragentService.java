@@ -22,8 +22,10 @@ public class ContragentService implements CrudService<Contragent, Long>{
 
     @Override
     public void create(Contragent contragent) {
-        ContragentEntity contragentEntity = objectMapper.convertValue(contragent, ContragentEntity.class);
-        contragentRepository.save(contragentEntity);
+        if (!contragentRepository.existsById(contragent.getId())){
+            ContragentEntity contragentEntity = objectMapper.convertValue(contragent, ContragentEntity.class);
+            contragentRepository.save(contragentEntity);
+        }
     }
 
     @Override
@@ -46,8 +48,11 @@ public class ContragentService implements CrudService<Contragent, Long>{
 
     @Override
     public boolean update(Contragent contragent, Long id) {
-        if (contragentRepository.findById(id).isPresent()) {
-            contragentRepository.save(objectMapper.convertValue(contragent, ContragentEntity.class));
+        Optional<ContragentEntity> contragentEntityOptional = contragentRepository.findById(id);
+        if (contragentEntityOptional.isPresent()) {
+            ContragentEntity contragentEntity = objectMapper.convertValue(contragent, ContragentEntity.class);
+            contragentEntity.getPoint().setGoals(contragentEntityOptional.get().getPoint().getGoals());
+            contragentRepository.save(contragentEntity);
             return true;
         }
         return false;

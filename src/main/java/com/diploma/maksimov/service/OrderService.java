@@ -1,7 +1,9 @@
 package com.diploma.maksimov.service;
 
+import com.diploma.maksimov.db.entity.GoalEntity;
 import com.diploma.maksimov.db.entity.OrderEntity;
 import com.diploma.maksimov.db.repository.OrderRepository;
+import com.diploma.maksimov.dto.Goal;
 import com.diploma.maksimov.dto.Order;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -69,5 +72,12 @@ public class OrderService implements IOrderService{
             return true;
         }
         return false;
+    }
+
+    public List<Order> readAllByDate(LocalDate date) {
+        Iterable<OrderEntity> all = orderRepository.findAllByDate(date);
+
+        return objectMapper.convertValue(all, new TypeReference<List<Order>>() {
+        });
     }
 }

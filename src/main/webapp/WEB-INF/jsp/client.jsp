@@ -18,7 +18,7 @@
         <td id="tdForm" style="vertical-align: top; "> <%--Ячейка для форм--%>
             <form id="clientForm" action="" method="post">
                 <div>ID</div>
-                <div><input id="inputId" type="text" name="id" placeholder="id" readonly value="null"></div>
+                <div><input id="inputId" type="text" name="id" placeholder="auto" readonly></div>
                 <div>Фамилия</div>
                 <div><input id="inputLastName" type="search" name="lastName" placeholder="Фамилия"/></div>
                 <div>Имя</div>
@@ -62,6 +62,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script> <%--Заполняем список сотрудников--%>
 clients = ${Clients};
+method = 'POST';
 clients.forEach(function (client, i, arrUser) {
     $('#clientTable').append($('<tr onclick="fillForm('+ client.id + ')">')
         .append($('<td>').append(client.id))
@@ -94,6 +95,9 @@ clients.forEach(function (client, i, arrUser) {
         $('#inputPhone').val(client.point.phone);
         $('#inputInfo').val(client.info);
         $('#inputSubmit').val("Изменить");
+
+        method = 'PUT';
+        $('#clientForm').attr("action", "/rest/logist/client/"+client.id);
     }
 
     function submitForm(event) {
@@ -107,6 +111,7 @@ clients.forEach(function (client, i, arrUser) {
         let point = {     // объект
             id: $('#inputId').val(),  // под ключом "name" хранится значение "John"
             address: $('#inputAddress').val(),
+            pointType: 0,
             phone: $('#inputPhone').val()// под ключом "age" хранится значение 30
         };
         // point.id = $('#inputId').val();
@@ -118,7 +123,7 @@ clients.forEach(function (client, i, arrUser) {
         // Собираем запрос к серверу
         obj.point = point;
         let request = new Request(event.target.action, {
-            method: 'POST',
+            method: method,
             body: JSON.stringify(obj),
             headers: {
                 'Content-Type': 'application/json',
@@ -172,8 +177,12 @@ clients.forEach(function (client, i, arrUser) {
         }
     }
 
+
+
     function clearClientForm() {
         $('#inputSubmit').val("Добавить");
+        method = 'POST';
+        $('#clientForm').attr("action", "/rest/logist/client/");
     }
 </script>
 </body>

@@ -16,7 +16,7 @@ public class GoodEntity {
     private String info;
 
     @JsonIgnore
-    @OneToMany (fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
+    @OneToMany (fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn (name = "goodId")
     private List<OrderEntity> orders;
 
@@ -68,4 +68,19 @@ public class GoodEntity {
         this.info = info;
     }
 
+    public List<OrderEntity> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<OrderEntity> orders) {
+        this.orders = orders;
+    }
+
+    public List<GoodTurnoverEntity> getGoodTurnoverList() {
+        return goodTurnoverList;
+    }
+
+    public void setGoodTurnoverList(List<GoodTurnoverEntity> goodTurnoverList) {
+        this.goodTurnoverList = goodTurnoverList;
+    }
 }

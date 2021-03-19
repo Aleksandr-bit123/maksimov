@@ -3,16 +3,17 @@ package com.diploma.maksimov.service;
 import com.diploma.maksimov.db.entity.DriverEntity;
 import com.diploma.maksimov.db.repository.DriverRepository;
 import com.diploma.maksimov.dto.Driver;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class DriverService implements CrudService<Driver, Long>{
+public class DriverService implements CrudService<Driver, Long> {
 
     private final DriverRepository driverRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -23,26 +24,30 @@ public class DriverService implements CrudService<Driver, Long>{
 
     @Transactional
     @PostConstruct
-    public void init(){
+    public void init() {
 
     }
 
     @Override
     public void create(Driver driver) {
-        DriverEntity driverEntity = objectMapper.convertValue(driver, DriverEntity.class);
-        driverRepository.save(driverEntity);
+        if (!driverRepository.existsById(driver.getDriverId())) {
+            DriverEntity driverEntity = objectMapper.convertValue(driver, DriverEntity.class);
+            driverRepository.save(driverEntity);
+        }
     }
 
     @Override
     public List<Driver> readAll() {
         Iterable<DriverEntity> all = driverRepository.findAll();
-        return objectMapper.convertValue(all, ArrayList.class);
+        return objectMapper.convertValue(all, new TypeReference<List<Driver>>() {
+        });
     }
 
     @Override
     public Driver read(Long id) {
-        if (driverRepository.findById(id).isPresent()) {
-            DriverEntity driverEntity = driverRepository.findById(id).stream().findFirst().get();
+        Optional<DriverEntity> driverEntityOptional = driverRepository.findById(id);
+        if (driverEntityOptional.isPresent()) {
+            DriverEntity driverEntity = driverEntityOptional.get();
             return objectMapper.convertValue(driverEntity, Driver.class);
         }
         return null;
@@ -50,8 +55,11 @@ public class DriverService implements CrudService<Driver, Long>{
 
     @Override
     public boolean update(Driver driver, Long id) {
-        if (driverRepository.findById(id).isPresent()){
-            driverRepository.save(objectMapper.convertValue(driver, DriverEntity.class));
+        Optional<DriverEntity> driverEntityOptional = driverRepository.findById(id);
+        if (driverEntityOptional.isPresent()) {
+            DriverEntity driverEntity = objectMapper.convertValue(driver, DriverEntity.class);
+            driverEntity.setGoals(driverEntityOptional.get().getGoals());
+            driverRepository.save(driverEntity);
             return true;
         }
         return false;
@@ -59,9 +67,9 @@ public class DriverService implements CrudService<Driver, Long>{
 
     @Override
     public boolean delete(Long id) {
-        if (driverRepository.findById(id).isPresent()){
-            DriverEntity driverEntity = driverRepository.findById(id).stream().findFirst().get();
-            driverRepository.delete(driverEntity);
+        Optional<DriverEntity> driverEntityOptional = driverRepository.findById(id);
+        if (driverEntityOptional.isPresent()) {
+            driverRepository.deleteById(id);
             return true;
         }
         return false;

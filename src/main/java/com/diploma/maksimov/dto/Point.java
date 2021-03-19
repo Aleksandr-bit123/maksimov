@@ -1,17 +1,21 @@
 package com.diploma.maksimov.dto;
 
 public class Point {
+    public enum PointType {client, contragent}
+
     private Long id;
     private String address;
     private String phone;
+    private PointType pointType;
 
     public Point() {
     }
 
-    public Point(Long id, String address, String phone) {
+    public Point(Long id, String address, String phone, PointType pointType) {
         this.id = id;
         this.address = address;
         this.phone = phone;
+        this.pointType = pointType;
     }
 
     public Long getId() {
@@ -38,4 +42,11 @@ public class Point {
         this.phone = phone;
     }
 
+    public PointType getPointType() {
+        return pointType;
+    }
+
+    public void setPointType(PointType pointType) {
+        this.pointType = pointType;
+    }
 }

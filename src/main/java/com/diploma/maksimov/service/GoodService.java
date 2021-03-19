@@ -31,8 +31,10 @@ public class GoodService implements CrudService<Good, Long> {
 
     @Override
     public void create(Good good) {
-        GoodEntity goodEntity = objectMapper.convertValue(good, GoodEntity.class);
-        goodRepository.save(goodEntity);
+        if (!goodRepository.existsById(good.getId())){
+            GoodEntity goodEntity = objectMapper.convertValue(good, GoodEntity.class);
+            goodRepository.save(goodEntity);
+        }
     }
 
     @Override
@@ -54,8 +56,12 @@ public class GoodService implements CrudService<Good, Long> {
 
     @Override
     public boolean update(Good good, Long id) {
-        if (goodRepository.findById(id).isPresent()) {
-            goodRepository.save(objectMapper.convertValue(good, GoodEntity.class));
+        Optional<GoodEntity> goodEntityOptional = goodRepository.findById(id);
+        if (goodEntityOptional.isPresent()) {
+            GoodEntity goodEntity = objectMapper.convertValue(good, GoodEntity.class);
+            goodEntity.setOrders(goodEntityOptional.get().getOrders());
+            goodEntity.setGoodTurnoverList(goodEntityOptional.get().getGoodTurnoverList());
+            goodRepository.save(goodEntity);
             return true;
         }
         return false;

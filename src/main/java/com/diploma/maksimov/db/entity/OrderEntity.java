@@ -1,6 +1,5 @@
 package com.diploma.maksimov.db.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -16,7 +15,9 @@ public class OrderEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private Long clientId;
+    @Column(nullable = false)
     private Long goodId;
 
     @JsonFormat(pattern = "yyyy-MM-dd")

@@ -16,6 +16,7 @@ public class GoodTurnoverEntity {
     private GoodTurnover.PaymentMethod paymentMethod;
     private String info;
     private Byte priority;
+    private Boolean turnover;
 
     public GoodTurnoverEntity() {
     }
@@ -76,4 +77,11 @@ public class GoodTurnoverEntity {
         this.priority = priority;
     }
 
+    public Boolean getTurnover() {
+        return turnover;
+    }
+
+    public void setTurnover(Boolean turnover) {
+        this.turnover = turnover;
+    }
 }

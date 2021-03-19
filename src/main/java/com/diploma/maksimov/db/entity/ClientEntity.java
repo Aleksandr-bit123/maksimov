@@ -20,7 +20,7 @@ public class ClientEntity {
     private PointEntity point;
 
     @JsonIgnore
-    @OneToMany (fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
+    @OneToMany (fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "clientId")
     private List<OrderEntity> orders;
 
@@ -83,4 +83,11 @@ public class ClientEntity {
         this.point = point;
     }
 
+    public List<OrderEntity> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<OrderEntity> orders) {
+        this.orders = orders;
+    }
 }

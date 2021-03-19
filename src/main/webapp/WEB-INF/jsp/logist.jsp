@@ -14,6 +14,7 @@
     <a href="/">Главная</a>
     <h4><a href="/logist/client">Клиенты</a></h4>
     <h4><a href="/logist/order">Заказы</a></h4>
+    <h4><a href="/logist/goal/${date}">Цели</a></h4>
 </div>
 </body>
 </html>
