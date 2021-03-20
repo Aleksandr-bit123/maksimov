@@ -39,6 +39,11 @@
                     <input id="inputDeliveryDate" type="date" name="deliveryDate">
                 </div>
 
+                <div><label for="inputInfo">info</label></div>
+                <div>
+                    <textarea id="inputInfo" type="date" name="info" placeholder="info"></textarea>
+                </div>
+
                 <input type="hidden" id="inputStaus" name="status" value="0">
 
                 <input type="hidden" id="inputLogistId" name="logistId" value="1">
@@ -58,6 +63,7 @@
                     <th>Водитель</th>
                     <th>Логист</th>
                     <th>Статус</th>
+                    <th>info</th>
                     <th>Оборот товара</th>
                     <th>X</th>
                 </tr>
@@ -89,25 +95,115 @@
     goals.forEach(function (goal, i, arrGoal) {
         let client = clients.find(client => client.id == goal.pointId);
         let contragent = contragents.find(contragent => contragent.id == goal.pointId);
+        let driver = drivers.find(driver => driver.driverId == goal.driverId);
 
-        $('#goalTable').append($('<tr onclick="fillForm('+goal.id+')">')
-            .append($('<td>').append(goal.id))
-            .append($('<td>').append(
-                (client)?
-                    client.id + client.lastName
-                    :
-                    contragent.id + contragent.name
-            ))
-            .append($('<td>').append(goal.driverId))
-            .append($('<td>').append(goal.logistId))
-            .append($('<td>').append(goal.status))
-            .append($('<td>').append(goal.goodTurnoverList))
-            .append($('<td>').append('<input type="button" value="X" onclick="cancelGoal(' + goal.id + ')">'))
-        );
+
+    $('#goalTable').append($('<tr onclick="fillForm(' + goal.id + ')">')
+        .append($('<td>').append(goal.id))
+        .append($('<td>').append(
+            (client)?
+                client.lastName + "</br>"
+                + client.firstName+ "</br>"
+                + client.middleName + "<br/>"
+                + client.point.address + "</br>"
+                + client.point.phone + "<br/>"
+                + client.info
+                :
+                contragent.name + "</br>"
+                + contragent.point.address + "</br>"
+                + contragent.point.phone
+            )
+        )
+        .append($('<td>').append(
+            driver.employee.lastName + "</br>"
+            + driver.employee.firstName + "</br>"
+            + driver.employee.middleName + "</br>"
+            + driver.carEntities[0].brand + "</br>"
+            + driver.carEntities[0].cubic_capacity + " куб</br>"
+            + driver.carEntities[0].fuel_consumption + " л/100 км</br>"
+            )
+        )
+        .append($('<td>').append(goal.logistId))
+        .append($('<td>').append(goal.status))
+        .append($('<td>').append(goal.info))
+        .append($('<td>')
+            .append($('<table>')
+                .append($('<tr>')
+                    .append($('<td id="tdGoodTurnover' + goal.id + '" hidden>')
+                        .append($('<form id="goodTurnoverForm' + goal.id + '" action="" method="post">')
+                            .append($('<div><label for="inputTurnoverId' + goal.id + '">').append("ID"))
+                            .append($('<div><input id="inputTurnoverId' + goal.id + '" name="id" type="number" placeholder="auto" readonly>'))
+                            .append($('<div><label for="inputTurnoverQuantity' + goal.id + '">').append("Количество"))
+                            .append($('<div><input id="inputTurnoverQuantity' + goal.id + '" name="quantity" type="number" value="1" min="1" max="20">'))
+                            .append($('<div><label for="inputTurnoverGood' + goal.id + '">').append("Товар"))
+                            .append($('<div>')
+                                .append($('<select id="inputTurnoverGood' + goal.id + '" name="goodId">')
+                                    .append($('<option selected disabled>').append("Выберите товар"))
+                                )
+                            )
+                            .append($('<div><label for="inputPaymentMethod' + goal.id + '">').append("Способ оплаты"))
+                            .append($('<div>')
+                                .append($('<select id="inputPaymentMethod' + goal.id + '" name="paymentMethod">')
+                                    .append($('<option selected value="0">').append("наличные"))
+                                    .append($('<option value="1">').append("карта"))
+                                    .append($('<option value="2">').append("оплачено"))
+                                )
+                            )
+                            .append($('<div><label for="inputTurnover' + goal.id + '">').append("Оборот"))
+                            .append($('<div>')
+                                .append($('<select id="inputTurnover' + goal.id + '" name="turnover">')
+                                    .append($('<option selected value="true">').append("отдать"))
+                                    .append($('<option value="false">').append("забрать"))
+                                )
+                            )
+                            .append($('<div><label for="inputTurnoverInfo' + goal.id + '">').append("info"))
+                            .append($('<div><textarea id="inputTurnoverInfo' + goal.id + '" name="info" placeholder="info">'))
+                            .append($('<input type="submit">'))
+                            .append($('<input type="reset" >'))
+
+                        )
+                    )
+                    .append($('<td>')
+                        .append($('<table id="goodTurnoverTable' + goal.id + '">')
+                            .append($('<tr onclick="showForm(' + goal.id + ')">')
+                                .append($('<th>').append("ID"))
+                                .append($('<th>').append("Товар"))
+                                .append($('<th>').append("Количество"))
+                                .append($('<th>').append("Оборот"))
+                                .append($('<th>').append("Способ оплаты"))
+                                .append($('<th>').append("info"))
+                                .append($('<th>').append("X"))
+                            )
+                        )
+                    )
+                )
+            )
+
+        )
+        .append($('<td>').append('<input type="button" value="X" onclick="cancelGoal(' + goal.id + ')">'))
+    );
     });
 
     document.getElementById('goalForm').addEventListener('submit', submitForm);
     $('#goalForm').attr("action", "/rest/logist/goal/");
+
+    function clearGoalForm(){
+
+    }
+
+    function fillForm(goalId){
+
+    }
+
+    function showForm(goalId){
+        if($('#tdGoodTurnover'+goalId).attr('hidden')){
+            $('#tdGoodTurnover'+goalId).attr('hidden' , false);
+        } else {
+            $('#tdGoodTurnover'+goalId).attr('hidden' , true);
+        }
+    }
+
+
 
     function submitForm(event) {
         // Отменяем стандартное поведение браузера с отправкой формы
