@@ -8,6 +8,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface GoalRepository extends CrudRepository<GoalEntity,Long> {
-    @Query("select u from GoalEntity u where u.deliveryDate = :date")
+    @Query("select u from GoalEntity u where u.deliveryDate = :date order by u.driverId, u.priority ")
     List<GoalEntity> findAllByDate(LocalDate date);
 }

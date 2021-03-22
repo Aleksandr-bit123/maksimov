@@ -38,6 +38,9 @@ public class GoalViewController {
     @Autowired
     private ContragentService contragentService;
 
+    @Autowired
+    private GoodService goodService;
+
     @GetMapping("/goal")
     public String index(Model model) {
         List<Goal> goalList = goalServise.readAll();
@@ -109,11 +112,24 @@ public class GoalViewController {
                 e.printStackTrace();
             }
 
+            Set<Long> goodIdSet = new TreeSet<>();
+            orderList.forEach(order -> goodIdSet.add(order.getGoodId()));
+
+            List<Good> goodList = new LinkedList<>();
+            goodIdSet.forEach(googId ->goodList.add(goodService.read(googId)));
+            String goodListAsString = null;
+            try {
+                goodListAsString = objectMapper.writeValueAsString(goodList);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+
             model.addAttribute("goals",goalListAsString);
             model.addAttribute("drivers",driverListAsString);
             model.addAttribute("contragents",contragentListAsString);
             model.addAttribute("orders",orderListAsString);
             model.addAttribute("clients",clientListAsString);
+            model.addAttribute("goods",goodListAsString);
 
             return "goal";
 

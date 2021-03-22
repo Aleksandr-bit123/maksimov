@@ -11,11 +11,15 @@ public class GoodTurnover {
     private String info;
     private Byte priority;
     private Boolean turnover;
+    private Long orderId;
+    private Long link;
+    private Long linkPoint;
+    private Long linkGoal;
 
     public GoodTurnover() {
     }
 
-    public GoodTurnover(Long id, Long goalId, Long goodId, Byte quantity, PaymentMethod paymentMethod, String info, Byte priority, Boolean turnover) {
+    public GoodTurnover(Long id, Long goalId, Long goodId, Byte quantity, PaymentMethod paymentMethod, String info, Byte priority, Boolean turnover, Long orderId) {
         this.id = id;
         this.goalId = goalId;
         this.goodId = goodId;
@@ -24,6 +28,8 @@ public class GoodTurnover {
         this.info = info;
         this.priority = priority;
         this.turnover = turnover;
+        this.orderId = orderId;
+
     }
 
     public Long getId() {
@@ -88,5 +94,37 @@ public class GoodTurnover {
 
     public void setTurnover(Boolean turnover) {
         this.turnover = turnover;
+    }
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
+    public Long getLink() {
+        return link;
+    }
+
+    public void setLink(Long link) {
+        this.link = link;
+    }
+
+    public Long getLinkPoint() {
+        return linkPoint;
+    }
+
+    public void setLinkPoint(Long linkPoint) {
+        this.linkPoint = linkPoint;
+    }
+
+    public Long getLinkGoal() {
+        return linkGoal;
+    }
+
+    public void setLinkGoal(Long linkGoal) {
+        this.linkGoal = linkGoal;
     }
 }

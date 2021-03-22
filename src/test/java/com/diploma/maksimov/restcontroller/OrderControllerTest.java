@@ -89,8 +89,8 @@ public class OrderControllerTest {
     }
 
 
-    Order order = new Order(null,null,id, LocalDate.of(2000,02,10),(byte) 3,"информация");
-    Order order1 = new Order(null,null,id, LocalDate.of(1999,05,2),(byte) 5,"информация 1");
+    Order order = new Order(null,null,id, LocalDate.of(2000,02,10),(byte) 3,null,"информация");
+    Order order1 = new Order(null,null,id, LocalDate.of(1999,05,2),(byte) 5,null,"информация 1");
 
     String startUri = "/rest/logist/order/";
 

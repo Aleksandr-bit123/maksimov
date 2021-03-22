@@ -43,6 +43,7 @@
                     <th scope="col">Товар</th>
                     <th scope="col">Количество</th>
                     <th scope="col">Дата доставки</th>
+                    <th scope="col">status</th>
                     <th scope="col">info</th>
                     <th scope="col">X</th>
                 </tr>
@@ -56,6 +57,7 @@
 
     document.getElementById('orderForm').addEventListener('submit', submitForm);
     $('#orderForm').attr("action", "/rest/logist/order/");
+    method = 'POST';
 
     orders = ${orders};
     orders.forEach(function (order, i, arrOrder) {
@@ -65,6 +67,7 @@
         .append($('<td>').append(order.goodId))
         .append($('<td>').append(order.quantity))
         .append($('<td>').append(order.deliveryDate))
+        .append($('<td>').append(order.status))
         .append($('<td>').append(order.info))
         .append($('<td>').append('<input type="button" value="X" onclick="deleteOrder(' + order.id + ')">'))
     );
@@ -84,6 +87,9 @@
     let currentGood = null;
 
     function fillForm(id) {
+        $('#orderForm').attr("action", "/rest/logist/order/"+id);
+        method = 'PUT';
+
         let order = orders.find(order => order.id == id);
 
         currentClient = order.clientId;
@@ -130,7 +136,7 @@
         obj.clientId = currentClient;
         obj.goodId = currentGood;
         let request = new Request(event.target.action, {
-            method: 'POST',
+            method: method,
             body: JSON.stringify(obj),
             headers: {
                 'Content-Type': 'application/json',
@@ -163,6 +169,8 @@
         $('#inputSubmit').val("Добавить");
         currentGood = null;
         currentClient = null;
+        $('#orderForm').attr("action", "/rest/logist/order/");
+        method = 'POST';
     }
 
     function deleteOrder(orderId){

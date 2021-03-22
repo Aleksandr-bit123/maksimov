@@ -1,9 +1,7 @@
 package com.diploma.maksimov.service;
 
-import com.diploma.maksimov.db.entity.GoalEntity;
 import com.diploma.maksimov.db.entity.OrderEntity;
 import com.diploma.maksimov.db.repository.OrderRepository;
-import com.diploma.maksimov.dto.Goal;
 import com.diploma.maksimov.dto.Order;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,9 +30,12 @@ public class OrderService implements IOrderService{
 
     @Override
     public long create(Order order) {
-        OrderEntity orderEntity = objectMapper.convertValue(order, OrderEntity.class);
-        orderRepository.save(orderEntity);
-        return orderEntity.getId();
+        if (order.getId()==null || !orderRepository.existsById(order.getId())) {
+            OrderEntity orderEntity = objectMapper.convertValue(order, OrderEntity.class);
+            orderEntity = orderRepository.save(orderEntity);
+            return orderEntity.getId();
+        }
+        return order.getId();
     }
 
     @Override
@@ -56,8 +57,12 @@ public class OrderService implements IOrderService{
 
     @Override
     public boolean update(Order order, long id) {
-        if (orderRepository.findById(id).isPresent()) {
-            orderRepository.save(objectMapper.convertValue(order, OrderEntity.class));
+        Optional<OrderEntity> orderEntityOptional = orderRepository.findById(id);
+        if (orderEntityOptional.isPresent()) {
+            OrderEntity orderEntity = objectMapper.convertValue(order, OrderEntity.class);
+            orderEntity.setStatus(orderEntityOptional.get().getStatus());
+            orderEntity.setGoodTurnoverList(orderEntityOptional.get().getGoodTurnoverList());
+            orderRepository.save(orderEntity);
             return true;
         }
         return false;

@@ -17,17 +17,19 @@ public class Order {
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate deliveryDate;
     private Byte quantity;
+    private Goal.Status status;
     private String info;
 
     public Order() {
     }
 
-    public Order(Long id, Long clientId, Long goodId, LocalDate deliveryDate, Byte quantity, String info) {
+    public Order(Long id, Long clientId, Long goodId, LocalDate deliveryDate, Byte quantity, Goal.Status status, String info) {
         this.id = id;
         this.clientId = clientId;
         this.goodId = goodId;
         this.deliveryDate = deliveryDate;
         this.quantity = quantity;
+        this.status = status;
         this.info = info;
     }
 
@@ -61,6 +63,14 @@ public class Order {
 
     public void setQuantity(Byte quantity) {
         this.quantity = quantity;
+    }
+
+    public Goal.Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Goal.Status status) {
+        this.status = status;
     }
 
     public String getInfo() {

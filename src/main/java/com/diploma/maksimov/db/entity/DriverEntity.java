@@ -20,7 +20,7 @@ public class DriverEntity {
     private String info;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "driverId")
     private List<GoalEntity> goals;
 

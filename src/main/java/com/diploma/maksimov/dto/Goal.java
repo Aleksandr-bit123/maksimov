@@ -21,18 +21,22 @@ public class Goal {
     private Long driverId;
     private Long logistId;
     private Status status;
+    private Byte priority;
+    private String info;
     private List<GoodTurnover> goodTurnoverList;
 
     public Goal() {
     }
 
-    public Goal(Long id, Long pointId, LocalDate deliveryDate, Long driverId, Long logistId, Status status, List<GoodTurnover> goodTurnoverList) {
+    public Goal(Long id, Long pointId, LocalDate deliveryDate, Long driverId, Long logistId, Status status, Byte priority, String info, List<GoodTurnover> goodTurnoverList) {
         this.id = id;
         this.pointId = pointId;
         this.deliveryDate = deliveryDate;
         this.driverId = driverId;
         this.logistId = logistId;
         this.status = status;
+        this.priority = priority;
+        this.info = info;
         this.goodTurnoverList = goodTurnoverList;
     }
 
@@ -82,6 +86,22 @@ public class Goal {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public Byte getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Byte priority) {
+        this.priority = priority;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
     }
 
     public List<GoodTurnover> getGoodTurnoverList() {

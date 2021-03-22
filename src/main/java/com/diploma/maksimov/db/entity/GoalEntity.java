@@ -25,6 +25,8 @@ public class GoalEntity {
     private Long driverId;
     private Long logistId;
     private Goal.Status status;
+    private String info;
+    private Byte priority;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "goalId")
@@ -79,6 +81,22 @@ public class GoalEntity {
 
     public void setStatus(Goal.Status status) {
         this.status = status;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    public Byte getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Byte priority) {
+        this.priority = priority;
     }
 
     public List<GoodTurnoverEntity> getGoodTurnoverList() {

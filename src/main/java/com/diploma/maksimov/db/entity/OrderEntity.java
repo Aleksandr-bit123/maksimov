@@ -1,6 +1,8 @@
 package com.diploma.maksimov.db.entity;
 
+import com.diploma.maksimov.dto.Goal;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
@@ -8,6 +10,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(schema = "public", name = "t_order")
@@ -26,7 +29,13 @@ public class OrderEntity {
     private LocalDate deliveryDate;
 
     private Byte quantity;
+    private Goal.Status status;
     private String info;
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinColumn(name = "orderId")
+    private List<GoodTurnoverEntity> goodTurnoverList;
 
     public OrderEntity() {
     }
@@ -71,11 +80,27 @@ public class OrderEntity {
         this.quantity = quantity;
     }
 
+    public Goal.Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Goal.Status status) {
+        this.status = status;
+    }
+
     public String getInfo() {
         return info;
     }
 
     public void setInfo(String info) {
         this.info = info;
+    }
+
+    public List<GoodTurnoverEntity> getGoodTurnoverList() {
+        return goodTurnoverList;
+    }
+
+    public void setGoodTurnoverList(List<GoodTurnoverEntity> goodTurnoverList) {
+        this.goodTurnoverList = goodTurnoverList;
     }
 }

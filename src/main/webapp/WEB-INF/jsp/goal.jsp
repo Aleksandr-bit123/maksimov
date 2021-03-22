@@ -39,14 +39,20 @@
                     <input id="inputDeliveryDate" type="date" name="deliveryDate">
                 </div>
 
-                <div><label for="inputInfo">info</label></div>
+                <div><label for="inputPriority">priority</label></div>
                 <div>
-                    <textarea id="inputInfo" type="date" name="info" placeholder="info"></textarea>
+                    <input id="inputPriority" type="number" name="priority" min="0" max="255" value="100">
                 </div>
 
-                <input type="hidden" id="inputStaus" name="status" value="0">
+                <div><label for="inputInfo">info</label></div>
+                <div>
+                    <textarea id="inputInfo" name="info" placeholder="info"></textarea>
+                </div>
+
+                <input type="hidden" id="inputStaus" name="status" value="waiting">
 
                 <input type="hidden" id="inputLogistId" name="logistId" value="1">
+                <input type="hidden" id="inputGoodTurnoverList" name="goodTurnoverList">
 
 
                 <div><input id="inputSubmit" type="submit" value="Добавить"/></div>
@@ -63,7 +69,9 @@
                     <th>Водитель</th>
                     <th>Логист</th>
                     <th>Статус</th>
+                    <th>Дата</th>
                     <th>info</th>
+                    <th>priority</th>
                     <th>Оборот товара</th>
                     <th>X</th>
                 </tr>
@@ -79,8 +87,20 @@
     orders = ${orders};
     contragents = ${contragents};
     drivers = ${drivers};
+    goods = ${goods};
 
-    clients.forEach(function (client, i, arrClient) {
+
+    let clientsForInput = [];
+    let ordersForClientsForInput = orders;
+
+    ordersForClientsForInput = ordersForClientsForInput.filter(order => order.status == null);
+        alert(JSON.stringify(ordersForClientsForInput));
+    ordersForClientsForInput.forEach(function (order, i, arrOrder) {
+        clients.filter(client => client.id === order.clientId).forEach(client => clientsForInput.push(client));
+    alert(JSON.stringify(clientsForInput));
+    });
+
+    clientsForInput.forEach(function (client, i, arrClient) {
         $('#inputPointId').append($('<option>').attr("id","clientOption" + client.id).val(client.id).append(client.id + " "+ client.lastName));
     });
 
@@ -92,10 +112,16 @@
         $('#inputDriverId').append($('<option>').attr("id","driverOption" + driver.id).val(driver.driverId).append(driver.driverId + " "+ driver.employee.lastName));
     });
 
+    let currentGoalId = null;
+    let currentGoal = null;
+    let currentGoodTurnoverList = null;
+
     goals.forEach(function (goal, i, arrGoal) {
         let client = clients.find(client => client.id == goal.pointId);
         let contragent = contragents.find(contragent => contragent.id == goal.pointId);
         let driver = drivers.find(driver => driver.driverId == goal.driverId);
+        // let clientOrders = orders.filter(order => order.clientId == goal.pointId);
+        // alert(JSON.stringify(clientOrders));
 
 
     $('#goalTable').append($('<tr onclick="fillForm(' + goal.id + ')">')
@@ -125,7 +151,9 @@
         )
         .append($('<td>').append(goal.logistId))
         .append($('<td>').append(goal.status))
+        .append($('<td>').append(goal.deliveryDate))
         .append($('<td>').append(goal.info))
+        .append($('<td>').append(goal.priority))
         .append($('<td>')
             .append($('<table>')
                 .append($('<tr>')
@@ -144,9 +172,9 @@
                             .append($('<div><label for="inputPaymentMethod' + goal.id + '">').append("Способ оплаты"))
                             .append($('<div>')
                                 .append($('<select id="inputPaymentMethod' + goal.id + '" name="paymentMethod">')
-                                    .append($('<option selected value="0">').append("наличные"))
-                                    .append($('<option value="1">').append("карта"))
-                                    .append($('<option value="2">').append("оплачено"))
+                                    .append($('<option selected value="cash">').append("наличные"))
+                                    .append($('<option value="cashless">').append("карта"))
+                                    .append($('<option value="paidFor">').append("оплачено"))
                                 )
                             )
                             .append($('<div><label for="inputTurnover' + goal.id + '">').append("Оборот"))
@@ -156,22 +184,29 @@
                                     .append($('<option value="false">').append("забрать"))
                                 )
                             )
+
+                            .append($('<div><label for="inputTurnoverPriority' + goal.id + '">').append("priority"))
+                            .append($('<div><input id="inputTurnoverPriority' + goal.id + '" name="priority" type="number" value="100" min="1" max="255">'))
+
                             .append($('<div><label for="inputTurnoverInfo' + goal.id + '">').append("info"))
                             .append($('<div><textarea id="inputTurnoverInfo' + goal.id + '" name="info" placeholder="info">'))
-                            .append($('<input type="submit">'))
+                            .append($('<input type="button">'))
                             .append($('<input type="reset" >'))
 
                         )
                     )
                     .append($('<td>')
                         .append($('<table id="goodTurnoverTable' + goal.id + '">')
-                            .append($('<tr onclick="showForm(' + goal.id + ')">')
+                            .append($('<tr onclick="fillGoodTurnoverForm()(' + goal.id + ')">')
                                 .append($('<th>').append("ID"))
                                 .append($('<th>').append("Товар"))
                                 .append($('<th>').append("Количество"))
                                 .append($('<th>').append("Оборот"))
                                 .append($('<th>').append("Способ оплаты"))
+                                .append($('<th>').append("priority"))
+                                .append($('<th>').append("order"))
                                 .append($('<th>').append("info"))
+                                .append($('<th>').append("link"))
                                 .append($('<th>').append("X"))
                             )
                         )
@@ -182,16 +217,63 @@
         )
         .append($('<td>').append('<input type="button" value="X" onclick="cancelGoal(' + goal.id + ')">'))
     );
+    goal.goodTurnoverList.forEach(function (goodTurnover, i, arrGoodTurnover) {
+        $('#goodTurnoverTable' + goal.id).append($('<tr onclick="fillGoodTurnoverForm(' + goal.id + ')">')
+            .append($('<td>').append(goodTurnover.id))
+            .append($('<td>').append(goodTurnover.goodId))
+            .append($('<td>').append(goodTurnover.quantity))
+            .append($('<td>').append(goodTurnover.turnover==true?"отдать":"забрать"))
+            .append($('<td>').append(goodTurnover.paymentMethod))
+            .append($('<td>').append(goodTurnover.priority))
+            .append($('<td>').append(goodTurnover.orderId))
+            .append($('<td>').append(goodTurnover.info))
+            .append($('<td>').append(goodTurnover.link))
+            .append($('<td>').append('<input type="button" value="X" onclick="deleteGoodTurnover(' + goodTurnover.id + ')">'))
+        );
+    });
+
+        goods.forEach(function (good,i,arrGood){
+            $('#inputTurnoverGood'+goal.id).append($('<option value="'+ good.id +'">').append(good.id + " " + good.name));
+            // alert($('#inputTurnoverGood'+goalId));
+        });
+
     });
 
     document.getElementById('goalForm').addEventListener('submit', submitForm);
     $('#goalForm').attr("action", "/rest/logist/goal/");
+    method = 'POST';
 
     function clearGoalForm(){
-
+        $('#goalForm').attr("action", "/rest/logist/goal/");
+        method = 'POST';
     }
 
     function fillForm(goalId){
+        $('#goalForm').attr("action", "/rest/logist/goal/"+goalId);
+        method = 'PUT';
+
+        if (currentGoalId == null){
+            showForm(goalId);
+            currentGoalId = goalId;
+        }
+        if(currentGoalId != goalId){
+            showForm(currentGoalId);
+            currentGoalId = goalId;
+            showForm(currentGoalId);
+        };
+        currentGoal = goals.find(goal => goal.id == goalId);
+        // alert(JSON.stringify(currentGoal));
+
+        $('#inputId').val(currentGoal.id);
+        $('#inputDeliveryDate').val(currentGoal.deliveryDate);
+        $('#inputStaus').val(currentGoal.status);
+        $('#inputInfo').val(currentGoal.info);
+        $('#inputPriority').val(currentGoal.priority);
+        $('#inputLogist').val(currentGoal.logistId);
+        $('#inputPointId option[value=' + currentGoal.pointId + ']').prop('selected', true);
+        $('#inputDriverId option[value=' + currentGoal.driverId + ']').prop('selected', true);
+
+
 
     }
 
@@ -203,6 +285,13 @@
         }
     }
 
+    function cancelGoal(){
+
+    }
+
+    function fillGoodTurnoverForm(goalId){
+
+    }
 
 
     function submitForm(event) {
@@ -216,16 +305,23 @@
 
         let obj = {};
         formData.forEach((value, key) => obj[key] = value);
+        if (currentGoal!=null){
+            obj.goodTurnoverList = currentGoal.goodTurnoverList;
+            if (obj.pointId == null) {obj.pointId = currentGoal.pointId}
+        } else {
+            obj.goodTurnoverList = [];
+        }
+
         // Собираем запрос к серверу
         let request = new Request(event.target.action, {
-            method: 'POST',
+            method: method,
             body: JSON.stringify(obj),
             headers: {
                 'Content-Type': 'application/json',
             },
         });
         console.log(JSON.stringify(obj));
-        alert(JSON.stringify(obj));
+        alert(JSON.stringify(obj) + "method:" + method);
         // Отправляем (асинхронно!)
         fetch(request).then(
             function (response) {
