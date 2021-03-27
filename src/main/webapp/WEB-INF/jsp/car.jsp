@@ -30,10 +30,10 @@
                 <form id="carForm" action="" method="post">
                     <div><input id="inputId" type="text" name="id" placeholder="auto" readonly></div>
                     <div><input id="inputBrand" type="text" name="brand" placeholder="Марка"></div>
-                    <div><input id="inputStateRegistrationMark" type="text" name="state_registration_mark" placeholder="Гос. номер"></div>
-                    <div><input id="inputCubicCapacity" type="number" name="cubic_capacity" placeholder="Вместимость" min="0" max="100" step="0.1"></div>
-                    <div><input id="inputOwnerId" type="hidden" name="owner_id" ></div>
-                    <div><input id="inputFuelConsumption" type="number" name="fuel_consumption" placeholder="Расход" min="0" max="100" step="0.1"></div>
+                    <div><input id="inputStateRegistrationMark" type="text" name="stateRegistrationMark" placeholder="Гос. номер"></div>
+                    <div><input id="inputCubicCapacity" type="number" name="cubicCapacity" placeholder="Вместимость" min="0" max="100" step="0.1"></div>
+                    <div><input id="inputOwnerId" type="hidden" name="ownerId" ></div>
+                    <div><input id="inputFuelConsumption" type="number" name="fuelConsumption" placeholder="Расход" min="0" max="100" step="0.1"></div>
                     <div><textarea id="inputInfo" name="info" placeholder="info"></textarea></div>
                     <div><input id="inputSubmit" type="submit" value="Добавить"></div>
                     <div><input type="reset" value="Очистить" onclick="clearCarForm()"></div>
@@ -72,9 +72,9 @@
         $('#carTable').append($('<tr onclick="fillForm(this.firstChild.innerHTML)">')
             .append($('<td id="tdCarId">').append(car.id))
             .append($('<td>').append(car.brand))
-            .append($('<td>').append(car.state_registration_mark))
-            .append($('<td>').append(car.cubic_capacity))
-            .append($('<td>').append(car.fuel_consumption))
+            .append($('<td>').append(car.stateRegistrationMark))
+            .append($('<td>').append(car.cubicCapacity))
+            .append($('<td>').append(car.fuelConsumption))
             .append($('<td>').append(car.info))
             .append($('<td>').append($('<input type="button" value="X">').attr("onclick","deleteCar('"+car.id+"')")))
         );
@@ -93,10 +93,10 @@
 
         $('#inputId').val(car.id);
         $('#inputBrand').val(car.brand);
-        $('#inputStateRegistrationMark').val(car.state_registration_mark);
-        $('#inputCubicCapacity').val(car.cubic_capacity);
-        $('#inputOwnerId').val(car.owner_id);
-        $('#inputFuelConsumption').val(car.fuel_consumption);
+        $('#inputStateRegistrationMark').val(car.stateRegistrationMark);
+        $('#inputCubicCapacity').val(car.cubicCapacity);
+        $('#inputOwnerId').val(car.ownerId);
+        $('#inputFuelConsumption').val(car.fuelConsumption);
         $('#inputInfo').val(car.info);
         $('#inputSubmit').val("Изменить");
 

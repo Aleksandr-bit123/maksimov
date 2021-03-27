@@ -2,26 +2,24 @@ package com.diploma.maksimov.dto;
 
 public class Car {
     private Long id;
-    private Long owner_id;
+    private Long ownerId;
     private String brand;
-    private String state_registration_mark;
-    private Double cubic_capacity;
-    private Double fuel_consumption;
+    private String stateRegistrationMark;
+    private Double cubicCapacity;
+    private Double fuelConsumption;
     private String info;
 
     public Car() {
     }
 
-    public Car(Long id, Long owner_id, String brand, String state_registration_mark, Double cubic_capacity, Double fuel_consumption, String info) {
-
+    public Car(Long id, Long ownerId, String brand, String stateRegistrationMark, Double cubicCapacity, Double fuelConsumption, String info) {
         this.id = id;
-        this.owner_id = owner_id;
+        this.ownerId = ownerId;
         this.brand = brand;
-        this.state_registration_mark = state_registration_mark;
-        this.cubic_capacity = cubic_capacity;
-        this.fuel_consumption = fuel_consumption;
+        this.stateRegistrationMark = stateRegistrationMark;
+        this.cubicCapacity = cubicCapacity;
+        this.fuelConsumption = fuelConsumption;
         this.info = info;
-
     }
 
     public Long getId() {
@@ -32,12 +30,12 @@ public class Car {
         this.id = id;
     }
 
-    public Long getOwner_id() {
-        return owner_id;
+    public Long getOwnerId() {
+        return ownerId;
     }
 
-    public void setOwner_id(Long owner_id) {
-        this.owner_id = owner_id;
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
     }
 
     public String getBrand() {
@@ -48,28 +46,28 @@ public class Car {
         this.brand = brand;
     }
 
-    public String getState_registration_mark() {
-        return state_registration_mark;
+    public String getStateRegistrationMark() {
+        return stateRegistrationMark;
     }
 
-    public void setState_registration_mark(String state_registration_mark) {
-        this.state_registration_mark = state_registration_mark;
+    public void setStateRegistrationMark(String stateRegistrationMark) {
+        this.stateRegistrationMark = stateRegistrationMark;
     }
 
-    public Double getCubic_capacity() {
-        return cubic_capacity;
+    public Double getCubicCapacity() {
+        return cubicCapacity;
     }
 
-    public void setCubic_capacity(Double cubic_capacity) {
-        this.cubic_capacity = cubic_capacity;
+    public void setCubicCapacity(Double cubicCapacity) {
+        this.cubicCapacity = cubicCapacity;
     }
 
-    public Double getFuel_consumption() {
-        return fuel_consumption;
+    public Double getFuelConsumption() {
+        return fuelConsumption;
     }
 
-    public void setFuel_consumption(Double fuel_consumption) {
-        this.fuel_consumption = fuel_consumption;
+    public void setFuelConsumption(Double fuelConsumption) {
+        this.fuelConsumption = fuelConsumption;
     }
 
     public String getInfo() {

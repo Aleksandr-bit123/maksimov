@@ -38,6 +38,7 @@ public class EmployeeEntity {
 
 
     public EmployeeEntity() {
+        //здесь должен быть пустой конструктор
     }
 
     public Long getId() {

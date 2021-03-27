@@ -14,6 +14,7 @@ public class ContragentEntity {
     private PointEntity point;
 
     public ContragentEntity() {
+        //здесь должен быть пустой конструктор
     }
 
     public Long getId() {

@@ -38,6 +38,7 @@ public class OrderEntity {
     private List<GoodTurnoverEntity> goodTurnoverList;
 
     public OrderEntity() {
+        //здесь должен быть пустой конструктор
     }
 
     public Long getId() {

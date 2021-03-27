@@ -5,7 +5,6 @@ import com.diploma.maksimov.dto.Employee;
 import com.diploma.maksimov.service.CrudService;
 import com.diploma.maksimov.service.EmployeeService;
 import com.diploma.maksimov.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -68,7 +67,7 @@ public class DriverController {
         if (employeeService.read(id) != null) {
             //изменяю существующий объект, т.к. конфликт сессии гибернейт
             Driver driver1 = driverService.read(id);
-            driver1.setDriving_license(driver.getDriving_license());
+            driver1.setDrivingLicense(driver.getDrivingLicense());
             driver1.setInfo(driver.getInfo());
             //изменяю существующий объект, т.к. конфликт ссесии гибернейт
             final boolean updated = driverService.update(driver1, id);

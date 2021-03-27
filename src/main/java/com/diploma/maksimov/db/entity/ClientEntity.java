@@ -25,6 +25,7 @@ public class ClientEntity {
     private List<OrderEntity> orders;
 
     public ClientEntity() {
+        //здесь должен быть пустой конструктор
     }
 
     public Long getId() {

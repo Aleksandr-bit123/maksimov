@@ -23,6 +23,7 @@ public class LogistEntity {
     private EmployeeEntity employee;
 
     public LogistEntity() {
+        //здесь должен быть пустой конструктор
     }
 
     public Long getLogistId() {

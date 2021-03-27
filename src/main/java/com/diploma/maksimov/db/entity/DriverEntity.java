@@ -13,10 +13,10 @@ public class DriverEntity {
     private Long driverId;
 
     @OneToMany(fetch = FetchType.LAZY)// не все вытаскиваем
-    @JoinColumn(name = "owner_id")//подтягиваем колонку owner_id из таблицы t_car и джойним id водителя
+    @JoinColumn(name = "ownerId")//подтягиваем колонку owner_id из таблицы t_car и джойним id водителя
     private List<CarEntity> carEntities;
 
-    private String driving_license;
+    private String drivingLicense;
     private String info;
 
     @JsonIgnore
@@ -30,6 +30,7 @@ public class DriverEntity {
     private EmployeeEntity employee;
 
     public DriverEntity() {
+        //здесь должен быть пустой конструктор
     }
 
     public Long getDriverId() {
@@ -56,12 +57,12 @@ public class DriverEntity {
         this.info = info;
     }
 
-    public String getDriving_license() {
-        return driving_license;
+    public String getDrivingLicense() {
+        return drivingLicense;
     }
 
-    public void setDriving_license(String driving_license) {
-        this.driving_license = driving_license;
+    public void setDrivingLicense(String drivingLicense) {
+        this.drivingLicense = drivingLicense;
     }
 
     public List<GoalEntity> getGoals() {

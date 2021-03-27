@@ -22,6 +22,7 @@ public class PointEntity {
     private List<GoalEntity> goals;
 
     public PointEntity() {
+        //здесь должен быть пустой конструктор
     }
 
     public Long getId() {

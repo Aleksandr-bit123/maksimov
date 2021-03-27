@@ -53,7 +53,7 @@ public class GoalService implements IGoalService {
                 GoalEntity finalGoalEntity = goalEntity;
                 orderEntityList.forEach(orderEntity -> {
                     if (orderEntity.getStatus() == null) {
-                        goodTurnoverEntityList.add(new GoodTurnoverEntity(null, finalGoalEntity.getId(), orderEntity.getGoodId(), orderEntity.getQuantity(), GoodTurnover.PaymentMethod.cash, "", (byte) 100, true, orderEntity.getId()));
+                        goodTurnoverEntityList.add(new GoodTurnoverEntity(null, finalGoalEntity.getId(), orderEntity.getGoodId(), orderEntity.getQuantity(), GoodTurnover.PaymentMethod.cash, "", (byte) 100, true, orderEntity.getId(),null,null,null));
                         orderEntity.setStatus(Goal.Status.waiting);
                     }
                 });

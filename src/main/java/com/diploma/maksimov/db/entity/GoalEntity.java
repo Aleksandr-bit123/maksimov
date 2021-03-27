@@ -36,6 +36,7 @@ public class GoalEntity {
     private List<GoodTurnoverEntity> goodTurnoverList;
 
     public GoalEntity() {
+        //здесь должен быть пустой конструктор
     }
 
     public Long getId() {

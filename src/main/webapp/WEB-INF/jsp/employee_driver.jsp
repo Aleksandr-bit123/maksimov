@@ -62,7 +62,7 @@
         .append($('<td>').append(emploeeDriver.phone))
         .append($('<td>').append(carsToStringAndTad).append($('<div><a href="/boss/employee/' + emploeeDriver.id + '/driver/car">редактировать<div>'))
                          .append($('<input type="hidden" name="carEntities" value="">')))
-        .append($('<td>').append($('<input name="driving_license" value="'+ driver.driving_license +'">')))
+        .append($('<td>').append($('<input name="drivingLicense" value="'+ driver.drivingLicense +'">')))
         .append($('<td>').append($('<textarea name="info">').append(driver!=null?driver.info:"")))
         .append($('<td>').append('<input type="button" value="X" onclick="deleteBoss('+ emploeeDriver.id +')">')
                          .append($('<input type="submit" value="OK">')))

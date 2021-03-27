@@ -11,6 +11,7 @@ public class BossEntity {
     private String info;
 
     public BossEntity() {
+    //пустой конструктор должен быть здесь
     }
 
     @OneToOne(optional = true, cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
