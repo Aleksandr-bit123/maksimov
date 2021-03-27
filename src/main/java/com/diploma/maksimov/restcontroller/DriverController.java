@@ -16,20 +16,18 @@ import java.util.List;
 @RequestMapping("/rest/boss/employee")
 public class DriverController {
     private final CrudService<Driver,Long> driverService;
+    private final UserService userService;
+    private final EmployeeService employeeService;
 
-    @Autowired
-    private UserService userService;
 
-    @Autowired
-    private EmployeeService employeeService;
-
-    @Autowired
-    public DriverController(CrudService<Driver,Long> driverService) {
+    public DriverController(CrudService<Driver, Long> driverService, UserService userService, EmployeeService employeeService) {
         this.driverService = driverService;
+        this.userService = userService;
+        this.employeeService = employeeService;
     }
 
     @PostMapping(value = "/{id}/driver")
-    public ResponseEntity<?> create(@RequestBody Driver driver, @PathVariable Long id) {
+    public ResponseEntity<Void> create(@RequestBody Driver driver, @PathVariable Long id) {
         Employee employee = employeeService.read(id);
         if (employee != null) {
             employee.setDriver(true);
@@ -46,7 +44,7 @@ public class DriverController {
     public ResponseEntity<List<Driver>> readAll() {
         final List<Driver> drivers = driverService.readAll();
 
-        if (drivers != null && !drivers.isEmpty()) {
+        if (drivers != null) {
             return new ResponseEntity<>(drivers, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -66,7 +64,7 @@ public class DriverController {
     }
 
     @PutMapping(value = "/{id}/driver")
-    public ResponseEntity<?> update(@PathVariable long id, @RequestBody Driver driver) {
+    public ResponseEntity<Void> update(@PathVariable long id, @RequestBody Driver driver) {
         if (employeeService.read(id) != null) {
             //изменяю существующий объект, т.к. конфликт сессии гибернейт
             Driver driver1 = driverService.read(id);
@@ -83,7 +81,7 @@ public class DriverController {
     }
 
     @DeleteMapping(value = "/{id}/driver")
-    public ResponseEntity<?> delete(@PathVariable long id) {
+    public ResponseEntity<Void> delete(@PathVariable long id) {
         Employee employee = employeeService.read(id);
         if (employee != null) {
             employee.setDriver(false);

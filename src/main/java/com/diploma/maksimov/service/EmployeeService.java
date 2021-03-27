@@ -3,22 +3,25 @@ package com.diploma.maksimov.service;
 import com.diploma.maksimov.db.entity.EmployeeEntity;
 import com.diploma.maksimov.db.repository.EmployeeRepository;
 import com.diploma.maksimov.dto.Employee;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
 public class EmployeeService implements CrudService<Employee, Long>{
-    @Autowired
-    EmployeeRepository employeeRepository;
+    private final EmployeeRepository employeeRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
+
+    public EmployeeService(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+    }
 
     @Transactional
     @PostConstruct
@@ -35,13 +38,15 @@ public class EmployeeService implements CrudService<Employee, Long>{
     @Override
     public List<Employee> readAll() {
         Iterable<EmployeeEntity> all = employeeRepository.findAll();
-        return objectMapper.convertValue(all, ArrayList.class);
+        return objectMapper.convertValue(all, new TypeReference<>() {
+        });
     }
 
     @Override
     public Employee read(Long id) {
-        if (employeeRepository.findById(id).isPresent()) {
-            EmployeeEntity employeeEntity = employeeRepository.findById(id).stream().findFirst().get();
+        Optional<EmployeeEntity> employeeEntityOptional = employeeRepository.findById(id);
+        if (employeeEntityOptional.isPresent()) {
+            EmployeeEntity employeeEntity = employeeEntityOptional.get();
             return objectMapper.convertValue(employeeEntity, Employee.class);
         }
         return null;
@@ -58,9 +63,9 @@ public class EmployeeService implements CrudService<Employee, Long>{
 
     @Override
     public boolean delete(Long id) {
-        if (employeeRepository.findById(id).isPresent()){
-            EmployeeEntity employeeEntity = employeeRepository.findById(id).stream().findFirst().get();
-            employeeRepository.delete(employeeEntity);
+        Optional<EmployeeEntity> employeeEntityOptional = employeeRepository.findById(id);
+        if (employeeEntityOptional.isPresent()) {
+            employeeRepository.deleteById(id);
             return true;
         }
         return false;

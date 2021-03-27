@@ -3,7 +3,6 @@ package com.diploma.maksimov.restcontroller;
 import com.diploma.maksimov.dto.Client;
 import com.diploma.maksimov.service.CrudService;
 import com.diploma.maksimov.service.IPointService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +16,6 @@ public class ClientController {
     private final IPointService pointService;
     private final CrudService<Client,Long> clientService;
 
-    @Autowired
     public ClientController(IPointService pointService, CrudService<Client,Long> clientService) {
         this.pointService = pointService;
         this.clientService = clientService;
@@ -36,7 +34,7 @@ public class ClientController {
     public ResponseEntity<List<Client>> readAll() {
         final List<Client> clients = clientService.readAll();
 
-        if (clients != null && !clients.isEmpty()) {
+        if (clients != null) {
             return new ResponseEntity<>(clients, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -53,7 +51,7 @@ public class ClientController {
     }
 
     @PutMapping(value = "/client/{id}")
-    public ResponseEntity<?> update(@PathVariable long id, @RequestBody Client client) {
+    public ResponseEntity<Void> update(@PathVariable long id, @RequestBody Client client) {
         final boolean updated = clientService.update(client, id);
         if (updated) {
             return new ResponseEntity<>(HttpStatus.OK);
@@ -62,7 +60,7 @@ public class ClientController {
     }
 
     @DeleteMapping(value = "/client/{id}")
-    public ResponseEntity<?> delete(@PathVariable long id) {
+    public ResponseEntity<Void> delete(@PathVariable long id) {
         final boolean deleted = clientService.delete(id);
         if (deleted) {
             return new ResponseEntity<>(HttpStatus.OK);

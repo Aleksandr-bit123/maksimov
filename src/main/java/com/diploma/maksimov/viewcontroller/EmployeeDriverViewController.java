@@ -7,7 +7,6 @@ import com.diploma.maksimov.service.EmployeeService;
 import com.diploma.maksimov.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,17 +17,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/boss/employee/{id}")
 public class EmployeeDriverViewController {
 
-    @Autowired
-    private EmployeeService employeeService;
+    private final EmployeeService employeeService;
+    private final UserService userService;
+    private final DriverService driverService;
+    private final ObjectMapper objectMapper;
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private DriverService driverService;
-
-    @Autowired
-    private ObjectMapper objectMapper;
+    public EmployeeDriverViewController(EmployeeService employeeService, UserService userService, DriverService driverService, ObjectMapper objectMapper) {
+        this.employeeService = employeeService;
+        this.userService = userService;
+        this.driverService = driverService;
+        this.objectMapper = objectMapper;
+    }
 
     @GetMapping("/driver")
     public String index(Model model, @PathVariable Long id) {

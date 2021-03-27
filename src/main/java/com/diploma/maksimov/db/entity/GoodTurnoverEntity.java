@@ -18,6 +18,7 @@ public class GoodTurnoverEntity {
     private Byte priority;
     private Boolean turnover;
     private Long orderId;
+    @Column(unique = true)
     private Long link;
     private Long linkPoint;
     private Long linkGoal;
@@ -132,4 +133,5 @@ public class GoodTurnoverEntity {
     public void setLinkGoal(Long linkGoal) {
         this.linkGoal = linkGoal;
     }
+
 }

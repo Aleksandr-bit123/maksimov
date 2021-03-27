@@ -32,7 +32,7 @@ public class ContragentService implements CrudService<Contragent, Long>{
     public List<Contragent> readAll() {
         Iterable<ContragentEntity> all = contragentRepository.findAll();
 
-        return objectMapper.convertValue(all, new TypeReference<List<Contragent>>() {
+        return objectMapper.convertValue(all, new TypeReference<>() {
         });
     }
 

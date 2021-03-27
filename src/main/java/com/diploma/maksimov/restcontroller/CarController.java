@@ -4,7 +4,6 @@ package com.diploma.maksimov.restcontroller;
 import com.diploma.maksimov.dto.Car;
 import com.diploma.maksimov.service.DriverService;
 import com.diploma.maksimov.service.ICarService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,14 +15,12 @@ import java.util.List;
 
 public class CarController {
     private final ICarService carService;
+    private final DriverService driverService;
 
-    @Autowired
-    public CarController(ICarService carService) {
+    public CarController(ICarService carService, DriverService driverService) {
         this.carService = carService;
+        this.driverService = driverService;
     }
-
-    @Autowired
-    private DriverService driverService;
 
     @PostMapping(value = "/{id}/driver/car")
     public ResponseEntity<Long> create(@RequestBody Car car, @PathVariable long id) {
@@ -37,7 +34,7 @@ public class CarController {
     @GetMapping(value = "/driver/car")
     public ResponseEntity<List<Car>> readAll() {
         final List<Car> cars = carService.readAll();
-        if (cars != null && !cars.isEmpty()) {
+        if (cars != null) {
             return new ResponseEntity<>(cars, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -56,7 +53,7 @@ public class CarController {
     }
 
     @PutMapping(value = "/{employeeId}/driver/car/{id}")
-    public ResponseEntity<?> update(@PathVariable long id, @RequestBody Car car,@PathVariable long employeeId) {
+    public ResponseEntity<Void> update(@PathVariable long id, @RequestBody Car car,@PathVariable long employeeId) {
         if (driverService.read(employeeId) != null) {
             final boolean updated = carService.update(car, id);
             if (updated) {
@@ -68,7 +65,7 @@ public class CarController {
     }
 
     @DeleteMapping(value = "/{employeeId}/driver/car/{id}")
-    public ResponseEntity<?> delete(@PathVariable long id,@PathVariable long employeeId) {
+    public ResponseEntity<Void> delete(@PathVariable long id,@PathVariable long employeeId) {
         if (driverService.read(employeeId) != null) {
             final boolean deleted = carService.delete(id);
             if (deleted) {

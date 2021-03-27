@@ -7,8 +7,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,12 +19,6 @@ public class BossService implements CrudService<Boss, Long> {
         this.bossRepository = bossRepository;
     }
 
-    @Transactional
-    @PostConstruct
-    public void init() {
-
-    }
-
     @Override
     public void create(Boss boss) {
         BossEntity bossEntity = objectMapper.convertValue(boss, BossEntity.class);
@@ -37,7 +29,7 @@ public class BossService implements CrudService<Boss, Long> {
     public List<Boss> readAll() {
         Iterable<BossEntity> all = bossRepository.findAll();
 
-        return objectMapper.convertValue(all, new TypeReference<List<Boss>>() {
+        return objectMapper.convertValue(all, new TypeReference<>() {
         });
     }
 

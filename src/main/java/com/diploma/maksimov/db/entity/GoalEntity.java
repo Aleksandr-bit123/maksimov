@@ -17,18 +17,21 @@ public class GoalEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private Long pointId;
     @JsonFormat(pattern = "yyyy-MM-dd")
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate deliveryDate;
+    @Column(nullable = false)
     private Long driverId;
+    @Column(nullable = false)
     private Long logistId;
     private Goal.Status status;
     private String info;
     private Byte priority;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "goalId")
     private List<GoodTurnoverEntity> goodTurnoverList;
 

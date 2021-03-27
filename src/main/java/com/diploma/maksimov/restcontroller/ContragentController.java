@@ -3,7 +3,6 @@ package com.diploma.maksimov.restcontroller;
 import com.diploma.maksimov.dto.Contragent;
 import com.diploma.maksimov.service.CrudService;
 import com.diploma.maksimov.service.IPointService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,6 @@ public class ContragentController {
     private final IPointService pointService;
     private final CrudService<Contragent,Long> contragentService;
 
-    @Autowired
     public ContragentController(IPointService pointService, CrudService<Contragent,Long> contragentService) {
         this.pointService = pointService;
         this.contragentService = contragentService;
@@ -35,7 +33,7 @@ public class ContragentController {
     public ResponseEntity<List<Contragent>> readAll() {
         final List<Contragent> contragents = contragentService.readAll();
 
-        if (contragents != null && !contragents.isEmpty()) {
+        if (contragents != null) {
             return new ResponseEntity<>(contragents, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -52,7 +50,7 @@ public class ContragentController {
     }
 
     @PutMapping(value = "/contragent/{id}")
-    public ResponseEntity<?> update(@PathVariable long id, @RequestBody Contragent contragent) {
+    public ResponseEntity<Void> update(@PathVariable long id, @RequestBody Contragent contragent) {
         final boolean updated = contragentService.update(contragent, id);
         if (updated) {
             return new ResponseEntity<>(HttpStatus.OK);
@@ -61,7 +59,7 @@ public class ContragentController {
     }
 
     @DeleteMapping(value = "/contragent/{id}")
-    public ResponseEntity<?> delete(@PathVariable long id) {
+    public ResponseEntity<Void> delete(@PathVariable long id) {
         final boolean deleted = contragentService.delete(id);
         if (deleted) {
             return new ResponseEntity<>(HttpStatus.OK);

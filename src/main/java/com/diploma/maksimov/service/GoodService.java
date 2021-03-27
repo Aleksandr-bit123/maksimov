@@ -7,8 +7,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,15 +21,9 @@ public class GoodService implements CrudService<Good, Long> {
         this.goodRepository = goodRepository;
     }
 
-    @Transactional
-    @PostConstruct
-    public void init() {
-
-    }
-
     @Override
     public void create(Good good) {
-        if (!goodRepository.existsById(good.getId())){
+        if (!goodRepository.existsById(good.getId())) {
             GoodEntity goodEntity = objectMapper.convertValue(good, GoodEntity.class);
             goodRepository.save(goodEntity);
         }
@@ -40,7 +32,7 @@ public class GoodService implements CrudService<Good, Long> {
     @Override
     public List<Good> readAll() {
         Iterable<GoodEntity> all = goodRepository.findAll();
-        return objectMapper.convertValue(all, new TypeReference<List<Good>>() {
+        return objectMapper.convertValue(all, new TypeReference<>() {
         });
     }
 

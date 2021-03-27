@@ -31,7 +31,7 @@ public class GoodTurnoverService implements IGoodTurnoverService{
     public List<GoodTurnover> readAll() {
         Iterable<GoodTurnoverEntity> all = goodTurnoverRepository.findAll();
 
-        return objectMapper.convertValue(all, new TypeReference<List<GoodTurnover>>() {
+        return objectMapper.convertValue(all, new TypeReference<>() {
         });
     }
 

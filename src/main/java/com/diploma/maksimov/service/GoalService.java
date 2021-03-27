@@ -5,6 +5,7 @@ import com.diploma.maksimov.db.entity.GoodTurnoverEntity;
 import com.diploma.maksimov.db.entity.OrderEntity;
 import com.diploma.maksimov.db.entity.PointEntity;
 import com.diploma.maksimov.db.repository.GoalRepository;
+import com.diploma.maksimov.db.repository.GoodTurnoverRepository;
 import com.diploma.maksimov.db.repository.OrderRepository;
 import com.diploma.maksimov.db.repository.PointRepository;
 import com.diploma.maksimov.dto.Goal;
@@ -20,17 +21,19 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class GoalServise implements IGoalService {
+public class GoalService implements IGoalService {
     private final GoalRepository goalRepository;
     private final PointRepository pointRepository;
     private final OrderRepository orderRepository;
+    private final GoodTurnoverRepository goodTurnoverRepository;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public GoalServise(GoalRepository goalRepository, PointRepository pointRepository, OrderRepository orderRepository) {
+    public GoalService(GoalRepository goalRepository, PointRepository pointRepository, OrderRepository orderRepository, GoodTurnoverRepository goodTurnoverRepository) {
         this.goalRepository = goalRepository;
         this.pointRepository = pointRepository;
         this.orderRepository = orderRepository;
+        this.goodTurnoverRepository = goodTurnoverRepository;
     }
 
     @Override
@@ -49,9 +52,10 @@ public class GoalServise implements IGoalService {
                 }
                 GoalEntity finalGoalEntity = goalEntity;
                 orderEntityList.forEach(orderEntity -> {
-
-                    goodTurnoverEntityList.add(new GoodTurnoverEntity(null, finalGoalEntity.getId(), orderEntity.getGoodId(), orderEntity.getQuantity(), GoodTurnover.PaymentMethod.cash, "", (byte) 100, true, orderEntity.getId()));
-                    orderEntity.setStatus(Goal.Status.waiting);
+                    if (orderEntity.getStatus() == null) {
+                        goodTurnoverEntityList.add(new GoodTurnoverEntity(null, finalGoalEntity.getId(), orderEntity.getGoodId(), orderEntity.getQuantity(), GoodTurnover.PaymentMethod.cash, "", (byte) 100, true, orderEntity.getId()));
+                        orderEntity.setStatus(Goal.Status.waiting);
+                    }
                 });
                 finalGoalEntity.setGoodTurnoverList(goodTurnoverEntityList);
                 goalEntity = goalRepository.save(finalGoalEntity);
@@ -66,7 +70,7 @@ public class GoalServise implements IGoalService {
     public List<Goal> readAll() {
         Iterable<GoalEntity> all = goalRepository.findAll();
 
-        return objectMapper.convertValue(all, new TypeReference<List<Goal>>() {
+        return objectMapper.convertValue(all, new TypeReference<>() {
         });
     }
 
@@ -92,23 +96,23 @@ public class GoalServise implements IGoalService {
                     if (optionalPointEntity.isPresent()) {
                         PointEntity pointEntity = optionalPointEntity.get();
                         //назначаем контрагента для текущей точки
-                        if (pointEntity.getPointType() == Point.PointType.contragent) {
+                        if (pointEntity.getPointType() == Point.PointType.contragent && goal.getDriverId().equals(goalEntityOptional.get().getDriverId())) {
                             List<GoodTurnover> goalGoodTurnoverList = goal.getGoodTurnoverList();
                             List<GoodTurnoverEntity> goalGoodTurnoverListTemp = new LinkedList<>();
                             goal.setId(null);
                             Long newGoalId;
-                            //скарируем список оборота товара на уже существующие связи с целью-контрагент
+                            //сканируем список оборота товара на уже существующие связи с целью-контрагент
                             goalGoodTurnoverList.forEach(goodTurnover -> {
                                 if (goodTurnover.getLinkPoint() != null &&
                                         goodTurnover.getLinkPoint().equals(pointEntity.getId())) {
                                     goal.setId(goodTurnover.getLinkGoal());
                                 }
-                                if (goodTurnover.getLinkPoint() == null && goodTurnover.getLink() == null && goodTurnover.getLinkGoal() == null) {
+                                if ((goodTurnover.getLinkPoint() == null || goodTurnover.getLinkPoint().equals(pointEntity.getId())) && goodTurnover.getLink() == null /*&& goodTurnover.getLinkGoal() == null*/) {
                                     goodTurnover.setId(null);
                                     goodTurnover.setGoalId(null);
                                     goodTurnover.setTurnover(false);
                                     goodTurnover.setPaymentMethod(GoodTurnover.PaymentMethod.paidFor);
-                                    goalGoodTurnoverListTemp.add(objectMapper.convertValue(goodTurnover,GoodTurnoverEntity.class));
+                                    goalGoodTurnoverListTemp.add(objectMapper.convertValue(goodTurnover, GoodTurnoverEntity.class));
                                 }
                             });
 
@@ -133,12 +137,12 @@ public class GoalServise implements IGoalService {
                             if (goalContragentEntityOptional.isPresent()) {
                                 goodTurnoverContragentEntityList = goalContragentEntityOptional.get().getGoodTurnoverList();
                             }
-
+                            //установка связей между целью-клиентом и целью-заказом
                             List<GoodTurnoverEntity> finalGoodTurnoverContragentEntityList = goodTurnoverContragentEntityList;
                             goodTurnoverClientEntityList.forEach(goodTurnoverClientEntity -> finalGoodTurnoverContragentEntityList.forEach(goodTurnoverContragentEntity -> {
                                 if (goodTurnoverClientEntity.getOrderId().equals(goodTurnoverContragentEntity.getOrderId())) {
                                     goodTurnoverClientEntity.setLink(goodTurnoverContragentEntity.getId());
-                                    if (goalContragentEntityOptional.isPresent()){
+                                    if (goalContragentEntityOptional.isPresent()) {
                                         goodTurnoverClientEntity.setLinkPoint(goalContragentEntityOptional.get().getPointId());
                                         goodTurnoverClientEntity.setLinkGoal(goalContragentEntityOptional.get().getId());
                                     }
@@ -153,15 +157,29 @@ public class GoalServise implements IGoalService {
                             return true;
                         }
 
-                        if (pointEntity.getPointType() == Point.PointType.client && pointEntityOfExistGoal.getId().equals(pointEntity.getId())) {
+                        if (pointEntity.getPointType() == Point.PointType.client &&
+                                pointEntityOfExistGoal.getId().equals(pointEntity.getId()) &&
+                                goal.getDriverId().equals(goalEntityOptional.get().getDriverId())) {
+                            create(goal);
+                            return true;
+                        }
+                    }
+                }
+
+                if (pointEntityOfExistGoal.getPointType() == Point.PointType.contragent) {
+                    Optional<PointEntity> optionalPointEntity = pointRepository.findById(goal.getPointId());
+                    if (optionalPointEntity.isPresent()) {
+                        PointEntity pointEntity = optionalPointEntity.get();
+                        //назначаем контрагента для текущей точки
+                        if (pointEntity.getPointType() == Point.PointType.contragent &&
+                                pointEntityOfExistGoal.getId().equals(pointEntity.getId()) &&
+                                goal.getDriverId().equals(goalEntityOptional.get().getDriverId())) {
                             create(goal);
                             return true;
                         }
                     }
                 }
             }
-            goalRepository.save(objectMapper.convertValue(goal, GoalEntity.class));
-            return true;
         }
         return false;
     }
@@ -170,8 +188,46 @@ public class GoalServise implements IGoalService {
     public boolean delete(long id) {
         Optional<GoalEntity> goalEntityOptional = goalRepository.findById(id);
         if (goalEntityOptional.isPresent()) {
-            goalRepository.deleteById(id);
-            return true;
+            Optional<PointEntity> optionalPointEntityOfExistGoal = pointRepository.findById(goalEntityOptional.get().getPointId());
+            if (optionalPointEntityOfExistGoal.isPresent()) {
+                PointEntity pointEntityOfExistGoal = optionalPointEntityOfExistGoal.get();
+                if (pointEntityOfExistGoal.getPointType() == Point.PointType.contragent) {
+
+                    List<GoodTurnoverEntity> goodTurnoverEntityList = goalEntityOptional.get().getGoodTurnoverList();
+                    goodTurnoverEntityList.forEach(goodTurnoverEntity -> {
+
+                        Optional<GoodTurnoverEntity> goodTurnoverEntityOptional = goodTurnoverRepository.findById(goodTurnoverEntity.getLink());
+                        goodTurnoverEntityOptional.ifPresent(goodTurnoverEntity1 -> {
+                            goodTurnoverEntity1.setLinkGoal(null);
+                            goodTurnoverEntity1.setLinkPoint(null);
+                            goodTurnoverEntity1.setLink(null);
+                        });
+                    });
+
+                    goalRepository.deleteById(id);
+                    return true;
+
+                }
+                if (pointEntityOfExistGoal.getPointType() == Point.PointType.client) {
+                    List<Long> contragentIdForDeleteList = new LinkedList<>();
+                    goalEntityOptional.get().getGoodTurnoverList().forEach(goodTurnoverEntity -> {
+                        Optional<OrderEntity> orderEntity = orderRepository.findById(goodTurnoverEntity.getOrderId());
+                        orderEntity.ifPresent(orderEntity1 -> orderEntity1.setStatus(null));
+                        orderEntity.ifPresent(orderRepository::save);
+                        goodTurnoverRepository.deleteById(goodTurnoverEntity.getLink());
+                        contragentIdForDeleteList.add(goodTurnoverEntity.getLinkGoal());
+
+                    });
+
+                    while (contragentIdForDeleteList.iterator().hasNext()) {
+                        Long currentId = contragentIdForDeleteList.iterator().next();
+                        goalRepository.deleteById(currentId);
+                    }
+
+                    goalRepository.deleteById(id);
+                    return true;
+                }
+            }
         }
         return false;
     }
@@ -179,7 +235,14 @@ public class GoalServise implements IGoalService {
     public List<Goal> readAllByDate(LocalDate date) {
         Iterable<GoalEntity> all = goalRepository.findAllByDate(date);
 
-        return objectMapper.convertValue(all, new TypeReference<List<Goal>>() {
+        return objectMapper.convertValue(all, new TypeReference<>() {
+        });
+    }
+
+    public List<Goal> readAllByDateAndDriver(LocalDate date, Long driverId) {
+        Iterable<GoalEntity> all = goalRepository.findAllByDateAndDriverId(date, driverId);
+
+        return objectMapper.convertValue(all, new TypeReference<>() {
         });
     }
 }

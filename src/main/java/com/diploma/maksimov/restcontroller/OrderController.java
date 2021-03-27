@@ -2,7 +2,6 @@ package com.diploma.maksimov.restcontroller;
 
 import com.diploma.maksimov.dto.Order;
 import com.diploma.maksimov.service.IOrderService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +13,6 @@ import java.util.List;
 public class OrderController {
     private final IOrderService orderService;
 
-    @Autowired
     public OrderController(IOrderService orderService) {
         this.orderService = orderService;
     }
@@ -46,7 +44,7 @@ public class OrderController {
     }
 
     @PutMapping(value = "/order/{id}")
-    public ResponseEntity<?> update(@PathVariable long id, @RequestBody Order order) {
+    public ResponseEntity<Void> update(@PathVariable long id, @RequestBody Order order) {
         final boolean updated = orderService.update(order, id);
         if (updated) {
             return new ResponseEntity<>(HttpStatus.OK);
@@ -55,7 +53,7 @@ public class OrderController {
     }
 
     @DeleteMapping(value = "/order/{id}")
-    public ResponseEntity<?> delete(@PathVariable long id) {
+    public ResponseEntity<Void> delete(@PathVariable long id) {
         final boolean deleted = orderService.delete(id);
         if (deleted) {
             return new ResponseEntity<>(HttpStatus.OK);

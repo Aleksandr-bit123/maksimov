@@ -16,20 +16,18 @@ import java.util.List;
 @RequestMapping("/rest/boss/employee")
 public class BossController {
     private final CrudService<Boss,Long> bossService;
+    private final UserService userService;
+    private final EmployeeService employeeService;
 
     @Autowired
-    public BossController(CrudService<Boss,Long> bossService) {
+    public BossController(CrudService<Boss, Long> bossService, UserService userService, EmployeeService employeeService) {
         this.bossService = bossService;
+        this.userService = userService;
+        this.employeeService = employeeService;
     }
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private EmployeeService employeeService;
-
     @PostMapping(value = "/{id}/boss")
-    public ResponseEntity<?> create(@RequestBody Boss boss, @PathVariable Long id) {
+    public ResponseEntity<Void> create(@RequestBody Boss boss, @PathVariable Long id) {
         Employee employee = employeeService.read(id);
         if (employee != null) {
             employee.setBoss(true);
@@ -66,7 +64,7 @@ public class BossController {
     }
 
     @PutMapping(value = "/{id}/boss")
-    public ResponseEntity<?> update(@PathVariable long id, @RequestBody Boss boss) {
+    public ResponseEntity<Void> update(@PathVariable long id, @RequestBody Boss boss) {
         Employee employee = employeeService.read(id);
         if (employee != null) {
             //изменяю существующий объект, т.к. конфликт сессии гибернейт
@@ -83,7 +81,7 @@ public class BossController {
     }
 
     @DeleteMapping(value = "/{id}/boss")
-    public ResponseEntity<?> delete(@PathVariable long id) {
+    public ResponseEntity<Void> delete(@PathVariable long id) {
         Employee employee = employeeService.read(id);
         if (employee != null) {
             final boolean deleted = bossService.delete(id);

@@ -4,42 +4,34 @@ import com.diploma.maksimov.db.entity.RoleEntity;
 import com.diploma.maksimov.db.entity.UserEntity;
 import com.diploma.maksimov.db.repository.RoleRepository;
 import com.diploma.maksimov.db.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserService implements UserDetailsService {
-    @PersistenceContext
-    private EntityManager em;
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    RoleRepository roleRepository;
-    @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity user = userRepository.findByUsername(username);
-
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
-
         return user;
-
     }
 
     public UserEntity findUserById(Long userId) {
@@ -72,39 +64,32 @@ public class UserService implements UserDetailsService {
         return false;
     }
 
-    public List<UserEntity> usergtList(Long idMin) {
-        return em.createQuery("SELECT u FROM UserEntity u WHERE u.id > :paramId", UserEntity.class)
-                .setParameter("paramId", idMin).getResultList();
+    public boolean addRole(Long userId, Long roleId) {
+        Optional<UserEntity> optionalUserEntity = userRepository.findById(userId);
+        Optional<RoleEntity> optionalRoleEntity = roleRepository.findById(roleId);
+
+        if (optionalUserEntity.isPresent() && optionalRoleEntity.isPresent()){
+                Set<RoleEntity> temp = optionalUserEntity.get().getRoles();
+                temp.add(optionalRoleEntity.get());
+                optionalUserEntity.get().setRoles(temp);
+                userRepository.save(optionalUserEntity.get());
+                return true;
+        }
+        return false;
     }
 
-    public boolean addRole(Long userId, Long roleId) {
-        UserEntity userFromDB = userRepository.findById(userId).stream().findFirst().get();
-//        if (userFromDB == null) {
-//            return false;
-//        }
-        RoleEntity roleFromDB = roleRepository.findById(roleId).stream().findFirst().get();
-        if (roleFromDB == null) {
-            return false;
-        }
-        Set<RoleEntity> temp = userFromDB.getRoles();
-        temp.add(roleFromDB);
-        userFromDB.setRoles(temp);
-        userRepository.save(userFromDB);
-        return true;
-    }
+
     public boolean deleteRole(Long userId, Long roleId) {
-        UserEntity userFromDB = userRepository.findById(userId).stream().findFirst().get();
-//        if (userFromDB == null) {
-//            return false;
-//        }
-        RoleEntity roleFromDB = roleRepository.findById(roleId).stream().findFirst().get();
-        if (roleFromDB == null) {
-            return false;
+        Optional<UserEntity> optionalUserEntity = userRepository.findById(userId);
+        Optional<RoleEntity> optionalRoleEntity = roleRepository.findById(roleId);
+
+        if (optionalUserEntity.isPresent() && optionalRoleEntity.isPresent()){
+            Set<RoleEntity> temp = optionalUserEntity.get().getRoles();
+            temp.remove(optionalRoleEntity.get());
+            optionalUserEntity.get().setRoles(temp);
+            userRepository.save(optionalUserEntity.get());
+            return true;
         }
-        Set<RoleEntity> temp = userFromDB.getRoles();
-        temp.remove(roleFromDB);
-        userFromDB.setRoles(temp);
-        userRepository.save(userFromDB);
-        return true;
+        return false;
     }
 }

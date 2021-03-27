@@ -3,7 +3,6 @@ package com.diploma.maksimov.restcontroller;
 import com.diploma.maksimov.dto.Employee;
 import com.diploma.maksimov.service.CrudService;
 import com.diploma.maksimov.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,17 +13,15 @@ import java.util.List;
 @RequestMapping("/rest/boss")
 public class EmployeeController {
     private final CrudService<Employee,Long> employeeService;
+    private final UserService userService;
 
-    @Autowired
-    public EmployeeController(CrudService<Employee,Long> employeeService) {
+    public EmployeeController(CrudService<Employee, Long> employeeService, UserService userService) {
         this.employeeService = employeeService;
+        this.userService = userService;
     }
 
-    @Autowired
-    private UserService userService;
-
     @PostMapping(value = "/employee",headers = "Accept=application/json")
-    public ResponseEntity<?> create(@RequestBody Employee employee) {
+    public ResponseEntity<Void> create(@RequestBody Employee employee) {
         employeeService.create(employee);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -50,7 +47,7 @@ public class EmployeeController {
     }
 
     @PutMapping(value = "/employee/{id}")
-    public ResponseEntity<?> update(@PathVariable long id, @RequestBody Employee employee) {
+    public ResponseEntity<Void> update(@PathVariable long id, @RequestBody Employee employee) {
         final boolean updated = employeeService.update(employee, id);
         if (updated) {
             return new ResponseEntity<>(HttpStatus.OK);
@@ -59,7 +56,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping(value = "/employee/{id}")
-    public ResponseEntity<?> delete(@PathVariable long id) {
+    public ResponseEntity<Void> delete(@PathVariable long id) {
         final boolean deleted = employeeService.delete(id);
         userService.deleteRole(id, 3L);
         userService.deleteRole(id, 4L);

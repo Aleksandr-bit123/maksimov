@@ -1,10 +1,11 @@
 package com.diploma.maksimov.viewcontroller;
 
+import com.diploma.maksimov.db.entity.UserEntity;
 import com.diploma.maksimov.dto.*;
 import com.diploma.maksimov.service.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,30 +21,27 @@ import java.util.*;
 @RequestMapping("/logist")
 public class GoalViewController {
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
+    private final GoalService goalService;
+    private final DriverService driverService;
+    private final OrderService orderService;
+    private final ClientService clientService;
+    private final ContragentService contragentService;
+    private final GoodService goodService;
 
-    @Autowired
-    private GoalServise goalServise;
-
-    @Autowired
-    private DriverService driverService;
-
-    @Autowired
-    private OrderService orderService;
-
-    @Autowired
-    private ClientService clientService;
-
-    @Autowired
-    private ContragentService contragentService;
-
-    @Autowired
-    private GoodService goodService;
+    public GoalViewController(ObjectMapper objectMapper, GoalService goalService, DriverService driverService, OrderService orderService, ClientService clientService, ContragentService contragentService, GoodService goodService) {
+        this.objectMapper = objectMapper;
+        this.goalService = goalService;
+        this.driverService = driverService;
+        this.orderService = orderService;
+        this.clientService = clientService;
+        this.contragentService = contragentService;
+        this.goodService = goodService;
+    }
 
     @GetMapping("/goal")
     public String index(Model model) {
-        List<Goal> goalList = goalServise.readAll();
+        List<Goal> goalList = goalService.readAll();
 
         String goalListAsString = null;
 
@@ -68,37 +66,17 @@ public class GoalViewController {
                 e.printStackTrace();
             }
 
-            List<Goal> goalList = goalServise.readAllByDate(localDate);
+            List<Goal> goalList = goalService.readAllByDate(localDate);
             String goalListAsString = null;
-            try {
-                goalListAsString = objectMapper.writeValueAsString(goalList);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
 
             List<Driver> driverList = driverService.readAll();
             String driverListAsString = null;
-            try {
-                driverListAsString = objectMapper.writeValueAsString(driverList);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
 
             List<Contragent> contragentList = contragentService.readAll();
             String contragentListAsString = null;
-            try {
-                contragentListAsString = objectMapper.writeValueAsString(contragentList);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
 
             List<Order> orderList = orderService.readAllByDate(localDate);
             String orderListAsString = null;
-            try {
-                orderListAsString = objectMapper.writeValueAsString(orderList);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
 
             Set<Long> clientIdSet = new TreeSet<>();
             orderList.forEach(order -> clientIdSet.add(order.getClientId()));
@@ -106,33 +84,32 @@ public class GoalViewController {
             List<Client> clientList = new LinkedList<>();
             clientIdSet.forEach(clientId ->clientList.add(clientService.read(clientId)));
             String clientListAsString = null;
-            try {
-                clientListAsString = objectMapper.writeValueAsString(clientList);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
 
-            Set<Long> goodIdSet = new TreeSet<>();
-            orderList.forEach(order -> goodIdSet.add(order.getGoodId()));
-
-            List<Good> goodList = new LinkedList<>();
-            goodIdSet.forEach(googId ->goodList.add(goodService.read(googId)));
+            List<Good> goodList = goodService.readAll();
             String goodListAsString = null;
+
             try {
+                goalListAsString = objectMapper.writeValueAsString(goalList);
+                driverListAsString = objectMapper.writeValueAsString(driverList);
+                contragentListAsString = objectMapper.writeValueAsString(contragentList);
+                orderListAsString = objectMapper.writeValueAsString(orderList);
+                clientListAsString = objectMapper.writeValueAsString(clientList);
                 goodListAsString = objectMapper.writeValueAsString(goodList);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
 
-            model.addAttribute("goals",goalListAsString);
+        UserEntity currentUser = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        model.addAttribute("goals",goalListAsString);
             model.addAttribute("drivers",driverListAsString);
             model.addAttribute("contragents",contragentListAsString);
             model.addAttribute("orders",orderListAsString);
             model.addAttribute("clients",clientListAsString);
             model.addAttribute("goods",goodListAsString);
+            model.addAttribute("logistId",currentUser.getId());
 
             return "goal";
-
 
     }
 }

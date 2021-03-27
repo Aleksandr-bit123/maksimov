@@ -6,8 +6,7 @@ import com.diploma.maksimov.dto.Role;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 public class RoleService implements IRoleService{
@@ -18,16 +17,11 @@ public class RoleService implements IRoleService{
         this.roleRepository = roleRepository;
     }
 
-    @Transactional
-    @PostConstruct
-    public void init(){
-
-    }
-
     @Override
     public Role read(long id) {
-        if (roleRepository.findById(id).isPresent()) {
-            RoleEntity roleEntity = roleRepository.findById(id).stream().findFirst().get();
+        Optional<RoleEntity> optionalRoleEntity = roleRepository.findById(id);
+        if (optionalRoleEntity.isPresent()) {
+            RoleEntity roleEntity = optionalRoleEntity.get();
             return objectMapper.convertValue(roleEntity, Role.class);
         }
         return null;

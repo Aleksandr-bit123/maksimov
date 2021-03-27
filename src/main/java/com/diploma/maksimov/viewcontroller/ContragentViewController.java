@@ -4,7 +4,6 @@ import com.diploma.maksimov.dto.Contragent;
 import com.diploma.maksimov.service.ContragentService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,16 +14,17 @@ import java.util.List;
 @Controller
 @RequestMapping("/boss")
 public class ContragentViewController {
+    private final ObjectMapper objectMapper;
+    private final ContragentService contragentService;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
-    private ContragentService contragentService;
+    public ContragentViewController(ObjectMapper objectMapper, ContragentService contragentService) {
+        this.objectMapper = objectMapper;
+        this.contragentService = contragentService;
+    }
 
     @GetMapping("/contragent")
     public String index(Model model) {
-        List <Contragent> contragentList = contragentService.readAll();
+        List<Contragent> contragentList = contragentService.readAll();
 
         String contragentListAsString = null;
 
@@ -34,7 +34,7 @@ public class ContragentViewController {
             e.printStackTrace();
         }
 
-        model.addAttribute("Contragents",contragentListAsString);
+        model.addAttribute("Contragents", contragentListAsString);
 
         return "contragent";
     }

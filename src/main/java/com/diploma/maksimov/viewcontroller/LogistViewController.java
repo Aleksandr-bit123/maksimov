@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 
 @Controller
 @RequestMapping("/logist")
-public class logistViewController {
+public class LogistViewController {
     @GetMapping("")
     public String index(Model model) {
         model.addAttribute("date", LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));

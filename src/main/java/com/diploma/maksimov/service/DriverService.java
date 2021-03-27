@@ -7,8 +7,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,12 +20,6 @@ public class DriverService implements CrudService<Driver, Long> {
         this.driverRepository = driverRepository;
     }
 
-    @Transactional
-    @PostConstruct
-    public void init() {
-
-    }
-
     @Override
     public void create(Driver driver) {
         if (!driverRepository.existsById(driver.getDriverId())) {
@@ -39,7 +31,7 @@ public class DriverService implements CrudService<Driver, Long> {
     @Override
     public List<Driver> readAll() {
         Iterable<DriverEntity> all = driverRepository.findAll();
-        return objectMapper.convertValue(all, new TypeReference<List<Driver>>() {
+        return objectMapper.convertValue(all, new TypeReference<>() {
         });
     }
 

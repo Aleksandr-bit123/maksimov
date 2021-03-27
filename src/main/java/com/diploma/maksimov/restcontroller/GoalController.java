@@ -45,7 +45,7 @@ public class GoalController {
     }
 
     @PutMapping(value = "/goal/{id}")
-    public ResponseEntity<?> update(@PathVariable long id, @RequestBody Goal goal) {
+    public ResponseEntity<Void> update(@PathVariable long id, @RequestBody Goal goal) {
         final boolean updated = goalService.update(goal, id);
         if (updated) {
             return new ResponseEntity<>(HttpStatus.OK);
@@ -54,7 +54,7 @@ public class GoalController {
     }
 
     @DeleteMapping(value = "/goal/{id}")
-    public ResponseEntity<?> delete(@PathVariable long id) {
+    public ResponseEntity<Void> delete(@PathVariable long id) {
         final boolean deleted = goalService.delete(id);
         if (deleted) {
             return new ResponseEntity<>(HttpStatus.OK);

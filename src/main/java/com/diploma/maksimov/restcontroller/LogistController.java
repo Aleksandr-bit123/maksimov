@@ -5,7 +5,6 @@ import com.diploma.maksimov.dto.Logist;
 import com.diploma.maksimov.service.CrudService;
 import com.diploma.maksimov.service.EmployeeService;
 import com.diploma.maksimov.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,20 +15,19 @@ import java.util.List;
 @RequestMapping("/rest/boss/employee")
 public class LogistController {
     private final CrudService<Logist,Long> logistService;
+    private final UserService userService;
+    private final EmployeeService employeeService;
 
-    @Autowired
-    public LogistController(CrudService<Logist,Long> logistService) {
+    public LogistController(CrudService<Logist, Long> logistService, UserService userService, EmployeeService employeeService) {
         this.logistService = logistService;
+        this.userService = userService;
+        this.employeeService = employeeService;
     }
 
-    @Autowired
-    private UserService userService;
 
-    @Autowired
-    private EmployeeService employeeService;
 
     @PostMapping(value = "/{id}/logist")
-    public ResponseEntity<?> create(@RequestBody Logist logist, @PathVariable Long id) {
+    public ResponseEntity<Void> create(@RequestBody Logist logist, @PathVariable Long id) {
         Employee employee = employeeService.read(id);
         if (employee != null) {
             employee.setLogist(true);
@@ -66,7 +64,7 @@ public class LogistController {
     }
 
     @PutMapping(value = "/{id}/logist")
-    public ResponseEntity<?> update(@PathVariable long id, @RequestBody Logist logist) {
+    public ResponseEntity<Void> update(@PathVariable long id, @RequestBody Logist logist) {
         if (employeeService.read(id) != null) {
             //изменяю существующий объект, т.к. конфликт сессии гибернейт
             Logist logist1 = logistService.read(id);
@@ -82,7 +80,7 @@ public class LogistController {
     }
 
     @DeleteMapping(value = "/{id}/logist")
-    public ResponseEntity<?> delete(@PathVariable long id) {
+    public ResponseEntity<Void> delete(@PathVariable long id) {
         Employee employee = employeeService.read(id);
         if (employee != null) {
             final boolean deleted = logistService.delete(id);

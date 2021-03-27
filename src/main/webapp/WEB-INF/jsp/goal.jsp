@@ -36,7 +36,7 @@
 
                 <div><label for="inputDeliveryDate">Дата</label></div>
                 <div>
-                    <input id="inputDeliveryDate" type="date" name="deliveryDate">
+                    <input id="inputDeliveryDate" type="date" name="deliveryDate" value="">
                 </div>
 
                 <div><label for="inputPriority">priority</label></div>
@@ -49,9 +49,9 @@
                     <textarea id="inputInfo" name="info" placeholder="info"></textarea>
                 </div>
 
-                <input type="hidden" id="inputStaus" name="status" value="waiting">
+                <input type="hidden" id="inputStatus" name="status" value="waiting">
 
-                <input type="hidden" id="inputLogistId" name="logistId" value="1">
+                <input type="hidden" id="inputLogistId" name="logistId" value="${logistId}">
                 <input type="hidden" id="inputGoodTurnoverList" name="goodTurnoverList">
 
 
@@ -88,16 +88,17 @@
     contragents = ${contragents};
     drivers = ${drivers};
     goods = ${goods};
+    logistId = ${logistId};
 
 
     let clientsForInput = [];
     let ordersForClientsForInput = orders;
 
     ordersForClientsForInput = ordersForClientsForInput.filter(order => order.status == null);
-        alert(JSON.stringify(ordersForClientsForInput));
+        // alert(JSON.stringify(ordersForClientsForInput));
     ordersForClientsForInput.forEach(function (order, i, arrOrder) {
         clients.filter(client => client.id === order.clientId).forEach(client => clientsForInput.push(client));
-    alert(JSON.stringify(clientsForInput));
+    // alert(JSON.stringify(clientsForInput));
     });
 
     clientsForInput.forEach(function (client, i, arrClient) {
@@ -156,19 +157,24 @@
         .append($('<td>').append(goal.priority))
         .append($('<td>')
             .append($('<table>')
-                .append($('<tr>')
+                .append($('<tr onclick="fillGoodTurnoverForm(' + goal.id + ')">')
                     .append($('<td id="tdGoodTurnover' + goal.id + '" hidden>')
                         .append($('<form id="goodTurnoverForm' + goal.id + '" action="" method="post">')
+                            .append($('<div align="center" style="color: darkgray" onclick="hideGoodTurnoverForm(' + goal.id + ')">').append("скрыть"))
+
                             .append($('<div><label for="inputTurnoverId' + goal.id + '">').append("ID"))
                             .append($('<div><input id="inputTurnoverId' + goal.id + '" name="id" type="number" placeholder="auto" readonly>'))
-                            .append($('<div><label for="inputTurnoverQuantity' + goal.id + '">').append("Количество"))
-                            .append($('<div><input id="inputTurnoverQuantity' + goal.id + '" name="quantity" type="number" value="1" min="1" max="20">'))
+
                             .append($('<div><label for="inputTurnoverGood' + goal.id + '">').append("Товар"))
                             .append($('<div>')
                                 .append($('<select id="inputTurnoverGood' + goal.id + '" name="goodId">')
                                     .append($('<option selected disabled>').append("Выберите товар"))
                                 )
                             )
+
+                            .append($('<div><label for="inputTurnoverQuantity' + goal.id + '">').append("Количество"))
+                            .append($('<div><input id="inputTurnoverQuantity' + goal.id + '" name="quantity" type="number" value="1" min="1" max="20">'))
+
                             .append($('<div><label for="inputPaymentMethod' + goal.id + '">').append("Способ оплаты"))
                             .append($('<div>')
                                 .append($('<select id="inputPaymentMethod' + goal.id + '" name="paymentMethod">')
@@ -177,6 +183,7 @@
                                     .append($('<option value="paidFor">').append("оплачено"))
                                 )
                             )
+
                             .append($('<div><label for="inputTurnover' + goal.id + '">').append("Оборот"))
                             .append($('<div>')
                                 .append($('<select id="inputTurnover' + goal.id + '" name="turnover">')
@@ -188,16 +195,25 @@
                             .append($('<div><label for="inputTurnoverPriority' + goal.id + '">').append("priority"))
                             .append($('<div><input id="inputTurnoverPriority' + goal.id + '" name="priority" type="number" value="100" min="1" max="255">'))
 
+                            .append($('<div><label for="inputTurnoverLinkGoal' + goal.id + '">').append("Link Goal"))
+                            .append($('<div><input id="inputTurnoverLinkGoal' + goal.id + '" name="linkGoal" type="number" placeholder="Link Goal" min="0" >'))
+
+                            .append($('<div><label for="inputTurnoverLinkPoint' + goal.id + '">').append("Link Point"))
+                            .append($('<div><input id="inputTurnoverLinkPoint' + goal.id + '" name="linkPoint" type="number" placeholder="Link Point" min="0" >'))
+
+                            .append($('<div><label for="inputTurnoverLink' + goal.id + '">').append("Link"))
+                            .append($('<div><input id="inputTurnoverLink' + goal.id + '" name="link" type="number" placeholder="Link" min="0" >'))
+
                             .append($('<div><label for="inputTurnoverInfo' + goal.id + '">').append("info"))
                             .append($('<div><textarea id="inputTurnoverInfo' + goal.id + '" name="info" placeholder="info">'))
-                            .append($('<input type="button">'))
+                            .append($('<input type="button" id="inputTurnoverButton' + goal.id + '" value="Добавить" onclick="changeTurnover(' + goal.id + ')">'))
                             .append($('<input type="reset" >'))
 
                         )
                     )
                     .append($('<td>')
                         .append($('<table id="goodTurnoverTable' + goal.id + '">')
-                            .append($('<tr onclick="fillGoodTurnoverForm()(' + goal.id + ')">')
+                            .append($('<tr>')
                                 .append($('<th>').append("ID"))
                                 .append($('<th>').append("Товар"))
                                 .append($('<th>').append("Количество"))
@@ -215,10 +231,10 @@
             )
 
         )
-        .append($('<td>').append('<input type="button" value="X" onclick="cancelGoal(' + goal.id + ')">'))
+        .append($('<td>').append('<input type="button" value="X" onclick="deleteGoal(' + goal.id + ')">'))
     );
     goal.goodTurnoverList.forEach(function (goodTurnover, i, arrGoodTurnover) {
-        $('#goodTurnoverTable' + goal.id).append($('<tr onclick="fillGoodTurnoverForm(' + goal.id + ')">')
+        $('#goodTurnoverTable' + goal.id).append($('<tr onclick="fillGoodTurnoverForm(' + goal.id+','+goodTurnover.id + ')">')
             .append($('<td>').append(goodTurnover.id))
             .append($('<td>').append(goodTurnover.goodId))
             .append($('<td>').append(goodTurnover.quantity))
@@ -246,6 +262,7 @@
     function clearGoalForm(){
         $('#goalForm').attr("action", "/rest/logist/goal/");
         method = 'POST';
+        $('#inputSubmit').val("Добавить");
     }
 
     function fillForm(goalId){
@@ -266,14 +283,18 @@
 
         $('#inputId').val(currentGoal.id);
         $('#inputDeliveryDate').val(currentGoal.deliveryDate);
-        $('#inputStaus').val(currentGoal.status);
+        $('#inputStatus').val(currentGoal.status);
         $('#inputInfo').val(currentGoal.info);
         $('#inputPriority').val(currentGoal.priority);
         $('#inputLogist').val(currentGoal.logistId);
         $('#inputPointId option[value=' + currentGoal.pointId + ']').prop('selected', true);
         $('#inputDriverId option[value=' + currentGoal.driverId + ']').prop('selected', true);
 
+        $('#inputSubmit').val("Изменить");
 
+        goods.forEach(function (good) {
+
+        });
 
     }
 
@@ -285,12 +306,46 @@
         }
     }
 
+    function hideGoodTurnoverForm(goalId){
+    }
+
     function cancelGoal(){
 
     }
 
-    function fillGoodTurnoverForm(goalId){
+    function fillGoodTurnoverForm(goalId,goodTurnoverId){
+        let currentGoodTurnover = currentGoal.goodTurnoverList.find(goodTurnover => goodTurnover.id === goodTurnoverId);
+        // alert(JSON.stringify(currentGoodTurnover.turnover));
 
+        $('#inputTurnoverId'+goalId).val(currentGoodTurnover.id);
+        // $('#inputTurnoverGood').val(currentGoal.deliveryDate);
+        $('#inputTurnoverGood' + goalId + ' option[value=' + currentGoodTurnover.goodId + ']').prop('selected', true);
+        $('#inputTurnoverQuantity'+goalId).val(currentGoodTurnover.quantity);
+        $('#inputPaymentMethod' + goalId + ' option[value=' + currentGoodTurnover.paymentMethod + ']').prop('selected', true);
+        $('#inputTurnover' + goalId + ' option[value=' + currentGoodTurnover.turnover + ']').prop('selected', true);
+        $('#inputTurnoverPriority'+goalId).val(currentGoodTurnover.priority);
+        $('#inputTurnoverLink'+goalId).val(currentGoodTurnover.link);
+        $('#inputTurnoverLinkGoal'+goalId).val(currentGoodTurnover.linkGoal);
+        $('#inputTurnoverLinkPoint'+goalId).val(currentGoodTurnover.linkPoint);
+        $('#inputTurnoverInfo'+goalId).val(currentGoodTurnover.info);
+        $('#inputTurnoverButton'+goalId).val("Изменить");
+    }
+
+    function changeTurnover(goalId){
+
+        alert(JSON.stringify(currentGoal.goodTurnoverList));
+        let currentGoodTurnover = currentGoal.goodTurnoverList.find(goodTurnover => goodTurnover.id == $('#inputTurnoverId'+goalId).val());
+        alert(currentGoodTurnover);
+        currentGoodTurnover.paymentMethod = $('#inputPaymentMethod' + goalId).val();
+        currentGoodTurnover.priority = $('#inputTurnoverPriority' + goalId).val();
+        currentGoodTurnover.link = $('#inputTurnoverLink' + goalId).val();
+        currentGoodTurnover.linkGoal = $('#inputTurnoverLinkGoal' + goalId).val();
+        currentGoodTurnover.linkPoint = $('#inputTurnoverLinkPoint' + goalId).val();
+        currentGoodTurnover.info = $('#inputTurnoverInfo' + goalId).val();
+        index = currentGoal.goodTurnoverList.findIndex(goodTurnover => goodTurnover.id === $('#inputTurnoverId'+goalId).val());
+        currentGoal.goodTurnoverList[index]=currentGoodTurnover;
+
+        alert(JSON.stringify(currentGoal.goodTurnoverList));
     }
 
 
@@ -341,6 +396,31 @@
         // на запрос, потому что запрос выполняется асинхронно,
         // отдельно от основного кода
         console.log('Запрос отправляется');
+    }
+
+    function deleteGoal(goalId) {
+        result = confirm("Удалить цель с id: " + goalId);
+        if (result) {
+            console.log(goalId);
+            var xhr = new XMLHttpRequest();
+            xhr.open('DELETE', '/rest/logist/goal/' + goalId, true);
+            xhr.send();
+            xhr.onreadystatechange = function () {
+                if (this.readyState != 4) {
+                    location.reload(true);;
+                    return;
+                }
+                // по окончании запроса доступны:
+                // status, statusText
+                // responseText, responseXML (при content-type: text/xml)
+                if (this.status != 200) {
+                    // обработать ошибку
+                    alert('ошибка: ' + (this.status ? this.statusText : 'запрос не удался'));
+                    return;
+                }
+                // получить результат из this.responseText или this.responseXML
+            }
+        }
     }
 </script>
 

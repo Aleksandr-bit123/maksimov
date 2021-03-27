@@ -7,8 +7,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,11 +17,6 @@ public class PointService implements IPointService{
 
     public PointService(PointRepository pointRepository) {
         this.pointRepository = pointRepository;
-    }
-
-    @Transactional
-    @PostConstruct
-    public void init(){
     }
 
     @Override
@@ -37,7 +30,7 @@ public class PointService implements IPointService{
     public List<Point> readAll() {
         Iterable<PointEntity> all = pointRepository.findAll();
 
-        return objectMapper.convertValue(all, new TypeReference<List<Point>>() {
+        return objectMapper.convertValue(all, new TypeReference<>() {
         });
     }
 

@@ -8,7 +8,6 @@ import com.diploma.maksimov.service.DriverService;
 import com.diploma.maksimov.service.EmployeeService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,17 +19,17 @@ import java.util.List;
 @Controller
 @RequestMapping("/boss/employee/{id}/driver")
 public class CarViewController {
-    @Autowired
-    private EmployeeService employeeService;
+    private final EmployeeService employeeService;
+    private final DriverService driverService;
+    private final CarService carService;
+    private final ObjectMapper objectMapper;
 
-    @Autowired
-    private DriverService driverService;
-
-    @Autowired
-    private CarService carService;
-
-    @Autowired
-    private ObjectMapper objectMapper;
+    public CarViewController(EmployeeService employeeService, DriverService driverService, CarService carService, ObjectMapper objectMapper) {
+        this.employeeService = employeeService;
+        this.driverService = driverService;
+        this.carService = carService;
+        this.objectMapper = objectMapper;
+    }
 
     @GetMapping("/car")
     public String index(Model model, @PathVariable Long id) {
@@ -39,7 +38,7 @@ public class CarViewController {
 
             List<Car> carList= driver.getCarEntities();
             if (carList.isEmpty()) {
-                Long carId = carService.create(new Car(null,id,"","",0.0,0.0,""));
+                long carId = carService.create(new Car(null,id,"","",0.0,0.0,""));
                 Car car = carService.read(carId);
                 carList.add(car);
             }

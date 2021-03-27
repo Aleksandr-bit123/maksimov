@@ -31,7 +31,7 @@ public class ClientService implements CrudService<Client, Long> {
     @Override
     public List<Client> readAll() {
         Iterable<ClientEntity> all = clientRepository.findAll();
-        return objectMapper.convertValue(all, new TypeReference<List<Client>>() {
+        return objectMapper.convertValue(all, new TypeReference<>() {
         });
     }
 

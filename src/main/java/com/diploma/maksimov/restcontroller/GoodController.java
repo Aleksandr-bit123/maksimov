@@ -2,7 +2,6 @@ package com.diploma.maksimov.restcontroller;
 
 import com.diploma.maksimov.dto.Good;
 import com.diploma.maksimov.service.GoodService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,12 +11,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/rest/boss")
 public class GoodController {
+    private final GoodService goodService;
 
-    @Autowired
-    private GoodService goodService;
+    public GoodController(GoodService goodService) {
+        this.goodService = goodService;
+    }
 
     @PostMapping(value = "/good",headers = "Accept=application/json")
-    public ResponseEntity<?> create(@RequestBody Good good) {
+    public ResponseEntity<Void> create(@RequestBody Good good) {
             goodService.create(good);
             return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -42,7 +43,7 @@ public class GoodController {
     }
 
     @PutMapping(value = "/good/{id}",headers = "Accept=application/json")
-    public ResponseEntity<?> update(@PathVariable long id, @RequestBody Good good) {
+    public ResponseEntity<Void> update(@PathVariable long id, @RequestBody Good good) {
         final boolean updated = goodService.update(good, id);
         if (updated) {
             return new ResponseEntity<>(HttpStatus.OK);
@@ -51,7 +52,7 @@ public class GoodController {
     }
 
     @DeleteMapping(value = "/good/{id}")
-    public ResponseEntity<?> delete(@PathVariable long id) {
+    public ResponseEntity<Void> delete(@PathVariable long id) {
             final boolean deleted = goodService.delete(id);
             if (deleted) {
                 return new ResponseEntity<>(HttpStatus.OK);
