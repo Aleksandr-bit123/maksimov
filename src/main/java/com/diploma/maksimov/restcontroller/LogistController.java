@@ -14,11 +14,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/rest/boss/employee")
 public class LogistController {
-    private final CrudService<Logist,Long> logistService;
+    private final CrudService<Logist,Long, Void> logistService;
     private final UserService userService;
     private final EmployeeService employeeService;
 
-    public LogistController(CrudService<Logist, Long> logistService, UserService userService, EmployeeService employeeService) {
+    public LogistController(CrudService<Logist, Long, Void> logistService, UserService userService, EmployeeService employeeService) {
         this.logistService = logistService;
         this.userService = userService;
         this.employeeService = employeeService;

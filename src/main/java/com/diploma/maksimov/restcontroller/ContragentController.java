@@ -1,8 +1,8 @@
 package com.diploma.maksimov.restcontroller;
 
 import com.diploma.maksimov.dto.Contragent;
+import com.diploma.maksimov.dto.Point;
 import com.diploma.maksimov.service.CrudService;
-import com.diploma.maksimov.service.IPointService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,17 +12,17 @@ import java.util.List;
 @RestController
 @RequestMapping("/rest/boss")
 public class ContragentController {
-    private final IPointService pointService;
-    private final CrudService<Contragent,Long> contragentService;
+    private final CrudService<Point,Long,Long> pointService;
+    private final CrudService<Contragent,Long,Void> contragentService;
 
-    public ContragentController(IPointService pointService, CrudService<Contragent,Long> contragentService) {
+    public ContragentController(CrudService<Point,Long,Long> pointService, CrudService<Contragent,Long, Void> contragentService) {
         this.pointService = pointService;
         this.contragentService = contragentService;
     }
 
     @PostMapping(value = "/contragent",headers = "Accept=application/json")
     public ResponseEntity<Long> create(@RequestBody Contragent contragent) {
-        long pointId = pointService.create(contragent.getPoint());
+        Long pointId = pointService.create(contragent.getPoint());
         contragent.setId(pointId);
         contragent.getPoint().setId(pointId);
         contragentService.create(contragent);

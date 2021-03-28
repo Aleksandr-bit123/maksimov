@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-public class EmployeeService implements CrudService<Employee, Long>{
+public class EmployeeService implements CrudService<Employee, Long, Void>{
     private final EmployeeRepository employeeRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -30,9 +30,10 @@ public class EmployeeService implements CrudService<Employee, Long>{
     }
 
     @Override
-    public void create(Employee employee) {
+    public Void create(Employee employee) {
         EmployeeEntity employeeEntity = objectMapper.convertValue(employee, EmployeeEntity.class);
         employeeRepository.save(employeeEntity);
+        return null;
     }
 
     @Override

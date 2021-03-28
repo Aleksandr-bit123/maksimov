@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class GoodService implements CrudService<Good, Long> {
+public class GoodService implements CrudService<Good, Long, Void> {
 
     private final GoodRepository goodRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -22,11 +22,12 @@ public class GoodService implements CrudService<Good, Long> {
     }
 
     @Override
-    public void create(Good good) {
+    public Void create(Good good) {
         if (!goodRepository.existsById(good.getId())) {
             GoodEntity goodEntity = objectMapper.convertValue(good, GoodEntity.class);
             goodRepository.save(goodEntity);
         }
+        return null;
     }
 
     @Override

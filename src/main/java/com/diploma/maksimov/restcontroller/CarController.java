@@ -2,8 +2,8 @@ package com.diploma.maksimov.restcontroller;
 
 
 import com.diploma.maksimov.dto.Car;
+import com.diploma.maksimov.service.CarService;
 import com.diploma.maksimov.service.DriverService;
-import com.diploma.maksimov.service.ICarService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +14,10 @@ import java.util.List;
 @RequestMapping("/rest/boss/employee")
 
 public class CarController {
-    private final ICarService carService;
+    private final CarService carService;
     private final DriverService driverService;
 
-    public CarController(ICarService carService, DriverService driverService) {
+    public CarController(CarService carService, DriverService driverService) {
         this.carService = carService;
         this.driverService = driverService;
     }

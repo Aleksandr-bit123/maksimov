@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class OrderService implements IOrderService {
+public class OrderService implements CrudService<Order,Long,Long> {
     private final OrderRepository orderRepository;
     private final GoodTurnoverRepository goodTurnoverRepository;
     private final GoalRepository goalRepository;
@@ -30,7 +30,7 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public long create(Order order) {
+    public Long create(Order order) {
         if (order.getId() == null || !orderRepository.existsById(order.getId())) {
             OrderEntity orderEntity = objectMapper.convertValue(order, OrderEntity.class);
             orderEntity = orderRepository.save(orderEntity);
@@ -47,7 +47,7 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public Order read(long id) {
+    public Order read(Long id) {
         Optional<OrderEntity> orderEntityOptional = orderRepository.findById(id);
         if (orderEntityOptional.isPresent()) {
             OrderEntity orderEntity = orderEntityOptional.get();
@@ -57,7 +57,7 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public boolean update(Order order, long id) {
+    public boolean update(Order order, Long id) {
         Optional<OrderEntity> orderEntityOptional = orderRepository.findById(id);
         if (orderEntityOptional.isPresent()) {
             OrderEntity orderEntity = objectMapper.convertValue(order, OrderEntity.class);
@@ -70,7 +70,7 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public boolean delete(long id) {
+    public boolean delete(Long id) {
         Optional<OrderEntity> orderEntityOptional = orderRepository.findById(id);
             if (orderEntityOptional.isPresent() && orderEntityOptional.get().getStatus() != Goal.Status.canceled && orderEntityOptional.get().getStatus() != Goal.Status.doing) {
                 List<GoodTurnoverEntity> allByOrderId = goodTurnoverRepository.findAllByOrderId(id);

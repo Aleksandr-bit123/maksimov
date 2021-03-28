@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class DriverService implements CrudService<Driver, Long> {
+public class DriverService implements CrudService<Driver, Long, Void> {
 
     private final DriverRepository driverRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -21,11 +21,12 @@ public class DriverService implements CrudService<Driver, Long> {
     }
 
     @Override
-    public void create(Driver driver) {
+    public Void create(Driver driver) {
         if (!driverRepository.existsById(driver.getDriverId())) {
             DriverEntity driverEntity = objectMapper.convertValue(driver, DriverEntity.class);
             driverRepository.save(driverEntity);
         }
+        return null;
     }
 
     @Override

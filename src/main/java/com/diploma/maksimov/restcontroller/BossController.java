@@ -15,12 +15,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/rest/boss/employee")
 public class BossController {
-    private final CrudService<Boss,Long> bossService;
+    private final CrudService<Boss,Long,Void> bossService;
     private final UserService userService;
     private final EmployeeService employeeService;
 
     @Autowired
-    public BossController(CrudService<Boss, Long> bossService, UserService userService, EmployeeService employeeService) {
+    public BossController(CrudService<Boss, Long, Void> bossService, UserService userService, EmployeeService employeeService) {
         this.bossService = bossService;
         this.userService = userService;
         this.employeeService = employeeService;

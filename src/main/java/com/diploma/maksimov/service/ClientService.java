@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ClientService implements CrudService<Client, Long> {
+public class ClientService implements CrudService<Client, Long, Void> {
     private final ClientRepository clientRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -21,11 +21,12 @@ public class ClientService implements CrudService<Client, Long> {
 
 
     @Override
-    public void create(Client client) {
+    public Void create(Client client) {
         if (!clientRepository.existsById(client.getId())){
             ClientEntity clientEntity = objectMapper.convertValue(client, ClientEntity.class);
             clientRepository.save(clientEntity);
         }
+        return null;
     }
 
     @Override

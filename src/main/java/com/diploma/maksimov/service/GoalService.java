@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class GoalService implements IGoalService {
+public class GoalService implements CrudService<Goal,Long,Long> {
     private final GoalRepository goalRepository;
     private final PointRepository pointRepository;
     private final OrderRepository orderRepository;
@@ -37,7 +37,7 @@ public class GoalService implements IGoalService {
     }
 
     @Override
-    public long create(Goal goal) {
+    public Long create(Goal goal) {
         GoalEntity goalEntity = objectMapper.convertValue(goal, GoalEntity.class);
         Optional<PointEntity> optionalPointEntity = pointRepository.findById(goal.getPointId());
         if (optionalPointEntity.isPresent()) {
@@ -75,7 +75,7 @@ public class GoalService implements IGoalService {
     }
 
     @Override
-    public Goal read(long id) {
+    public Goal read(Long id) {
         Optional<GoalEntity> goalEntityOptional = goalRepository.findById(id);
         if (goalEntityOptional.isPresent()) {
             GoalEntity goalEntity = goalEntityOptional.get();
@@ -85,7 +85,7 @@ public class GoalService implements IGoalService {
     }
 
     @Override
-    public boolean update(Goal goal, long id) {
+    public boolean update(Goal goal, Long id) {
         Optional<GoalEntity> goalEntityOptional = goalRepository.findById(id);
         if (goalEntityOptional.isPresent()) {
             Optional<PointEntity> optionalPointEntityOfExistGoal = pointRepository.findById(goalEntityOptional.get().getPointId());
@@ -185,7 +185,7 @@ public class GoalService implements IGoalService {
     }
 
     @Override
-    public boolean delete(long id) {
+    public boolean delete(Long id) {
         Optional<GoalEntity> goalEntityOptional = goalRepository.findById(id);
         if (goalEntityOptional.isPresent()) {
             Optional<PointEntity> optionalPointEntityOfExistGoal = pointRepository.findById(goalEntityOptional.get().getPointId());

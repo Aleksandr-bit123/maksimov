@@ -8,5 +8,3 @@ INSERT INTO public.t_role (id, name)
 VALUES (4, 'ROLE_LOGIST');
 INSERT INTO public.t_role (id, name)
 VALUES (5, 'ROLE_DRIVER');
-INSERT INTO public.t_user (id, password, username)
-VALUES (1000000, null, 'UserForTest');

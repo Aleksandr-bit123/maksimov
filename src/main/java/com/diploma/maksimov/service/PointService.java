@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PointService implements IPointService{
+public class PointService implements CrudService<Point,Long,Long>{
     private final PointRepository pointRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -20,7 +20,7 @@ public class PointService implements IPointService{
     }
 
     @Override
-    public long create(Point point) {
+    public Long create(Point point) {
         PointEntity pointEntity = objectMapper.convertValue(point, PointEntity.class);
         pointEntity = pointRepository.save(pointEntity);
         return pointEntity.getId();
@@ -35,7 +35,7 @@ public class PointService implements IPointService{
     }
 
     @Override
-    public Point read(long id) {
+    public Point read(Long id) {
         Optional<PointEntity> pointEntityOptional = pointRepository.findById(id);
         if (pointEntityOptional.isPresent()) {
             PointEntity pointEntity = pointEntityOptional.get();
@@ -45,7 +45,7 @@ public class PointService implements IPointService{
     }
 
     @Override
-    public boolean update(Point point, long id) {
+    public boolean update(Point point, Long id) {
         if (pointRepository.findById(id).isPresent()) {
             pointRepository.save(objectMapper.convertValue(point, PointEntity.class));
             return true;
@@ -54,7 +54,7 @@ public class PointService implements IPointService{
     }
 
     @Override
-    public boolean delete(long id) {
+    public boolean delete(Long id) {
         Optional<PointEntity> pointEntityOptional = pointRepository.findById(id);
         if (pointEntityOptional.isPresent()) {
             pointRepository.deleteById(id);

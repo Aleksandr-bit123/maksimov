@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CarService implements ICarService {
+public class CarService implements CrudService<Car,Long,Long> {
 
     private final CarRepository carRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -22,7 +22,7 @@ public class CarService implements ICarService {
     }
 
     @Override
-    public long create(Car car) {
+    public Long create(Car car) {
         CarEntity carEntity = objectMapper.convertValue(car, CarEntity.class);
         carEntity = carRepository.save(carEntity);
         return carEntity.getId();
@@ -36,7 +36,7 @@ public class CarService implements ICarService {
     }
 
     @Override
-    public Car read(long id) {
+    public Car read(Long id) {
         Optional<CarEntity> carEntityOptional = carRepository.findById(id);
         if (carEntityOptional.isPresent()) {
             CarEntity carEntity = carEntityOptional.get();
@@ -46,7 +46,7 @@ public class CarService implements ICarService {
     }
 
     @Override
-    public boolean update(Car car, long id) {
+    public boolean update(Car car, Long id) {
         if (carRepository.findById(id).isPresent()) {
             carRepository.save(objectMapper.convertValue(car, CarEntity.class));
             return true;
@@ -55,7 +55,7 @@ public class CarService implements ICarService {
     }
 
     @Override
-    public boolean delete(long id) {
+    public boolean delete(Long id) {
         Optional<CarEntity> carEntityOptional = carRepository.findById(id);
         if (carEntityOptional.isPresent()) {
             carRepository.deleteById(id);

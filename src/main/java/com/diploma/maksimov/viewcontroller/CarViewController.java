@@ -38,7 +38,7 @@ public class CarViewController {
 
             List<Car> carList= driver.getCarEntities();
             if (carList.isEmpty()) {
-                long carId = carService.create(new Car(null,id,"","",0.0,0.0,""));
+                Long carId = carService.create(new Car(null,id,"","",0.0,0.0,""));
                 Car car = carService.read(carId);
                 carList.add(car);
             }

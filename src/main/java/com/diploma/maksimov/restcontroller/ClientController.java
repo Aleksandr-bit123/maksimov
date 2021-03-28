@@ -1,8 +1,8 @@
 package com.diploma.maksimov.restcontroller;
 
 import com.diploma.maksimov.dto.Client;
+import com.diploma.maksimov.dto.Point;
 import com.diploma.maksimov.service.CrudService;
-import com.diploma.maksimov.service.IPointService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,17 +13,17 @@ import java.util.List;
 @RequestMapping("/rest/logist")
 public class ClientController {
 
-    private final IPointService pointService;
-    private final CrudService<Client,Long> clientService;
+    private final CrudService<Point,Long, Long> pointService;
+    private final CrudService<Client,Long, Void> clientService;
 
-    public ClientController(IPointService pointService, CrudService<Client,Long> clientService) {
+    public ClientController(CrudService<Point,Long,Long> pointService, CrudService<Client,Long,Void> clientService) {
         this.pointService = pointService;
         this.clientService = clientService;
     }
 
     @PostMapping(value = "/client",headers = "Accept=application/json")
     public ResponseEntity<Long> create(@RequestBody Client client) {
-        long pointId = pointService.create(client.getPoint());
+        Long pointId = pointService.create(client.getPoint());
         client.setId(pointId);
         client.getPoint().setId(pointId);
         clientService.create(client);

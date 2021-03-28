@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ContragentService implements CrudService<Contragent, Long>{
+public class ContragentService implements CrudService<Contragent, Long, Void>{
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final ContragentRepository contragentRepository;
 
@@ -21,11 +21,12 @@ public class ContragentService implements CrudService<Contragent, Long>{
 
 
     @Override
-    public void create(Contragent contragent) {
+    public Void create(Contragent contragent) {
         if (!contragentRepository.existsById(contragent.getId())){
             ContragentEntity contragentEntity = objectMapper.convertValue(contragent, ContragentEntity.class);
             contragentRepository.save(contragentEntity);
         }
+        return null;
     }
 
     @Override

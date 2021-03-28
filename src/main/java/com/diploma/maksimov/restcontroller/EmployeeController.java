@@ -12,10 +12,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/rest/boss")
 public class EmployeeController {
-    private final CrudService<Employee,Long> employeeService;
+    private final CrudService<Employee,Long,Void> employeeService;
     private final UserService userService;
 
-    public EmployeeController(CrudService<Employee, Long> employeeService, UserService userService) {
+    public EmployeeController(CrudService<Employee, Long, Void> employeeService, UserService userService) {
         this.employeeService = employeeService;
         this.userService = userService;
     }

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class BossService implements CrudService<Boss, Long> {
+public class BossService implements CrudService<Boss, Long, Void> {
     private final BossRepository bossRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -20,9 +20,10 @@ public class BossService implements CrudService<Boss, Long> {
     }
 
     @Override
-    public void create(Boss boss) {
+    public Void create(Boss boss) {
         BossEntity bossEntity = objectMapper.convertValue(boss, BossEntity.class);
         bossRepository.save(bossEntity);
+        return null;
     }
 
     @Override

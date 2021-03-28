@@ -1,7 +1,7 @@
 package com.diploma.maksimov.restcontroller;
 
 import com.diploma.maksimov.dto.Goal;
-import com.diploma.maksimov.service.IGoalService;
+import com.diploma.maksimov.service.GoalService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +12,9 @@ import java.util.List;
 @RequestMapping("/rest/logist")
 public class GoalController {
 
-    private final IGoalService goalService;
+    private final GoalService goalService;
 
-    public GoalController(IGoalService goalService) {
+    public GoalController(GoalService goalService) {
         this.goalService = goalService;
     }
 

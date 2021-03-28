@@ -14,12 +14,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/rest/boss/employee")
 public class DriverController {
-    private final CrudService<Driver,Long> driverService;
+    private final CrudService<Driver,Long, Void> driverService;
     private final UserService userService;
     private final EmployeeService employeeService;
 
 
-    public DriverController(CrudService<Driver, Long> driverService, UserService userService, EmployeeService employeeService) {
+    public DriverController(CrudService<Driver, Long, Void> driverService, UserService userService, EmployeeService employeeService) {
         this.driverService = driverService;
         this.userService = userService;
         this.employeeService = employeeService;

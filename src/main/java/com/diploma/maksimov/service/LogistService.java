@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class LogistService implements CrudService<Logist, Long>{
+public class LogistService implements CrudService<Logist, Long, Void>{
 
     private final LogistRepository logistRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -21,11 +21,12 @@ public class LogistService implements CrudService<Logist, Long>{
     }
 
     @Override
-    public void create(Logist logist) {
+    public Void create(Logist logist) {
         if (!logistRepository.existsById(logist.getLogistId())) {
             LogistEntity logistEntity = objectMapper.convertValue(logist, LogistEntity.class);
             logistRepository.save(logistEntity);
         }
+        return null;
     }
 
     @Override
