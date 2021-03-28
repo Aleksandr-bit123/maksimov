@@ -6,6 +6,7 @@ import com.diploma.maksimov.dto.Boss;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -45,6 +46,7 @@ public class BossService implements CrudService<Boss, Long, Void> {
     }
 
     @Override
+    @Transactional
     public boolean update(Boss boss, Long id) {
         if (bossRepository.findById(id).isPresent()) {
             bossRepository.save(objectMapper.convertValue(boss, BossEntity.class));
@@ -54,6 +56,7 @@ public class BossService implements CrudService<Boss, Long, Void> {
     }
 
     @Override
+    @Transactional
     public boolean delete(Long id) {
         Optional<BossEntity> bossEntityOptional = bossRepository.findById(id);
         if (bossEntityOptional.isPresent()) {

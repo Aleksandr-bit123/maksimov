@@ -6,6 +6,7 @@ import com.diploma.maksimov.dto.Contragent;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -48,6 +49,7 @@ public class ContragentService implements CrudService<Contragent, Long, Void>{
     }
 
     @Override
+    @Transactional
     public boolean update(Contragent contragent, Long id) {
         Optional<ContragentEntity> contragentEntityOptional = contragentRepository.findById(id);
         if (contragentEntityOptional.isPresent()) {
@@ -60,6 +62,7 @@ public class ContragentService implements CrudService<Contragent, Long, Void>{
     }
 
     @Override
+    @Transactional
     public boolean delete(Long id) {
         Optional<ContragentEntity> contragentEntityOptional = contragentRepository.findById(id);
         if (contragentEntityOptional.isPresent()) {

@@ -6,6 +6,7 @@ import com.diploma.maksimov.dto.Driver;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -47,6 +48,7 @@ public class DriverService implements CrudService<Driver, Long, Void> {
     }
 
     @Override
+    @Transactional
     public boolean update(Driver driver, Long id) {
         Optional<DriverEntity> driverEntityOptional = driverRepository.findById(id);
         if (driverEntityOptional.isPresent()) {
@@ -59,6 +61,7 @@ public class DriverService implements CrudService<Driver, Long, Void> {
     }
 
     @Override
+    @Transactional
     public boolean delete(Long id) {
         Optional<DriverEntity> driverEntityOptional = driverRepository.findById(id);
         if (driverEntityOptional.isPresent()) {

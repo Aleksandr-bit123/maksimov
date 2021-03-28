@@ -6,6 +6,7 @@ import com.diploma.maksimov.dto.Client;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -47,6 +48,7 @@ public class ClientService implements CrudService<Client, Long, Void> {
     }
 
     @Override
+    @Transactional
     public boolean update(Client client, Long id) {
         Optional<ClientEntity> clientEntityOptional = clientRepository.findById(id);
         if (clientEntityOptional.isPresent()) {
@@ -60,6 +62,7 @@ public class ClientService implements CrudService<Client, Long, Void> {
     }
 
     @Override
+    @Transactional
     public boolean delete(Long id) {
         Optional<ClientEntity> clientEntityOptional = clientRepository.findById(id);
         if (clientEntityOptional.isPresent()) {

@@ -54,6 +54,7 @@ public class EmployeeService implements CrudService<Employee, Long, Void>{
     }
 
     @Override
+    @Transactional
     public boolean update(Employee employee, Long id) {
         if (employeeRepository.findById(id).isPresent()){
             employeeRepository.save(objectMapper.convertValue(employee, EmployeeEntity.class));
@@ -63,6 +64,7 @@ public class EmployeeService implements CrudService<Employee, Long, Void>{
     }
 
     @Override
+    @Transactional
     public boolean delete(Long id) {
         Optional<EmployeeEntity> employeeEntityOptional = employeeRepository.findById(id);
         if (employeeEntityOptional.isPresent()) {

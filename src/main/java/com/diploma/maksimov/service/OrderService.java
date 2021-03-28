@@ -12,6 +12,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -57,6 +58,7 @@ public class OrderService implements CrudService<Order,Long,Long> {
     }
 
     @Override
+    @Transactional
     public boolean update(Order order, Long id) {
         Optional<OrderEntity> orderEntityOptional = orderRepository.findById(id);
         if (orderEntityOptional.isPresent()) {
@@ -70,6 +72,7 @@ public class OrderService implements CrudService<Order,Long,Long> {
     }
 
     @Override
+    @Transactional
     public boolean delete(Long id) {
         Optional<OrderEntity> orderEntityOptional = orderRepository.findById(id);
             if (orderEntityOptional.isPresent() && orderEntityOptional.get().getStatus() != Goal.Status.canceled && orderEntityOptional.get().getStatus() != Goal.Status.doing) {

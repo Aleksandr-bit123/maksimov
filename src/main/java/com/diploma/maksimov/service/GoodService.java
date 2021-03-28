@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,6 +49,7 @@ public class GoodService implements CrudService<Good, Long, Void> {
     }
 
     @Override
+    @Transactional
     public boolean update(Good good, Long id) {
         Optional<GoodEntity> goodEntityOptional = goodRepository.findById(id);
         if (goodEntityOptional.isPresent()) {
@@ -61,6 +63,7 @@ public class GoodService implements CrudService<Good, Long, Void> {
     }
 
     @Override
+    @Transactional
     public boolean delete(Long id) {
         Optional<GoodEntity> goodEntityOptional = goodRepository.findById(id);
         if (goodEntityOptional.isPresent()) {
