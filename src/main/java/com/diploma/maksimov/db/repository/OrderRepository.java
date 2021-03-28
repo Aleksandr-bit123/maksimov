@@ -1,6 +1,5 @@
 package com.diploma.maksimov.db.repository;
 
-import com.diploma.maksimov.db.entity.GoalEntity;
 import com.diploma.maksimov.db.entity.OrderEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -13,5 +12,5 @@ public interface OrderRepository extends CrudRepository<OrderEntity, Long> {
     List<OrderEntity> findAllByDate(LocalDate date);
 
     @Query("select u from OrderEntity u where u.deliveryDate = :date and u.clientId = :clientId and u.status IS NULL")
-    List<OrderEntity> findAllByDateAndClientIdandStatusIsNull(LocalDate date, Long clientId);
+    List<OrderEntity> findAllByDateAndClientIdAndStatusIsNull(LocalDate date, Long clientId);
 }

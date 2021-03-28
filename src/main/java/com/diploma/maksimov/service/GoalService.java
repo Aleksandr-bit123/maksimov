@@ -43,7 +43,7 @@ public class GoalService implements IGoalService {
         if (optionalPointEntity.isPresent()) {
             PointEntity pointEntity = optionalPointEntity.get();
             if (pointEntity.getPointType() == Point.PointType.client) {
-                List<OrderEntity> orderEntityList = orderRepository.findAllByDateAndClientIdandStatusIsNull(goalEntity.getDeliveryDate(), goalEntity.getPointId());
+                List<OrderEntity> orderEntityList = orderRepository.findAllByDateAndClientIdAndStatusIsNull(goalEntity.getDeliveryDate(), goalEntity.getPointId());
                 List<GoodTurnoverEntity> goodTurnoverEntityList;
                 if (goalEntity.getGoodTurnoverList() == null) {
                     goodTurnoverEntityList = new LinkedList<>();
