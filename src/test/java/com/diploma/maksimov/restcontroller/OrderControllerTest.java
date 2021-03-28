@@ -48,7 +48,7 @@ public class OrderControllerTest {
     }
 
     //******************************************************************************************************************
-    Point point = new Point(null, "address", "phone", Point.PointType.client);
+    Point point = new Point(null, "address", "phone", Point.PointType.CLIENT);
     Client client = new Client(null, "Фамилия","Имя","Отчество", "паспорт серия и номер", "информация о клиенте",point);
 
     String startClientUri = "/rest/logist/client/";

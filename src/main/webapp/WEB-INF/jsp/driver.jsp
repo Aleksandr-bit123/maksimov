@@ -3,7 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
     <meta charset="utf-8">
     <title>Водитель</title>
@@ -16,14 +16,14 @@
     <table id="goalTable"> <!-- Таблица товаров -->
         <caption>Таблица целей</caption>
         <tr>
-            <th>ID</th>
-            <th>Точка</th>
-            <th>Водитель</th>
-            <th>Логист</th>
-            <th>Статус</th>
-            <th>Дата</th>
-            <th>info</th>
-            <th>priority</th>
+            <th scope="col">ID</th>
+            <th scope="col">Точка</th>
+            <th scope="col">Водитель</th>
+            <th scope="col">Логист</th>
+            <th scope="col">Статус</th>
+            <th scope="col">Дата</th>
+            <th scope="col">info</th>
+            <th scope="col">priority</th>
         </tr>
     </table>
 </div>

@@ -49,7 +49,7 @@
                     <textarea id="inputInfo" name="info" placeholder="info"></textarea>
                 </div>
 
-                <input type="hidden" id="inputStatus" name="status" value="waiting">
+                <input type="hidden" id="inputStatus" name="status" value="WAITING">
 
                 <input type="hidden" id="inputLogistId" name="logistId" value="${logistId}">
                 <input type="hidden" id="inputGoodTurnoverList" name="goodTurnoverList">
@@ -64,16 +64,16 @@
             <table id="goalTable"> <!-- Таблица товаров -->
                 <caption>Таблица целей</caption>
                 <tr>
-                    <th>ID</th>
-                    <th>Точка</th>
-                    <th>Водитель</th>
-                    <th>Логист</th>
-                    <th>Статус</th>
-                    <th>Дата</th>
-                    <th>info</th>
-                    <th>priority</th>
-                    <th>Оборот товара</th>
-                    <th>X</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Точка</th>
+                    <th scope="col">Водитель</th>
+                    <th scope="col">Логист</th>
+                    <th scope="col">Статус</th>
+                    <th scope="col">Дата</th>
+                    <th scope="col">info</th>
+                    <th scope="col">priority</th>
+                    <th scope="col">Оборот товара</th>
+                    <th scope="col">X</th>
                 </tr>
 
             </table>
@@ -178,9 +178,9 @@
                             .append($('<div><label for="inputPaymentMethod' + goal.id + '">').append("Способ оплаты"))
                             .append($('<div>')
                                 .append($('<select id="inputPaymentMethod' + goal.id + '" name="paymentMethod">')
-                                    .append($('<option selected value="cash">').append("наличные"))
-                                    .append($('<option value="cashless">').append("карта"))
-                                    .append($('<option value="paidFor">').append("оплачено"))
+                                    .append($('<option selected value="CASH">').append("наличные"))
+                                    .append($('<option value="CASHLESS">').append("карта"))
+                                    .append($('<option value="PAID_FOR">').append("оплачено"))
                                 )
                             )
 

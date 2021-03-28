@@ -31,12 +31,12 @@
             <table id ="goodTable"> <!-- Таблица товаров -->
             <caption>Таблица товаров</caption>
                 <tr>
-                    <th>ID</th>
-                    <th>Наименование</th>
-                    <th>Цена</th>
-                    <th>Объем</th>
-                    <th>info</th>
-                    <th>X</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Наименование</th>
+                    <th scope="col">Цена</th>
+                    <th scope="col">Объем</th>
+                    <th scope="col">info</th>
+                    <th scope="col">X</th>
                 </tr>
 
             </table>

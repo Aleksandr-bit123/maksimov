@@ -1,7 +1,7 @@
 package com.diploma.maksimov.dto;
 
 public class GoodTurnover {
-    public enum PaymentMethod {cash, cashless, paidFor}
+    public enum PaymentMethod {CASH, CASHLESS, PAID_FOR}
 
     private Long id;
     private Long goalId;

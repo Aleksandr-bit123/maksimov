@@ -7,7 +7,7 @@
 
 
 <!DOCTYPE HTML>
-<html>
+<html lang="ru">
 <head>
     <title>Главная</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -17,6 +17,7 @@
 <div>
     <h3>${pageContext.request.userPrincipal.name}</h3>
     <sec:authorize access="!isAuthenticated()">
+        <h4>Для доступа ко всем ссылкам - login: admin, password: admin</h4>
         <h4><a href="/login">Войти</a></h4>
         <h4><a href="/registration">Зарегистрироваться</a></h4>
     </sec:authorize>

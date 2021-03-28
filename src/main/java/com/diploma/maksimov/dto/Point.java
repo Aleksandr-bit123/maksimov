@@ -1,7 +1,7 @@
 package com.diploma.maksimov.dto;
 
 public class Point {
-    public enum PointType {client, contragent}
+    public enum PointType {CLIENT, CONTRAGENT}
 
     private Long id;
     private String address;

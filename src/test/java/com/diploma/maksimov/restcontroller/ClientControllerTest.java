@@ -48,8 +48,8 @@ public class ClientControllerTest {
 
     //******************************************************************************************************************
 
-    Point point = new Point(null, "address", "phone", Point.PointType.client);
-    Point point1 = new Point(null, "address 1", "phone 1", Point.PointType.client);
+    Point point = new Point(null, "address", "phone", Point.PointType.CLIENT);
+    Point point1 = new Point(null, "address 1", "phone 1", Point.PointType.CLIENT);
     Client client = new Client(null, "Фамилия", "Имя", "Отчество", "паспорт серия и номер", "информация о клиенте", point);
     Client client1 = new Client(null, "Фамилия 1", "Имя 1", "Отчество 1", "паспорт 1 серия и номер", "информация о клиенте 1", point1);
 

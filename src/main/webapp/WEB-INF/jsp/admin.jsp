@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
     <meta charset="utf-8">
     <title>Log in with your account</title>
@@ -12,13 +12,13 @@
 <body>
 
 <div>
-    <table>
+    <table> <!-- Description -->
         <thead>
-        <th>ID</th>
-        <th>UserName</th>
-        <th>Password</th>
-        <th>Employee</th>
-        <th>Roles</th>
+        <th scope="col">ID</th>
+        <th scope="col">UserName</th>
+        <th scope="col">Password</th>
+        <th scope="col">Employee</th>
+        <th scope="col">Roles</th>
         </thead>
         <c:forEach items="${allUsers}" var="user">
             <tr>

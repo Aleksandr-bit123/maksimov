@@ -75,7 +75,7 @@ public class OrderService implements CrudService<Order,Long,Long> {
     @Transactional
     public boolean delete(Long id) {
         Optional<OrderEntity> orderEntityOptional = orderRepository.findById(id);
-            if (orderEntityOptional.isPresent() && orderEntityOptional.get().getStatus() != Goal.Status.canceled && orderEntityOptional.get().getStatus() != Goal.Status.doing) {
+            if (orderEntityOptional.isPresent() && orderEntityOptional.get().getStatus() != Goal.Status.CANCELED && orderEntityOptional.get().getStatus() != Goal.Status.DOING) {
                 List<GoodTurnoverEntity> allByOrderId = goodTurnoverRepository.findAllByOrderId(id);
                 orderRepository.deleteById(id);
                 allByOrderId.forEach(goodTurnoverEntity -> {

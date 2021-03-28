@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class Goal {
-    public enum Status {waiting, doing, completed, canceled}
+    public enum Status {WAITING, DOING, COMPLETED, CANCELED}
 
     private Long id;
     private Long pointId;
@@ -28,7 +28,7 @@ public class Goal {
     public Goal() {
     }
 
-    public Goal(Long id, Long pointId, LocalDate deliveryDate, Long driverId, Long logistId, Status status, Byte priority, String info, List<GoodTurnover> goodTurnoverList) {
+    public Goal(Long id, Long pointId, LocalDate deliveryDate, Long driverId, Long logistId, Status status, Byte priority) {
         this.id = id;
         this.pointId = pointId;
         this.deliveryDate = deliveryDate;
@@ -36,8 +36,6 @@ public class Goal {
         this.logistId = logistId;
         this.status = status;
         this.priority = priority;
-        this.info = info;
-        this.goodTurnoverList = goodTurnoverList;
     }
 
     public Long getId() {

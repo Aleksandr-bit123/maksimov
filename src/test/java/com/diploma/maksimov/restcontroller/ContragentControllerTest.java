@@ -48,8 +48,8 @@ public class ContragentControllerTest {
 
     //******************************************************************************************************************
 
-    Point point = new Point(null, "address", "phone", Point.PointType.contragent);
-    Point point1 = new Point(null, "address 1", "phone 1", Point.PointType.contragent);
+    Point point = new Point(null, "address", "phone", Point.PointType.CONTRAGENT);
+    Point point1 = new Point(null, "address 1", "phone 1", Point.PointType.CONTRAGENT);
     Contragent contragent = new Contragent(null, "Контрагент", "информация о контрагенте", point);
     Contragent contragent1 = new Contragent(null, "Контрагент 1", "информация о контрагенте 1", point1);
 

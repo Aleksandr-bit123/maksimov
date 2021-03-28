@@ -37,12 +37,12 @@
             <table id="goodTable"> <!-- Таблица товаров -->
                 <caption>Таблица контрагентов</caption>
                 <tr>
-                    <th>ID</th>
-                    <th>Наименование</th>
-                    <th>Адрес</th>
-                    <th>Телефон</th>
-                    <th>info</th>
-                    <th>X</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Наименование</th>
+                    <th scope="col">Адрес</th>
+                    <th scope="col">Телефон</th>
+                    <th scope="col">info</th>
+                    <th scope="col">X</th>
                 </tr>
 
             </table>

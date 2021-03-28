@@ -50,7 +50,7 @@ public class LogistControllerTest {
     //******************************************************************************************************************
 
     Long id = 1000000L;
-    Employee employee = new Employee(id,"Максимов","Александр","Викторович", LocalDate.of(1990,2,8),"1234 567890","123-45-67",null,null,null);
+    Employee employee = new Employee(id,"Максимов","Александр","Викторович", LocalDate.of(1990,2,8),"1234 567890","123-45-67");
 
     Logist logist = new Logist(id,"Логист 1 тест",employee);
     Logist logist1 = new Logist(id,"Логист 2 тест",employee);

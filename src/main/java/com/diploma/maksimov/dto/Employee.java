@@ -29,7 +29,7 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(Long id, String lastName, String firstName, String middleName, LocalDate birthdate, String passport, String phone, Boolean isBoss, Boolean isLogist, Boolean isDriver) {
+    public Employee(Long id, String lastName, String firstName, String middleName, LocalDate birthdate, String passport, String phone) {
         this.id = id;
         this.lastName = lastName;
         this.firstName = firstName;
@@ -37,9 +37,6 @@ public class Employee {
         this.birthdate = birthdate;
         this.passport = passport;
         this.phone = phone;
-        this.isBoss = isBoss;
-        this.isLogist = isLogist;
-        this.isDriver = isDriver;
     }
 
     public Long getId() {

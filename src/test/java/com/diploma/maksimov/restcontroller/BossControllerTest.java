@@ -50,7 +50,7 @@ public class BossControllerTest {
 
     //******************************************************************************************************************
     Long id = 1000000L;
-    Employee employee = new Employee(id, "Максимов", "Александр", "Викторович", LocalDate.of(1990, 2, 8), "1234 567890", "123-45-67", null, null, null);
+    Employee employee = new Employee(id, "Максимов", "Александр", "Викторович", LocalDate.of(1990, 2, 8), "1234 567890", "123-45-67");
 
     Boss boss = new Boss(id, "Директор 1 тест", employee);
     Boss boss1 = new Boss(id, "Директор 2 тест", employee);

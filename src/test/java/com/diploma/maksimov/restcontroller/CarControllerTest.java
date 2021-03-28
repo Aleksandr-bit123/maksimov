@@ -57,7 +57,7 @@ public class CarControllerTest {
     Car car1 = new Car(null, id, "BMW", "А777AA99", 4.3, 15.2, "Цвет: черный");
     String startUri = "/rest/boss/employee/" + id + "/driver/car/";
 
-    Employee employee = new Employee(id, "Максимов", "Александр", "Викторович", LocalDate.of(1990, 2, 8), "1234 567890", "123-45-67", null, null, null);
+    Employee employee = new Employee(id, "Максимов", "Александр", "Викторович", LocalDate.of(1990, 2, 8), "1234 567890", "123-45-67");
 
     public long createCar() throws Exception {
         Long idBD;

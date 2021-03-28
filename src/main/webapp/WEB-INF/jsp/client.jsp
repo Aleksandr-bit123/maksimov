@@ -43,15 +43,15 @@
             <table id="clientTable"> <!-- Таблица товаров -->
                 <caption>Таблица клиентов</caption>
                 <tr>
-                    <th>ID</th>
-                    <th>Фамилия</th>
-                    <th>Имя</th>
-                    <th>Отчество</th>
-                    <th>Паспорт</th>
-                    <th>Адрес</th>
-                    <th>Телефон</th>
-                    <th>info</th>
-                    <th>X</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Фамилия</th>
+                    <th scope="col">Имя</th>
+                    <th scope="col">Отчество</th>
+                    <th scope="col">Паспорт</th>
+                    <th scope="col">Адрес</th>
+                    <th scope="col">Телефон</th>
+                    <th scope="col">info</th>
+                    <th scope="col">X</th>
                 </tr>
 
             </table>

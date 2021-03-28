@@ -1,7 +1,7 @@
 package com.diploma.maksimov.dto;
 
 public class Boss {
-    private Long BossId;
+    private Long bossId;
     private String info;
     private Employee employee;
 
@@ -9,17 +9,17 @@ public class Boss {
     }
 
     public Boss(Long bossId, String info, Employee employee) {
-        BossId = bossId;
+        this.bossId = bossId;
         this.info = info;
         this.employee = employee;
     }
 
     public Long getBossId() {
-        return BossId;
+        return bossId;
     }
 
     public void setBossId(Long bossId) {
-        BossId = bossId;
+        this.bossId = bossId;
     }
 
     public String getInfo() {

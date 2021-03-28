@@ -14,17 +14,17 @@
 <h2>Информация об автомобилях водителя</h2>
 <a id="backLink" href="#">назад</a>
 <h3>Водитель</h3>
-    <table id="driverTable">
+    <table id="driverTable"> <!-- Description -->
         <tr>
-            <th>ID</th>
-            <th>Фамилия</th>
-            <th>Имя</th>
-            <th>Отчество</th>
+            <th scope="col">ID</th>
+            <th scope="col">Фамилия</th>
+            <th scope="col">Имя</th>
+            <th scope="col">Отчество</th>
         </tr>
     </table>
 
 <h3>Автомобили</h3>
-    <table>
+    <table> <!-- Description -->
         <tr>
             <td>
                 <form id="carForm" action="" method="post">
@@ -40,15 +40,15 @@
                 </form>
             </td>
             <td>
-                <table id="carTable">
+                <table id="carTable"> <!-- Description -->
                     <tr>
-                        <th>ID</th>
-                        <th>Марка</th>
-                        <th>гос. номер</th>
-                        <th>Вместимость</th>
-                        <th>Расход</th>
-                        <th>info</th>
-                        <th>X</th>
+                        <th scope="col">ID</th>
+                        <th scope="col">Марка</th>
+                        <th scope="col">гос. номер</th>
+                        <th scope="col">Вместимость</th>
+                        <th scope="col">Расход</th>
+                        <th scope="col">info</th>
+                        <th scope="col">X</th>
                     </tr>
                 </table>
             </td>

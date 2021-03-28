@@ -4,7 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@page contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
     <meta charset="utf-8">
     <title>Водитель</title>
@@ -16,17 +16,17 @@
 <form id="employeeDriverForm" action="/rest/boss/employee/" method="post">
     <table id="driverTable">
         <tr>
-            <th>ID</th>
-            <th>Фамилия</th>
-            <th>Имя</th>
-            <th>Отчество</th>
-            <th>Дата рождения</th>
-            <th>Паспорт</th>
-            <th>Телефон</th>
-            <th>Машины</th>
-            <th>в/у</th>
-            <th>info</th>
-            <th>Act</th>
+            <th scope="col">ID</th>
+            <th scope="col">Фамилия</th>
+            <th scope="col">Имя</th>
+            <th scope="col">Отчество</th>
+            <th scope="col">Дата рождения</th>
+            <th scope="col">Паспорт</th>
+            <th scope="col">Телефон</th>
+            <th scope="col">Машины</th>
+            <th scope="col">в/у</th>
+            <th scope="col">info</th>
+            <th scope="col">Act</th>
         </tr>
     </table>
 

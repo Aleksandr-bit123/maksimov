@@ -53,7 +53,7 @@ public class DriverControllerTest {
     //******************************************************************************************************************
 
     Long id = 1000000L;
-    Employee employee = new Employee(id, "Максимов", "Александр", "Викторович", LocalDate.of(1990, 2, 8), "1234 567890", "123-45-67", null, null, null);
+    Employee employee = new Employee(id, "Максимов", "Александр", "Викторович", LocalDate.of(1990, 2, 8), "1234 567890", "123-45-67");
     Car car = new Car(id, id, "", "", 0.0, 0.0, "");
     ArrayList<Car> cars = new ArrayList<>();
 

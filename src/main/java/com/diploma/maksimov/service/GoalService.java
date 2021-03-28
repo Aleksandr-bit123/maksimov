@@ -43,7 +43,7 @@ public class GoalService implements CrudService<Goal,Long,Long> {
         Optional<PointEntity> optionalPointEntity = pointRepository.findById(goal.getPointId());
         if (optionalPointEntity.isPresent()) {
             PointEntity pointEntity = optionalPointEntity.get();
-            if (pointEntity.getPointType() == Point.PointType.client) {
+            if (pointEntity.getPointType() == Point.PointType.CLIENT) {
                 List<OrderEntity> orderEntityList = orderRepository.findAllByDateAndClientIdAndStatusIsNull(goalEntity.getDeliveryDate(), goalEntity.getPointId());
                 List<GoodTurnoverEntity> goodTurnoverEntityList;
                 if (goalEntity.getGoodTurnoverList() == null) {
@@ -54,8 +54,8 @@ public class GoalService implements CrudService<Goal,Long,Long> {
                 GoalEntity finalGoalEntity = goalEntity;
                 orderEntityList.forEach(orderEntity -> {
                     if (orderEntity.getStatus() == null) {
-                        goodTurnoverEntityList.add(new GoodTurnoverEntity(null, finalGoalEntity.getId(), orderEntity.getGoodId(), orderEntity.getQuantity(), GoodTurnover.PaymentMethod.cash, "", (byte) 100, true, orderEntity.getId(),null,null,null));
-                        orderEntity.setStatus(Goal.Status.waiting);
+                        goodTurnoverEntityList.add(new GoodTurnoverEntity(null, finalGoalEntity.getId(), orderEntity.getGoodId(), orderEntity.getQuantity(), GoodTurnover.PaymentMethod.CASH, "", (byte) 100, true, orderEntity.getId(),null,null,null));
+                        orderEntity.setStatus(Goal.Status.WAITING);
                     }
                 });
                 finalGoalEntity.setGoodTurnoverList(goodTurnoverEntityList);
@@ -93,12 +93,12 @@ public class GoalService implements CrudService<Goal,Long,Long> {
             Optional<PointEntity> optionalPointEntityOfExistGoal = pointRepository.findById(goalEntityOptional.get().getPointId());
             if (optionalPointEntityOfExistGoal.isPresent()) {
                 PointEntity pointEntityOfExistGoal = optionalPointEntityOfExistGoal.get();
-                if (pointEntityOfExistGoal.getPointType() == Point.PointType.client) {
+                if (pointEntityOfExistGoal.getPointType() == Point.PointType.CLIENT) {
                     Optional<PointEntity> optionalPointEntity = pointRepository.findById(goal.getPointId());
                     if (optionalPointEntity.isPresent()) {
                         PointEntity pointEntity = optionalPointEntity.get();
                         //назначаем контрагента для текущей точки
-                        if (pointEntity.getPointType() == Point.PointType.contragent && goal.getDriverId().equals(goalEntityOptional.get().getDriverId())) {
+                        if (pointEntity.getPointType() == Point.PointType.CONTRAGENT && goal.getDriverId().equals(goalEntityOptional.get().getDriverId())) {
                             List<GoodTurnover> goalGoodTurnoverList = goal.getGoodTurnoverList();
                             List<GoodTurnoverEntity> goalGoodTurnoverListTemp = new LinkedList<>();
                             goal.setId(null);
@@ -113,7 +113,7 @@ public class GoalService implements CrudService<Goal,Long,Long> {
                                     goodTurnover.setId(null);
                                     goodTurnover.setGoalId(null);
                                     goodTurnover.setTurnover(false);
-                                    goodTurnover.setPaymentMethod(GoodTurnover.PaymentMethod.paidFor);
+                                    goodTurnover.setPaymentMethod(GoodTurnover.PaymentMethod.PAID_FOR);
                                     goalGoodTurnoverListTemp.add(objectMapper.convertValue(goodTurnover, GoodTurnoverEntity.class));
                                 }
                             });
@@ -159,7 +159,7 @@ public class GoalService implements CrudService<Goal,Long,Long> {
                             return true;
                         }
 
-                        if (pointEntity.getPointType() == Point.PointType.client &&
+                        if (pointEntity.getPointType() == Point.PointType.CLIENT &&
                                 pointEntityOfExistGoal.getId().equals(pointEntity.getId()) &&
                                 goal.getDriverId().equals(goalEntityOptional.get().getDriverId())) {
                             create(goal);
@@ -168,12 +168,12 @@ public class GoalService implements CrudService<Goal,Long,Long> {
                     }
                 }
 
-                if (pointEntityOfExistGoal.getPointType() == Point.PointType.contragent) {
+                if (pointEntityOfExistGoal.getPointType() == Point.PointType.CONTRAGENT) {
                     Optional<PointEntity> optionalPointEntity = pointRepository.findById(goal.getPointId());
                     if (optionalPointEntity.isPresent()) {
                         PointEntity pointEntity = optionalPointEntity.get();
                         //назначаем контрагента для текущей точки
-                        if (pointEntity.getPointType() == Point.PointType.contragent &&
+                        if (pointEntity.getPointType() == Point.PointType.CONTRAGENT &&
                                 pointEntityOfExistGoal.getId().equals(pointEntity.getId()) &&
                                 goal.getDriverId().equals(goalEntityOptional.get().getDriverId())) {
                             create(goal);
@@ -194,7 +194,7 @@ public class GoalService implements CrudService<Goal,Long,Long> {
             Optional<PointEntity> optionalPointEntityOfExistGoal = pointRepository.findById(goalEntityOptional.get().getPointId());
             if (optionalPointEntityOfExistGoal.isPresent()) {
                 PointEntity pointEntityOfExistGoal = optionalPointEntityOfExistGoal.get();
-                if (pointEntityOfExistGoal.getPointType() == Point.PointType.contragent) {
+                if (pointEntityOfExistGoal.getPointType() == Point.PointType.CONTRAGENT) {
 
                     List<GoodTurnoverEntity> goodTurnoverEntityList = goalEntityOptional.get().getGoodTurnoverList();
                     goodTurnoverEntityList.forEach(goodTurnoverEntity -> {
@@ -211,7 +211,7 @@ public class GoalService implements CrudService<Goal,Long,Long> {
                     return true;
 
                 }
-                if (pointEntityOfExistGoal.getPointType() == Point.PointType.client) {
+                if (pointEntityOfExistGoal.getPointType() == Point.PointType.CLIENT) {
                     List<Long> contragentIdForDeleteList = new LinkedList<>();
                     goalEntityOptional.get().getGoodTurnoverList().forEach(goodTurnoverEntity -> {
                         Optional<OrderEntity> orderEntity = orderRepository.findById(goodTurnoverEntity.getOrderId());
