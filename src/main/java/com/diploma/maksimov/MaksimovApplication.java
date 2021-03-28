@@ -10,8 +10,11 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 @SpringBootApplication
 public class MaksimovApplication implements ApplicationListener<ApplicationEvent> {
 
+
     public static void main(String[] args) {
+
         SpringApplication.run(MaksimovApplication.class, args);
+
     }
 
     @Override

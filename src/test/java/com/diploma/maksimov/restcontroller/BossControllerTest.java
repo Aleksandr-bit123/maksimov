@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.setup.ConfigurableMockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -49,25 +50,12 @@ public class BossControllerTest {
 
     //******************************************************************************************************************
     Long id = 1000000L;
-    Employee employee = new Employee(id,"Максимов","Александр","Викторович", LocalDate.of(1990,2,8),"1234 567890","123-45-67",null,null,null);
+    Employee employee = new Employee(id, "Максимов", "Александр", "Викторович", LocalDate.of(1990, 2, 8), "1234 567890", "123-45-67", null, null, null);
 
-    Boss boss = new Boss(id,"Директор 1 тест",employee);
-    Boss boss1 = new Boss(id,"Директор 2 тест",employee);
+    Boss boss = new Boss(id, "Директор 1 тест", employee);
+    Boss boss1 = new Boss(id, "Директор 2 тест", employee);
 
-    String startUri = "/rest/boss/employee/"+id+"/boss/";
-
-    public void createBoss() throws Exception {
-        String content = objectMapper.writeValueAsString(boss);
-        String uri = startUri;
-        mockMvc.perform(post(uri)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(content));
-    }
-
-    public void deleteBoss() throws Exception {
-        String uri = startUri;
-        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri));
-    }
+    String startUri = "/rest/boss/employee/" + id + "/boss/";
 
     String startEmloyeeUri = "/rest/boss/employee/";
 
@@ -79,14 +67,10 @@ public class BossControllerTest {
                 .content(content));
     }
 
-    public void deleteEmployee() throws Exception {
-        String uri = startEmloyeeUri + id;
-        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri));
-    }
-
     //******************************************************************************************************************
 
     @Test
+    @Transactional
     public void create() throws Exception {
         createEmployee();
         String content = objectMapper.writeValueAsString(boss);
@@ -97,38 +81,35 @@ public class BossControllerTest {
                 .andExpect(status().isCreated())
                 .andDo(document(uri))
                 .andDo(print());
-        deleteBoss();
-        deleteEmployee();
     }
 
     @Test
+    @Transactional
     public void readAll() throws Exception {
         createEmployee();
-        createBoss();
+        create();
         String uri = "/rest/boss/employee/boss";
         mockMvc.perform(get(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
-        deleteBoss();
-        deleteEmployee();
     }
 
     @Test
+    @Transactional
     public void read() throws Exception {
         createEmployee();
-        createBoss();
+        create();
         String uri = startUri;
         mockMvc.perform(get(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
-        deleteBoss();
-        deleteEmployee();
     }
 
     @Test
+    @Transactional
     public void update() throws Exception {
         createEmployee();
-        createBoss();
+        create();
         String content = objectMapper.writeValueAsString(boss1);
         String uri = startUri;
         mockMvc.perform(put(uri)
@@ -136,18 +117,16 @@ public class BossControllerTest {
                 .content(content))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
-        deleteBoss();
-        deleteEmployee();
     }
 
     @Test
+    @Transactional
     public void delete() throws Exception {
         createEmployee();
-        createBoss();
+        create();
         String uri = startUri;
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
-        deleteEmployee();
     }
 }

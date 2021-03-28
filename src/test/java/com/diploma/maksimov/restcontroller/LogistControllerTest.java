@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.ConfigurableMockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDate;
@@ -55,19 +56,6 @@ public class LogistControllerTest {
     Logist logist1 = new Logist(id,"Логист 2 тест",employee);
     String startUri = "/rest/boss/employee/"+id+"/logist/";
 
-    public void createLogist() throws Exception {
-        String content = objectMapper.writeValueAsString(logist);
-        String uri = startUri;
-        mockMvc.perform(post(uri)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(content));
-    }
-
-    public void deleteLogist() throws Exception {
-        String uri = startUri;
-        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri));
-    }
-
     String startEmloyeeUri = "/rest/boss/employee/";
 
     public void createEmployee() throws Exception {
@@ -78,13 +66,10 @@ public class LogistControllerTest {
                 .content(content));
     }
 
-    public void deleteEmployee() throws Exception {
-        String uri = startEmloyeeUri + id;
-        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri));
-    }
     //******************************************************************************************************************
 
     @Test
+    @Transactional
     public void create() throws Exception {
         createEmployee();
         String content = objectMapper.writeValueAsString(logist);
@@ -94,38 +79,35 @@ public class LogistControllerTest {
                 .content(content))
                 .andExpect(status().isCreated())
                 .andDo(document(uri));
-        deleteLogist();
-        deleteEmployee();
     }
 
     @Test
+    @Transactional
     public void readAll() throws Exception {
         createEmployee();
-        createLogist();
+        create();
         String uri = "/rest/boss/employee/logist";
         mockMvc.perform(get(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
-        deleteLogist();
-        deleteEmployee();
     }
 
     @Test
+    @Transactional
     public void read() throws Exception {
         createEmployee();
-        createLogist();
+        create();
         String uri = startUri;
         mockMvc.perform(get(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
-        deleteLogist();
-        deleteEmployee();
     }
 
     @Test
+    @Transactional
     public void update() throws Exception {
         createEmployee();
-        createLogist();
+        create();
         String content = objectMapper.writeValueAsString(logist1);
         String uri = startUri;
         mockMvc.perform(put(uri)
@@ -133,18 +115,16 @@ public class LogistControllerTest {
                 .content(content))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
-        deleteLogist();
-        deleteEmployee();
     }
 
     @Test
+    @Transactional
     public void delete() throws Exception {
         createEmployee();
-        createLogist();
+        create();
         String uri = startUri;
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
-        deleteEmployee();
     }
 }

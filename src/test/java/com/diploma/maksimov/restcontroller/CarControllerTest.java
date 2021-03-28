@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.ConfigurableMockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDate;
@@ -69,12 +70,7 @@ public class CarControllerTest {
         return Long.parseLong(result.getResponse().getContentAsString());
     }
 
-    public void deleteCar(long idBD) throws Exception {
-        String uri = startUri + idBD;
-        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri));
-    }
-
-    Driver driver = new Driver(id, null, "12 34 567890 B B1 M", "действительны до 16.06.2028",employee);
+    Driver driver = new Driver(id, null, "12 34 567890 B B1 M", "действительны до 16.06.2028", employee);
     String startDriverUri = "/rest/boss/employee/" + id + "/driver/";
 
     public void createDriver() throws Exception {
@@ -83,11 +79,6 @@ public class CarControllerTest {
         mockMvc.perform(post(uri)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content));
-    }
-
-    public void deleteDriver() throws Exception {
-        String uri = startDriverUri;
-        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri));
     }
 
     String startEmloyeeUri = "/rest/boss/employee/";
@@ -100,57 +91,47 @@ public class CarControllerTest {
                 .content(content));
     }
 
-    public void deleteEmployee() throws Exception {
-        String uri = startEmloyeeUri + id;
-        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri));
-    }
-
     //******************************************************************************************************************
     @Test
+    @Transactional
     public void create() throws Exception {
         createEmployee();
         createDriver();
         String content = objectMapper.writeValueAsString(car);
         String uri = startUri;
-        MvcResult result = mockMvc.perform(post(uri)
+        mockMvc.perform(post(uri)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content))
                 .andExpect(status().isCreated())
-                .andDo(document(uri)).andReturn();
-        deleteCar(Long.parseLong(result.getResponse().getContentAsString()));
-        deleteDriver();
-        deleteEmployee();
+                .andDo(document(uri));
     }
 
     @Test
+    @Transactional
     public void readAll() throws Exception {
         createEmployee();
         createDriver();
-        Long idBD = createCar();
+        createCar();
         String uri = "/rest/boss/employee/driver/car";
         mockMvc.perform(get(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
-        deleteCar(idBD);
-        deleteDriver();
-        deleteEmployee();
     }
 
     @Test
+    @Transactional
     public void read() throws Exception {
         createEmployee();
         createDriver();
-        Long idBD = createCar();
+        long idBD = createCar();
         String uri = startUri + idBD;
         mockMvc.perform(get(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
-        deleteCar(idBD);
-        deleteDriver();
-        deleteEmployee();
     }
 
     @Test
+    @Transactional
     public void update() throws Exception {
         createEmployee();
         createDriver();
@@ -163,21 +144,17 @@ public class CarControllerTest {
                 .content(content))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
-        deleteCar(idBD);
-        deleteDriver();
-        deleteEmployee();
     }
 
     @Test
+    @Transactional
     public void delete() throws Exception {
         createEmployee();
         createDriver();
-        Long idBD = createCar();
+        long idBD = createCar();
         String uri = startUri + idBD;
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
-        deleteDriver();
-        deleteEmployee();
     }
 }

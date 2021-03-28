@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.setup.ConfigurableMockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -48,26 +49,15 @@ public class EmployeeControllerTest {
     //******************************************************************************************************************
 
     Long id = 1000000L;
-    Employee employee = new Employee(id,"Максимов","Александр","Викторович", LocalDate.of(1990,2,8),"1234 567890","123-45-67",null,null,null);
-    Employee employee1 = new Employee(id,"Максимов","Александр","Викторович", LocalDate.of(1990,2,8),"1234 567890","123-45-67",null,null,null);
+    Employee employee = new Employee(id, "Максимов", "Александр", "Викторович", LocalDate.of(1990, 2, 8), "1234 567890", "123-45-67", null, null, null);
+    Employee employee1 = new Employee(id, "Максимов", "Александр", "Викторович", LocalDate.of(1990, 2, 8), "1234 567890", "123-45-67", null, null, null);
     String startUri = "/rest/boss/employee/";
 
-    public void createEmployee() throws Exception {
-        String content = objectMapper.writeValueAsString(employee);
-        String uri = startUri;
-        mockMvc.perform(post(uri)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(content));
-    }
-
-    public void deleteEmployee() throws Exception {
-        String uri = startUri + id;
-        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri));
-    }
     //******************************************************************************************************************
 
 
     @Test
+    @Transactional
     public void create() throws Exception {
         String content = objectMapper.writeValueAsString(employee);
         String uri = startUri;
@@ -79,28 +69,29 @@ public class EmployeeControllerTest {
     }
 
     @Test
+    @Transactional
     public void readAll() throws Exception {
-        createEmployee();
+        create();
         String uri = startUri;
         mockMvc.perform(get(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
-        deleteEmployee();
     }
 
     @Test
+    @Transactional
     public void read() throws Exception {
-        createEmployee();
+        create();
         String uri = startUri + id;
         mockMvc.perform(get(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
-        deleteEmployee();
     }
 
     @Test
+    @Transactional
     public void update() throws Exception {
-        createEmployee();
+        create();
         String content = objectMapper.writeValueAsString(employee1);
         String uri = startUri + id;
         mockMvc.perform(put(uri)
@@ -108,12 +99,11 @@ public class EmployeeControllerTest {
                 .content(content))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
-        deleteEmployee();
     }
 
     @Test
     public void delete() throws Exception {
-        createEmployee();
+        create();
         String uri = startUri + id;
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri))
                 .andExpect(status().isOk())

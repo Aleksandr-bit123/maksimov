@@ -4,12 +4,16 @@ import com.diploma.maksimov.db.entity.RoleEntity;
 import com.diploma.maksimov.db.entity.UserEntity;
 import com.diploma.maksimov.db.repository.RoleRepository;
 import com.diploma.maksimov.db.repository.UserRepository;
+import com.diploma.maksimov.dto.User;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
@@ -18,11 +22,37 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final ObjectMapper objectMapper;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder, ObjectMapper objectMapper) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.objectMapper = objectMapper;
+    }
+
+    @Transactional
+    @PostConstruct
+    public void init(){
+        if(roleRepository.findAll().isEmpty()) {
+            roleRepository.save(new RoleEntity(1L,"ROLE_USER"));
+            roleRepository.save(new RoleEntity(2L,"ROLE_ADMIN"));
+            roleRepository.save(new RoleEntity(3L,"ROLE_BOSS"));
+            roleRepository.save(new RoleEntity(4L,"ROLE_LOGIST"));
+            roleRepository.save(new RoleEntity(5L,"ROLE_DRIVER"));
+        }
+
+        User user = new User("admin","admin","admin");
+        if (saveUser(objectMapper.convertValue(user,UserEntity.class))){
+            UserEntity userEntity = userRepository.findByUsername("admin");
+            Long userId = userEntity.getId();
+            addRole(userId,1L);
+            addRole(userId,2L);
+            addRole(userId,3L);
+            addRole(userId,4L);
+            addRole(userId,5L);
+        }
     }
 
     @Override

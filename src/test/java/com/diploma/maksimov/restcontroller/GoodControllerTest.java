@@ -14,9 +14,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.ConfigurableMockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.junit.Assert.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -51,20 +51,9 @@ public class GoodControllerTest {
     Good good1 = new Good(id,"IBONEZ T444",105.999,0.5,"гитара электрическая, шнур в комплекте");
     String startUri = "/rest/boss/good/";
 
-    public void createGood() throws Exception {
-        String content = objectMapper.writeValueAsString(good);
-        String uri = startUri;
-        mockMvc.perform(post(uri)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(content));
-    }
-
-    public void deleteGood() throws Exception {
-        String uri = startUri+id;
-        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri));
-    }
     //******************************************************************************************************************
     @Test
+    @Transactional
     public void create() throws Exception {
         String content = objectMapper.writeValueAsString(good);
         String uri = startUri;
@@ -73,32 +62,32 @@ public class GoodControllerTest {
                 .content(content))
                 .andExpect(status().isCreated())
                 .andDo(document(uri));
-        deleteGood();
     }
 
     @Test
+    @Transactional
     public void readAll() throws Exception {
-        createGood();
+        create();
         String uri = startUri;
         mockMvc.perform(get(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
-        deleteGood();
     }
 
     @Test
+    @Transactional
     public void read() throws Exception {
-        createGood();
+        create();
         String uri = startUri+id;
         mockMvc.perform(get(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
-        deleteGood();
     }
 
     @Test
+    @Transactional
     public void update() throws Exception {
-        createGood();
+        create();
         String content = objectMapper.writeValueAsString(good1);
         String uri = startUri+id;
         mockMvc.perform(put(uri)
@@ -106,12 +95,12 @@ public class GoodControllerTest {
                 .content(content))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
-        deleteGood();
     }
 
     @Test
+    @Transactional
     public void delete() throws Exception {
-        createGood();
+        create();
         String uri = startUri+id;
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri))
                 .andExpect(status().isOk())

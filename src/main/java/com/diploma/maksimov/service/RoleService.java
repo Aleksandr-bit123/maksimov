@@ -11,10 +11,11 @@ import java.util.Optional;
 @Service
 public class RoleService implements IRoleService{
     private final RoleRepository roleRepository;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
 
-    public RoleService(RoleRepository roleRepository) {
+    public RoleService(RoleRepository roleRepository, ObjectMapper objectMapper) {
         this.roleRepository = roleRepository;
+        this.objectMapper = objectMapper;
     }
 
     @Override

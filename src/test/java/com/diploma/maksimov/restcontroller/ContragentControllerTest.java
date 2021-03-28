@@ -16,9 +16,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.ConfigurableMockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.junit.Assert.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -64,45 +64,41 @@ public class ContragentControllerTest {
         return Long.parseLong(result.getResponse().getContentAsString());
     }
 
-    public void deleteContragent(Long pointId) throws Exception {
-        String uri = startUri + pointId;
-        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri));
-    }
-
     //******************************************************************************************************************
     @Test
+    @Transactional
     public void create() throws Exception {
         String content = objectMapper.writeValueAsString(contragent);
         String uri = startUri;
-        MvcResult result = mockMvc.perform(post(uri)
+        mockMvc.perform(post(uri)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content))
                 .andExpect(status().isCreated())
-                .andDo(document(uri)).andReturn();
-        deleteContragent(Long.parseLong(result.getResponse().getContentAsString()));
+                .andDo(document(uri));
     }
 
     @Test
+    @Transactional
     public void readAll() throws Exception {
-        Long pointId = createContragent();
+        createContragent();
         String uri = startUri;
         mockMvc.perform(get(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
-        deleteContragent(pointId);
     }
 
     @Test
+    @Transactional
     public void read() throws Exception {
-        Long pointId = createContragent();
+        long pointId = createContragent();
         String uri = startUri + pointId;
         mockMvc.perform(get(uri))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
-        deleteContragent(pointId);
     }
 
     @Test
+    @Transactional
     public void update() throws Exception {
         Long pointId = createContragent();
         String uri = startUri + pointId;
@@ -114,12 +110,12 @@ public class ContragentControllerTest {
                 .content(content))
                 .andExpect(status().isOk())
                 .andDo(document(uri));
-        deleteContragent(pointId);
     }
 
     @Test
+    @Transactional
     public void delete() throws Exception {
-        Long pointId = createContragent();
+        long pointId = createContragent();
         String uri = startUri + pointId;
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete(uri))
                 .andExpect(status().isOk())
