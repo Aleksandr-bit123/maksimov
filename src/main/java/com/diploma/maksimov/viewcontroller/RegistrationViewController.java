@@ -1,8 +1,9 @@
 package com.diploma.maksimov.viewcontroller;
 
 import com.diploma.maksimov.db.entity.UserEntity;
+import com.diploma.maksimov.dto.User;
 import com.diploma.maksimov.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,29 +16,35 @@ import javax.validation.Valid;
 @Controller
 public class RegistrationViewController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private static final String REG = "registration";
+    private final ObjectMapper objectMapper;
+
+    public RegistrationViewController(UserService userService, ObjectMapper objectMapper) {
+        this.userService = userService;
+        this.objectMapper = objectMapper;
+    }
 
     @GetMapping("/registration")
     public String registration(Model model) {
         model.addAttribute("userForm", new UserEntity());
 
-        return "registration";
+        return REG;
     }
 
     @PostMapping("/registration")
-    public String addUser(@ModelAttribute("userForm") @Valid UserEntity userForm, BindingResult bindingResult, Model model) {
+    public String addUser(@ModelAttribute("userForm") @Valid User userForm, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
-            return "registration";
+            return REG;
         }
         if (!userForm.getPassword().equals(userForm.getPasswordConfirm())){
             model.addAttribute("passwordError", "Пароли не совпадают");
-            return "registration";
+            return REG;
         }
-        if (!userService.saveUser(userForm)){
+        if (!userService.saveUser(objectMapper.convertValue(userForm, UserEntity.class))){
             model.addAttribute("usernameError", "Пользователь с таким именем уже существует");
-            return "registration";
+            return REG;
         }
 
         return "redirect:/";

@@ -13,6 +13,7 @@
 
 <div>
     <table> <!-- Description -->
+        <caption hidden></caption>
         <thead>
         <th scope="col">ID</th>
         <th scope="col">UserName</th>

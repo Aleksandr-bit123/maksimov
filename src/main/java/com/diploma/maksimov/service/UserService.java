@@ -43,7 +43,7 @@ public class UserService implements UserDetailsService {
             roleRepository.save(new RoleEntity(5L,"ROLE_DRIVER"));
         }
 
-        User user = new User("admin","admin","admin");
+        User user = new User("admin","","");
         if (saveUser(objectMapper.convertValue(user,UserEntity.class))){
             UserEntity userEntity = userRepository.findByUsername("admin");
             Long userId = userEntity.getId();

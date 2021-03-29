@@ -27,21 +27,6 @@ public class GoodTurnoverEntity {
         //здесь должен быть пустой конструктор
     }
 
-    public GoodTurnoverEntity(Long id, Long goalId, Long goodId, Byte quantity, GoodTurnover.PaymentMethod paymentMethod, String info, Byte priority, Boolean turnover, Long orderId, Long link, Long linkPoint, Long linkGoal) {
-        this.id = id;
-        this.goalId = goalId;
-        this.goodId = goodId;
-        this.quantity = quantity;
-        this.paymentMethod = paymentMethod;
-        this.info = info;
-        this.priority = priority;
-        this.turnover = turnover;
-        this.orderId = orderId;
-        this.link = link;
-        this.linkPoint = linkPoint;
-        this.linkGoal = linkGoal;
-    }
-
     public Long getId() {
         return id;
     }

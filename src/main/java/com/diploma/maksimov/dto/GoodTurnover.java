@@ -17,19 +17,7 @@ public class GoodTurnover {
     private Long linkGoal;
 
     public GoodTurnover() {
-    }
-
-    public GoodTurnover(Long id, Long goalId, Long goodId, Byte quantity, PaymentMethod paymentMethod, String info, Byte priority, Boolean turnover, Long orderId) {
-        this.id = id;
-        this.goalId = goalId;
-        this.goodId = goodId;
-        this.quantity = quantity;
-        this.paymentMethod = paymentMethod;
-        this.info = info;
-        this.priority = priority;
-        this.turnover = turnover;
-        this.orderId = orderId;
-
+        //здесь должен быть пустой конструктор
     }
 
     public Long getId() {

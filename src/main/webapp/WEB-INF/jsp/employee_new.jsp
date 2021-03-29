@@ -21,6 +21,11 @@
 <a href="/boss">назад</a>
 <h2>Сотрудники</h2>
 <table><%--MainTable--%>
+    <caption hidden></caption>
+    <tr hidden>
+        <th scope="col"></th>
+        <th scope="col"></th>
+    </tr>
     <tr>
         <td id="tdForm" style="vertical-align: top;"> <%--Ячейка для форм--%>
             <form action="/rest/boss/employee" method="post" id="employeeForm">
@@ -54,7 +59,7 @@
 
         <td style="vertical-align: top"> <%--Ячейка для списка сотрудников--%>
             <table id="employeeTable">
-
+                <caption hidden></caption>
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">UserName</th>

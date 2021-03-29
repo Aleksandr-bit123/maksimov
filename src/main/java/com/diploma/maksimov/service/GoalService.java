@@ -54,7 +54,15 @@ public class GoalService implements CrudService<Goal,Long,Long> {
                 GoalEntity finalGoalEntity = goalEntity;
                 orderEntityList.forEach(orderEntity -> {
                     if (orderEntity.getStatus() == null) {
-                        goodTurnoverEntityList.add(new GoodTurnoverEntity(null, finalGoalEntity.getId(), orderEntity.getGoodId(), orderEntity.getQuantity(), GoodTurnover.PaymentMethod.CASH, "", (byte) 100, true, orderEntity.getId(),null,null,null));
+                        GoodTurnoverEntity goodTurnoverEntity = new GoodTurnoverEntity();
+                        goodTurnoverEntity.setGoalId(finalGoalEntity.getId());
+                        goodTurnoverEntity.setGoodId(orderEntity.getGoodId());
+                        goodTurnoverEntity.setQuantity(orderEntity.getQuantity());
+                        goodTurnoverEntity.setPaymentMethod(GoodTurnover.PaymentMethod.CASH);
+                        goodTurnoverEntity.setTurnover(true);
+                        goodTurnoverEntity.setPriority((byte) 100);
+                        goodTurnoverEntity.setOrderId(orderEntity.getId());
+                        goodTurnoverEntityList.add(goodTurnoverEntity);
                         orderEntity.setStatus(Goal.Status.WAITING);
                     }
                 });
@@ -247,5 +255,23 @@ public class GoalService implements CrudService<Goal,Long,Long> {
 
         return objectMapper.convertValue(all, new TypeReference<>() {
         });
+    }
+
+    @Transactional
+    public boolean updateGoalStatus(Long id) {
+        Optional<GoalEntity> goalEntityOptional = goalRepository.findById(id);
+        if (goalEntityOptional.isPresent()) {
+            Goal.Status status = goalEntityOptional.get().getStatus();
+            if (status.equals(Goal.Status.DOING)) {
+                goalEntityOptional.get().setStatus(Goal.Status.COMPLETED);
+            }
+            if (status.equals(Goal.Status.WAITING)) {
+                goalEntityOptional.get().setStatus(Goal.Status.DOING);
+            }
+            goalRepository.save(goalEntityOptional.get());
+            return true;
+        }
+
+        return false;
     }
 }

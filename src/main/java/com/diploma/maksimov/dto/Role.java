@@ -7,7 +7,6 @@ public class Role {
     private Long id;
     private String name;
     private Set<User> users;
-    private String authority;
 
     public Role() {
     }
@@ -41,11 +40,4 @@ public class Role {
         this.users = users;
     }
 
-    public void setAuthority(String authority) {
-        this.authority = authority;
-    }
-
-    public String getAuthority() {
-        return getName();
-    }
 }

@@ -14,6 +14,11 @@
 <h2>Цели</h2>
 <a href="/logist">назад</a>
 <table> <!-- Main table -->
+    <caption hidden></caption>
+    <tr hidden>
+        <th scope="col"></th>
+        <th scope="col"></th>
+    </tr>
     <tr>
         <td id="tdForm" style="vertical-align: top; "> <%--Ячейка для форм--%>
             <form id="goalForm" action="" method="post">
@@ -146,8 +151,8 @@
             + driver.employee.firstName + "</br>"
             + driver.employee.middleName + "</br>"
             + driver.carEntities[0].brand + "</br>"
-            + driver.carEntities[0].cubic_capacity + " куб</br>"
-            + driver.carEntities[0].fuel_consumption + " л/100 км</br>"
+            + driver.carEntities[0].cubicCapacity + " куб</br>"
+            + driver.carEntities[0].fuelConsumption + " л/100 км</br>"
             )
         )
         .append($('<td>').append(goal.logistId))

@@ -15,6 +15,7 @@
     <a href="/boss/employee">назад</a>
     <form id="employeeBossForm" action="/rest/boss/employee/" method="post">
         <table id="bossTable">
+            <caption hidden></caption>
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Фамилия</th>

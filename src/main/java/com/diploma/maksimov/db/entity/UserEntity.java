@@ -4,12 +4,21 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Set;
 
 @Entity
 @Table(schema = "public", name = "t_user")
-public class UserEntity implements UserDetails {
+public class UserEntity implements UserDetails, Serializable {
+    @Serial
+    private static final long serialVersionUID;
+
+    static {
+        serialVersionUID = 1905122041950251207L;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //используем то значение, которое будет присваиваться в БД
     /*SEQUENCE – использует встроенный в базы данных, такие как PostgreSQL или Oracle, механизм генерации

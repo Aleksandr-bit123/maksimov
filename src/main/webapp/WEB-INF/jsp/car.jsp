@@ -4,7 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@page contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
     <meta charset="utf-8">
     <title>авто сотрудника</title>
@@ -15,6 +15,7 @@
 <a id="backLink" href="#">назад</a>
 <h3>Водитель</h3>
     <table id="driverTable"> <!-- Description -->
+        <caption hidden></caption>
         <tr>
             <th scope="col">ID</th>
             <th scope="col">Фамилия</th>
@@ -25,6 +26,11 @@
 
 <h3>Автомобили</h3>
     <table> <!-- Description -->
+        <caption hidden></caption>
+        <tr hidden>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
         <tr>
             <td>
                 <form id="carForm" action="" method="post">
@@ -41,6 +47,7 @@
             </td>
             <td>
                 <table id="carTable"> <!-- Description -->
+                    <caption hidden></caption>
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Марка</th>

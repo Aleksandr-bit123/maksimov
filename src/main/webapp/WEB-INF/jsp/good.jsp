@@ -14,6 +14,11 @@
 <h2>Товары</h2>
 <a href="/boss">назад</a>
 <table> <!-- Main table -->
+    <caption hidden></caption>
+    <tr hidden>
+        <th scope="col"></th>
+        <th scope="col"></th>
+    </tr>
     <tr>
         <td id="tdForm" style="vertical-align: top; "> <%--Ячейка для форм--%>
             <form id="goodForm" action="" method="post" >

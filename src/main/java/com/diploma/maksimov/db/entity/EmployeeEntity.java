@@ -8,11 +8,20 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 import javax.persistence.*;
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
 @Table(schema = "public", name = "t_employee")
-public class EmployeeEntity {
+public class EmployeeEntity implements Serializable {
+    @Serial
+    private static final long serialVersionUID;
+
+    static {
+        serialVersionUID = 2405172041950251807L;
+    }
+
     @Id
     private Long id;
     private String lastName;

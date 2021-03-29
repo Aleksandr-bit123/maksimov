@@ -16,17 +16,17 @@ spring:
       prefix: /WEB-INF/jsp/
       suffix: .jsp
 
-#  datasource:
-#    url: jdbc:postgresql://localhost:5432/MaksimovDataBase
-#    username: postgres
-#    password: 12345678
-#    driver-class-name: org.postgresql.Driver
-
   datasource:
-    url: jdbc:h2:mem:postgresql;DB_CLOSE_DELAY=-1
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:postgresql://localhost:5432/MaksimovDataBase
+    username: postgres
+    password: 12345678
+    driver-class-name: org.postgresql.Driver
+
+#  datasource:
+#    url: jdbc:h2:mem:postgresql;DB_CLOSE_DELAY=-1
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
 
 server:
   port: 8080
